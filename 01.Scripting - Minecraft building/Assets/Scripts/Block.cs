@@ -1,14 +1,10 @@
 using UnityEngine;
 
+[RequireComponent (typeof(BoxCollider))]
 public class Block : MonoBehaviour
 {
-    void Start()
+    public void Destroy()
     {
-
-    }
-
-    void Update()
-    {
-
+        Destroy(gameObject);
     }
 }
