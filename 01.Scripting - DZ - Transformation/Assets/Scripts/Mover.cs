@@ -3,7 +3,8 @@ using UnityEngine;
 public class Mover : MonoBehaviour
 {
     [SerializeField] private Vector3 _speed;
-    void Update()
+
+    private void Update()
     {
         transform.Translate(_speed * Time.deltaTime);
     }
