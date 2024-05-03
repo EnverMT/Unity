@@ -9,17 +9,25 @@ public class Counter : MonoBehaviour
     private Coroutine _coroutine;
     private int _count;
 
-    private void Start()
-    {
-        _text.SetText("Click mouse button to start");
-        ToggleCoroutine();
-    }
-
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
             ToggleCoroutine();
+        }
+
+        UpdateTextOnCanvas();        
+    }
+
+    private void UpdateTextOnCanvas()
+    {
+        if (_coroutine != null)
+        {
+            _text.SetText($"Counting - {_count.ToString()}");
+        }
+        else
+        {
+            _text.SetText($"Paused - {_count.ToString()}");
         }
     }
 
@@ -36,14 +44,12 @@ public class Counter : MonoBehaviour
         }
     }
 
-
     private IEnumerator Count(float delay = 0.5f)
     {
         while (true)
-        {
-            _text.SetText(_count.ToString());
-            _count++;
+        {   
             yield return new WaitForSeconds(delay);
+            _count += 1;
         }
     }
 }
