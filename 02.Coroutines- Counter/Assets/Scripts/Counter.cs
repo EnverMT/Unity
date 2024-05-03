@@ -2,12 +2,34 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
+[RequireComponent(typeof(TextMeshProUGUI))]
 public class Counter : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _text;
 
+#nullable enable
+    public delegate void CountHandler();
+    public event CountHandler? CountChanged;
+#nullable disable
+
     private Coroutine _coroutine;
     private int _count;
+
+    private void Awake()
+    {
+        _text.SetText($"Press mouse button to start");
+    }
+
+    private void OnEnable()
+    {
+        CountChanged += UpdateTextOnCanvas;
+    }
+
+    private void OnDisable()
+    {
+        if (_coroutine != null) ToggleCoroutine();
+        CountChanged -= UpdateTextOnCanvas;
+    }
 
     private void Update()
     {
@@ -15,20 +37,11 @@ public class Counter : MonoBehaviour
         {
             ToggleCoroutine();
         }
-
-        UpdateTextOnCanvas();        
     }
 
     private void UpdateTextOnCanvas()
     {
-        if (_coroutine != null)
-        {
-            _text.SetText($"Counting - {_count.ToString()}");
-        }
-        else
-        {
-            _text.SetText($"Paused - {_count.ToString()}");
-        }
+        _text.SetText($"Count = {_count.ToString()}");
     }
 
     private void ToggleCoroutine()
@@ -46,10 +59,14 @@ public class Counter : MonoBehaviour
 
     private IEnumerator Count(float delay = 0.5f)
     {
+        WaitForSeconds wait = new WaitForSeconds(delay);
+
         while (true)
-        {   
-            yield return new WaitForSeconds(delay);
+        {
             _count += 1;
+            CountChanged?.Invoke();
+
+            yield return wait;
         }
     }
 }
