@@ -7,28 +7,12 @@ public class Counter : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _text;
 
-#nullable enable
-    public delegate void CountHandler();
-    public event CountHandler? CountChanged;
-#nullable disable
-
     private Coroutine _coroutine;
     private int _count;
 
     private void Awake()
     {
         _text.SetText($"Press mouse button to start");
-    }
-
-    private void OnEnable()
-    {
-        CountChanged += UpdateTextOnCanvas;
-    }
-
-    private void OnDisable()
-    {
-        if (_coroutine != null) ToggleCoroutine();
-        CountChanged -= UpdateTextOnCanvas;
     }
 
     private void Update()
@@ -61,10 +45,10 @@ public class Counter : MonoBehaviour
     {
         WaitForSeconds wait = new WaitForSeconds(delay);
 
-        while (true)
+        while (enabled)
         {
             _count += 1;
-            CountChanged?.Invoke();
+            UpdateTextOnCanvas();
 
             yield return wait;
         }
