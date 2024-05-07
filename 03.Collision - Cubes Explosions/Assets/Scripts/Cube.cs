@@ -1,14 +1,9 @@
 using UnityEngine;
 
 public class Cube : MonoBehaviour
-{    
-    void Start()
+{
+    private void OnMouseDown()
     {
-        
-    }
-    
-    void Update()
-    {
-        
+        Debug.Log($"md {name}");
     }
 }

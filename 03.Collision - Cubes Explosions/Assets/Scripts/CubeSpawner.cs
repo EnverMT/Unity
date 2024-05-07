@@ -20,7 +20,6 @@ public class CubeSpawner : MonoBehaviour
         gameObject.transform.localScale = size;
         gameObject.transform.rotation = rotation;
         gameObject.AddComponent<Rigidbody>();
+        gameObject.AddComponent<Cube>();
     }
-
-
 }
