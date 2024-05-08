@@ -5,7 +5,7 @@ public class Cube : MonoBehaviour
 {
     public event UnityAction<GameObject> OnCubeSplit;
 
-    [SerializeField] private float _splitChance;    
+    [SerializeField] private float _splitChance;
 
     public float SplitChance
     {
@@ -17,7 +17,7 @@ public class Cube : MonoBehaviour
 
             this._splitChance = value;
         }
-    }    
+    }
 
     public void SetRandomColor()
     {
@@ -28,8 +28,8 @@ public class Cube : MonoBehaviour
     private void OnMouseUpAsButton()
     {
         if (CanSplit())
-            OnCubeSplit?.Invoke(gameObject);        
-                
+            OnCubeSplit?.Invoke(gameObject);
+
         Destroy(gameObject);
     }
 

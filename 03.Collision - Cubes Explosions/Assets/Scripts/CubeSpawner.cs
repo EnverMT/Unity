@@ -1,11 +1,8 @@
-using UnityEngine;
-using UnityEngine.Events;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class CubeSpawner : MonoBehaviour
 {
-    public event UnityAction<GameObject> OnCubeSpawned;
-
     [SerializeField] private GameObject _cubePrefab;
 
     private float _multipleScaleOnEachSplit = 0.5f;
@@ -45,8 +42,6 @@ public class CubeSpawner : MonoBehaviour
 
         cube.OnCubeSplit += SplitCube;
 
-        OnCubeSpawned?.Invoke(cubeObject);
-
         return cubeObject;
     }
 
@@ -68,7 +63,7 @@ public class CubeSpawner : MonoBehaviour
     }
 
     private void RadialExplodeForce(GameObject cubeObject, List<GameObject> childObjects)
-    {        
+    {
         foreach (GameObject child in childObjects)
         {
             child.GetComponent<Rigidbody>().AddExplosionForce(_explodeForce, cubeObject.transform.position, _explodeRange);
