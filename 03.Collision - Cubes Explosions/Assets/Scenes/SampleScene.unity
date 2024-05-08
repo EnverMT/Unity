@@ -128,7 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 494915189}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -164,7 +164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 630047843}
   - component: {fileID: 630047844}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Wall2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -429,8 +429,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.4523223, y: 0.46760958, z: -0.30390254, w: -0.6959807}
-  m_LocalPosition: {x: 8.51277, y: 18.544605, z: -8.46281}
+  m_LocalRotation: {x: -0.27179396, y: 0.30957267, z: -0.09282172, w: -0.906464}
+  m_LocalPosition: {x: 8.011769, y: 7.9714766, z: -13.702339}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -446,7 +446,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1619874977}
   - component: {fileID: 1619874978}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Wall1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -499,7 +499,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1822130436}
   - component: {fileID: 1822130437}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Wall3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -646,7 +646,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2071455280}
   - component: {fileID: 2071455281}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Wall4
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -2,26 +2,27 @@ using UnityEngine;
 
 public class CubeSpawner : MonoBehaviour
 {
-    void Start()
+    [SerializeField] private GameObject _cube;
+    private void Start()
     {
-        for (int i = 0; i < 5; i++)
+        InitializeCubesOnScene(5);
+    }
+
+    private void InitializeCubesOnScene(int count)
+    {
+        for (int i = 0; i < count; i++)
         {
-            Vector3 size = new(1, 1, 1);
-            Vector3 position = new(Random.Range(-9, 9), Random.Range(2, 9), Random.Range(-9, 9));
-            SpawnCube(PrimitiveType.Cube, size, position);
+            Vector3 scale = new(1, 1, 1);
+            Vector3 position = new(Random.Range(-7, 7), Random.Range(2, 6), Random.Range(-7, 7));
+            SpawnCube(scale, position);
         }
     }
 
-    public GameObject SpawnCube(PrimitiveType type, Vector3 scale, Vector3 position)
+    public GameObject SpawnCube(Vector3 scale, Vector3 position)
     {
-        GameObject cube = GameObject.CreatePrimitive(type);
-
+        GameObject cube = GameObject.Instantiate(_cube);
         cube.transform.position = position;
-        cube.transform.localScale = scale;
-
-        cube.AddComponent<Rigidbody>();
-
-        cube.AddComponent<Cube>().SetSpawner(this);
+        cube.transform.localScale = scale;        
 
         var rand = new System.Random();
         Color randomColor = new Color((float)rand.NextDouble(),
@@ -35,12 +36,12 @@ public class CubeSpawner : MonoBehaviour
 
     public void DestroyCube(GameObject cube)
     {
-        GameObject explosionPrefab = Resources.Load<GameObject>("Prefabs/VFX_Explosion");
+        //GameObject explosionPrefab = Resources.Load<GameObject>("Prefabs/VFX_Explosion");
 
-        GameObject effect = Instantiate(explosionPrefab, cube.transform.position, Quaternion.identity);
+        //GameObject effect = Instantiate(explosionPrefab, cube.transform.position, Quaternion.identity);
 
         Destroy(cube);
-        Destroy(effect, 1);
+        //Destroy(effect, 1);
     }
 
     public GameObject SplitCube(GameObject cube)
@@ -51,10 +52,9 @@ public class CubeSpawner : MonoBehaviour
             randomOffset.y *= -1;           // To prevent dropping under terrain
 
         Vector3 spawnPos = cube.transform.position + randomOffset;
-        GameObject newCube = this.SpawnCube(PrimitiveType.Cube, cube.transform.localScale, spawnPos);
+        GameObject newCube = this.SpawnCube(cube.transform.localScale, spawnPos);
 
-        newCube.transform.localScale /= 2;
-        newCube.GetComponent<Cube>().SplitChance = cube.GetComponent<Cube>().SplitChance / 2;
+        newCube.transform.localScale /= 2;        
 
         return newCube;
     }
