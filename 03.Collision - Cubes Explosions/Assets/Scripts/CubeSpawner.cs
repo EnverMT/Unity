@@ -5,14 +5,14 @@ public class CubeSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject _cubePrefab;
 
-    private float _multipleScaleOnEachSplit = 0.5f;
-    private float _multipleChanceOnEachSplit = 0.5f;
+    private const float _multipleScaleOnEachSplit = 0.5f;
+    private const float _multipleChanceOnEachSplit = 0.5f;
 
-    private int _splitCubeMin = 2;
-    private int _splitCubeMax = 6;
+    private const float _explodeForce = 600;
+    private const float _explodeRange = 60;
 
-    private float _explodeForce = 600;
-    private float _explodeRange = 60;
+    private const int _splitCubeMin = 2;
+    private const int _splitCubeMax = 6;    
 
     private void Start()
     {
