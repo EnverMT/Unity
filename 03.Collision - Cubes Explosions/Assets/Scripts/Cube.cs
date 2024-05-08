@@ -5,8 +5,7 @@ public class Cube : MonoBehaviour
 {
     public event UnityAction<GameObject> OnCubeSplit;
 
-    [SerializeField] private float _splitChance;
-    [SerializeField] private Explosion _explosion;
+    [SerializeField] private float _splitChance;    
 
     public float SplitChance
     {
@@ -30,8 +29,7 @@ public class Cube : MonoBehaviour
     {
         if (CanSplit())
             OnCubeSplit?.Invoke(gameObject);        
-        
-        _explosion?.CreateEffect(gameObject.transform.position);
+                
         Destroy(gameObject);
     }
 
