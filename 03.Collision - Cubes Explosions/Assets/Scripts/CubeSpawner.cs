@@ -1,5 +1,7 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections.Generic;
 
 public class CubeSpawner : MonoBehaviour
 {
@@ -12,6 +14,9 @@ public class CubeSpawner : MonoBehaviour
 
     private int _splitCubeMin = 2;
     private int _splitCubeMax = 6;
+
+    private float _explodeForce = 600;
+    private float _explodeRange = 60;
 
     private void Start()
     {
@@ -39,23 +44,35 @@ public class CubeSpawner : MonoBehaviour
         cube.SetRandomColor();
         cube.SplitChance = splitChance;
 
-        cube.OnCubeSplit += SplitCube;        
+        cube.OnCubeSplit += SplitCube;
 
         OnCubeSpawned?.Invoke(cubeObject);
 
         return cubeObject;
-    }    
+    }
 
     private void SplitCube(GameObject cubeObject)
     {
-        float splitChance = cubeObject.GetComponent<Cube>().SplitChance * _multipleChanceOnEachSplit;        
+        float splitChance = cubeObject.GetComponent<Cube>().SplitChance * _multipleChanceOnEachSplit;
         Vector3 scale = cubeObject.transform.localScale * _multipleScaleOnEachSplit;
         int newCubeCount = Random.Range(_splitCubeMin, _splitCubeMax);
+
+        List<GameObject> childObjects = new();
 
         for (int i = 0; i < newCubeCount; i++)
         {
             Vector3 spawnPos = cubeObject.transform.position + GetRandomOffset(1f);
-            Spawn(cubeObject, spawnPos, scale, splitChance);
+            childObjects.Add(Spawn(cubeObject, spawnPos, scale, splitChance));
+        }
+
+        RadialExplodeForce(cubeObject, childObjects);
+    }
+
+    private void RadialExplodeForce(GameObject cubeObject, List<GameObject> childObjects)
+    {        
+        foreach (GameObject child in childObjects)
+        {
+            child.GetComponent<Rigidbody>().AddExplosionForce(_explodeForce, cubeObject.transform.position, _explodeRange);
         }
     }
 
