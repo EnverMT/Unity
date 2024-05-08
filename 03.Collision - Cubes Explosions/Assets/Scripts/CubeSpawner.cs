@@ -50,8 +50,8 @@ public class CubeSpawner : MonoBehaviour
         if (randomOffset.y < cube.transform.position.y)
             randomOffset.y *= -1;           // To prevent dropping under terrain
 
-        Vector3 spawnPos = transform.position + randomOffset;
-        GameObject newCube = this.SpawnCube(PrimitiveType.Cube, transform.localScale, spawnPos);
+        Vector3 spawnPos = cube.transform.position + randomOffset;
+        GameObject newCube = this.SpawnCube(PrimitiveType.Cube, cube.transform.localScale, spawnPos);
 
         newCube.transform.localScale /= 2;
         newCube.GetComponent<Cube>().SplitChance = cube.GetComponent<Cube>().SplitChance / 2;
