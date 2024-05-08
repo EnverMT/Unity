@@ -4,6 +4,8 @@ public class Cube : MonoBehaviour
 {
     [SerializeField] private CubeSpawner _cubeSpawner;
     [SerializeField] private float _splitChance = 1;
+    [SerializeField] private float _explosionRadius = 20;
+    [SerializeField] private float _explosionForce = 100;
 
     private void OnMouseUpAsButton()
     {
@@ -15,13 +17,25 @@ public class Cube : MonoBehaviour
 
         if (CanSplit())
         {
-            for (global::System.Int32 i = 0; i < newCubeCount; i++)
+            for (int i = 0; i < newCubeCount; i++)
             {
                 SpawnNewCube();
             }
+            Explosion();
         }
 
         this._cubeSpawner.DestroyCube(this.gameObject);
+    }
+
+    private void Explosion()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, this._explosionRadius);
+
+        foreach (Collider collider in colliders)
+        {
+            if (collider.GetComponent<Cube>() != null)
+                collider.GetComponent<Rigidbody>().AddExplosionForce(_explosionForce, transform.position, _explosionRadius);
+        }
     }
 
     public Cube SetSpawner(CubeSpawner cubeSpawner)
