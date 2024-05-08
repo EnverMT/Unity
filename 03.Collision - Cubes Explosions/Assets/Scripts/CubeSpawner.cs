@@ -4,22 +4,42 @@ public class CubeSpawner : MonoBehaviour
 {
     void Start()
     {
-        for (int i = 0; i < 35; i++)
+        for (int i = 0; i < 5; i++)
         {
             Vector3 size = new(1, 1, 1);
             Vector3 position = new(Random.Range(-9, 9), Random.Range(2, 9), Random.Range(-9, 9));
-            Quaternion rotarion = Quaternion.Euler(Random.Range(0, 90), Random.Range(0, 90), Random.Range(0, 90));
-            Spawn(PrimitiveType.Cube, size, position, rotarion);
+            SpawnCube(PrimitiveType.Cube, size, position);
         }
     }
 
-    private void Spawn(PrimitiveType type, Vector3 size, Vector3 position, Quaternion rotation)
+    public GameObject SpawnCube(PrimitiveType type, Vector3 scale, Vector3 position)
     {
-        GameObject gameObject = GameObject.CreatePrimitive(type);
-        gameObject.transform.position = position;
-        gameObject.transform.localScale = size;
-        gameObject.transform.rotation = rotation;
-        gameObject.AddComponent<Rigidbody>();
-        gameObject.AddComponent<Cube>();
+        GameObject cube = GameObject.CreatePrimitive(type);
+
+        cube.transform.position = position;
+        cube.transform.localScale = scale;
+
+        cube.AddComponent<Rigidbody>();
+
+        cube.AddComponent<Cube>().SetSpawner(this);
+
+        var rand = new System.Random();
+        Color randomColor = new Color((float)rand.NextDouble(),
+                                      (float)rand.NextDouble(),
+                                      (float)rand.NextDouble(),
+                                      (float)rand.NextDouble());
+        cube.GetComponent<Renderer>().material.SetColor("_Color", randomColor);
+
+        return cube;
+    }
+
+    public void DestroyCube(GameObject cube)
+    {
+        GameObject explosionPrefab = Resources.Load<GameObject>("Prefabs/VFX_Explosion");
+
+        GameObject effect = Instantiate(explosionPrefab, cube.transform.position, Quaternion.identity);
+
+        Destroy(cube);
+        Destroy(effect, 1);
     }
 }
