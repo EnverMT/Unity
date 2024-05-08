@@ -64,7 +64,14 @@ public class Cube : MonoBehaviour
 
     private GameObject SpawnNewCube()
     {
-        GameObject cube = this._cubeSpawner.SpawnCube(PrimitiveType.Cube, transform.localScale, transform.position);
+        float radius = 2f;
+        Vector3 randomOffset = Random.insideUnitSphere * radius;
+        if (randomOffset.y < transform.position.y)
+            randomOffset.y *= -1;           // To prevent dropping under terrain
+
+        Vector3 spawnPos = transform.position + randomOffset;
+
+        GameObject cube = this._cubeSpawner.SpawnCube(PrimitiveType.Cube, transform.localScale, spawnPos);
 
         cube.transform.localScale /= 2;
 
