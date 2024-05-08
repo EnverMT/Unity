@@ -1,68 +1,72 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CubeSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject _cube;
+    public event UnityAction<GameObject> OnCubeSpawned;
+
+    [SerializeField] private GameObject _cubePrefab;
+
+    private float _multipleScaleOnEachSplit = 0.5f;
+    private float _multipleChanceOnEachSplit = 0.5f;
+
+    private int _splitCubeMin = 2;
+    private int _splitCubeMax = 6;
+
     private void Start()
     {
-        InitializeCubesOnScene(5);
+        InitializeObjectsOnScene(_cubePrefab, 5);
     }
 
-    private void InitializeCubesOnScene(int count)
+    private void InitializeObjectsOnScene(GameObject prefab, int count)
     {
         for (int i = 0; i < count; i++)
         {
-            Vector3 scale = new(1, 1, 1);
             Vector3 position = new(Random.Range(-7, 7), Random.Range(2, 6), Random.Range(-7, 7));
-            
-            GameObject cube = SpawnCube(scale, position);
-            cube.GetComponent<Cube>().OnCubeSplit += CubeSpawner_OnCubeSplit;
+            Spawn(prefab, position, prefab.transform.localScale);
         }
     }
 
-    private void CubeSpawner_OnCubeSplit(GameObject arg0)
+    private GameObject Spawn(GameObject prefab, Vector3 position, Vector3 scale, float splitChance = 1f)
     {
-        throw new System.NotImplementedException();
+        GameObject cubeObject = Instantiate(prefab, position, prefab.transform.rotation);
+        cubeObject.transform.localScale = scale;
+
+        Cube cube = cubeObject.GetComponent<Cube>();
+        if (null == cube)
+            throw new UnityException("Game prefab must have Cube component");
+
+        cube.SetRandomColor();
+        cube.SplitChance = splitChance;
+
+        cube.OnCubeSplit += SplitCube;
+
+        OnCubeSpawned?.Invoke(cubeObject);
+
+        return cubeObject;
     }
 
-    private GameObject SpawnCube(Vector3 scale, Vector3 position)
+    private void SplitCube(GameObject cubeObject)
     {
-        GameObject cube = Instantiate(_cube);
-        cube.transform.position = position;
-        cube.transform.localScale = scale;        
+        float splitChance = cubeObject.GetComponent<Cube>().SplitChance * _multipleChanceOnEachSplit;
 
-        var rand = new System.Random();
-        Color randomColor = new Color((float)rand.NextDouble(),
-                                      (float)rand.NextDouble(),
-                                      (float)rand.NextDouble(),
-                                      (float)rand.NextDouble());
-        cube.GetComponent<Renderer>().material.SetColor("_Color", randomColor);
+        Vector3 spawnPos = cubeObject.transform.position + GetRandomOffset(1f);
+        Vector3 scale = cubeObject.transform.localScale * _multipleScaleOnEachSplit;
 
-        return cube;
+        int newCubeCount = Random.Range(_splitCubeMin, _splitCubeMax);
+
+        for (int i = 0; i < newCubeCount; i++)
+        {
+            Spawn(cubeObject, spawnPos, scale, splitChance);
+        }
     }
 
-    private void DestroyCube(GameObject cube)
+    private Vector3 GetRandomOffset(float radius = 1f)
     {
-        //GameObject explosionPrefab = Resources.Load<GameObject>("Prefabs/VFX_Explosion");
+        float offsetX = Random.Range(-1, 1) * radius;
+        float offsetY = Random.Range(0, 1) * radius;
+        float offsetZ = Random.Range(-1, 1) * radius;
 
-        //GameObject effect = Instantiate(explosionPrefab, cube.transform.position, Quaternion.identity);
-
-        Destroy(cube);
-        //Destroy(effect, 1);
-    }
-
-    private GameObject SplitCube(GameObject cube)
-    {
-        float radius = 2f;
-        Vector3 randomOffset = Random.insideUnitSphere * radius;
-        if (randomOffset.y < cube.transform.position.y)
-            randomOffset.y *= -1;           // To prevent dropping under terrain
-
-        Vector3 spawnPos = cube.transform.position + randomOffset;
-        GameObject newCube = this.SpawnCube(cube.transform.localScale, spawnPos);
-
-        newCube.transform.localScale /= 2;        
-
-        return newCube;
+        return new Vector3(offsetX, offsetY, offsetZ);
     }
 }

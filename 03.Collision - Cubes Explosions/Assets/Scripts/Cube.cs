@@ -4,28 +4,40 @@ using UnityEngine.Events;
 public class Cube : MonoBehaviour
 {
     public event UnityAction<GameObject> OnCubeSplit;
+    public event UnityAction<GameObject> OnCubeMouseClicked;
 
     [SerializeField] private float _splitChance;
 
-    public void SetSplitChance(float splitChance)
+    public float SplitChance
     {
-        if (splitChance <= 0 || splitChance > 1)
-            new UnityException("Split chance should be beetwen 0 and 1");
+        get => _splitChance;
+        set
+        {
+            if (value <= 0 || value > 1)
+                throw new UnityException("Split chance should be beetwen 0 and 1");
 
-        this._splitChance = splitChance;
+            this._splitChance = value;
+        }
+    }    
+
+    public void SetRandomColor()
+    {
+        Color randomColor = new Color(Random.value, Random.value, Random.value, Random.value);
+        GetComponent<Renderer>().material.SetColor("_Color", randomColor);
     }
 
     private void OnMouseUpAsButton()
     {
         if (CanSplit())
-            this.OnCubeSplit?.Invoke(this.gameObject);
+            OnCubeSplit?.Invoke(this.gameObject);
 
+        OnCubeMouseClicked?.Invoke(this.gameObject);
         Destroy(gameObject);
     }
 
     private bool CanSplit()
     {
-        if (Random.value < _splitChance)
+        if (Random.value <= SplitChance)
             return true;
 
         return false;
