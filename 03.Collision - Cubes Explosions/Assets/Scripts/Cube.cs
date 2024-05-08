@@ -4,9 +4,9 @@ using UnityEngine.Events;
 public class Cube : MonoBehaviour
 {
     public event UnityAction<GameObject> OnCubeSplit;
-    public event UnityAction<GameObject> OnCubeMouseClicked;
 
     [SerializeField] private float _splitChance;
+    [SerializeField] private Explosion _explosion;
 
     public float SplitChance
     {
@@ -29,9 +29,9 @@ public class Cube : MonoBehaviour
     private void OnMouseUpAsButton()
     {
         if (CanSplit())
-            OnCubeSplit?.Invoke(this.gameObject);
-
-        OnCubeMouseClicked?.Invoke(this.gameObject);
+            OnCubeSplit?.Invoke(gameObject);        
+        
+        _explosion?.CreateEffect(gameObject.transform.position);
         Destroy(gameObject);
     }
 

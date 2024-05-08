@@ -39,33 +39,31 @@ public class CubeSpawner : MonoBehaviour
         cube.SetRandomColor();
         cube.SplitChance = splitChance;
 
-        cube.OnCubeSplit += SplitCube;
+        cube.OnCubeSplit += SplitCube;        
 
         OnCubeSpawned?.Invoke(cubeObject);
 
         return cubeObject;
-    }
+    }    
 
     private void SplitCube(GameObject cubeObject)
     {
-        float splitChance = cubeObject.GetComponent<Cube>().SplitChance * _multipleChanceOnEachSplit;
-
-        Vector3 spawnPos = cubeObject.transform.position + GetRandomOffset(1f);
+        float splitChance = cubeObject.GetComponent<Cube>().SplitChance * _multipleChanceOnEachSplit;        
         Vector3 scale = cubeObject.transform.localScale * _multipleScaleOnEachSplit;
-
         int newCubeCount = Random.Range(_splitCubeMin, _splitCubeMax);
 
         for (int i = 0; i < newCubeCount; i++)
         {
+            Vector3 spawnPos = cubeObject.transform.position + GetRandomOffset(1f);
             Spawn(cubeObject, spawnPos, scale, splitChance);
         }
     }
 
     private Vector3 GetRandomOffset(float radius = 1f)
     {
-        float offsetX = Random.Range(-1, 1) * radius;
-        float offsetY = Random.Range(0, 1) * radius;
-        float offsetZ = Random.Range(-1, 1) * radius;
+        float offsetX = Random.Range(-1f, 1f) * radius;
+        float offsetY = Random.Range(0f, 1f) * radius;
+        float offsetZ = Random.Range(-1f, 1f) * radius;
 
         return new Vector3(offsetX, offsetY, offsetZ);
     }

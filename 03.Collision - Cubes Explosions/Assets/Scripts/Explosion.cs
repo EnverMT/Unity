@@ -1,23 +1,9 @@
 using UnityEngine;
 
-[RequireComponent (typeof(CubeSpawner))]
 public class Explosion : MonoBehaviour
-{
-    private CubeSpawner _cubeSpawner;
-
-    private void OnEnable()
+{   
+    public void CreateEffect(Vector3 position)
     {
-        _cubeSpawner = GetComponent<CubeSpawner>();
-        _cubeSpawner.OnCubeSpawned += OnCubeSpawned;
+        Debug.Log("VFX created");
     }
-
-    private void OnDisable()
-    {
-        _cubeSpawner.OnCubeSpawned -= OnCubeSpawned;
-    }
-
-    private void OnCubeSpawned(GameObject arg0)
-    {
-        Debug.Log("Explosion");
-    }    
 }

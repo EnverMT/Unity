@@ -149,3 +149,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _splitChance: 1
+  _explosion: {fileID: 0}
