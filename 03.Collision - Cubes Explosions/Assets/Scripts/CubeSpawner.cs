@@ -14,13 +14,20 @@ public class CubeSpawner : MonoBehaviour
         {
             Vector3 scale = new(1, 1, 1);
             Vector3 position = new(Random.Range(-7, 7), Random.Range(2, 6), Random.Range(-7, 7));
-            SpawnCube(scale, position);
+            
+            GameObject cube = SpawnCube(scale, position);
+            cube.GetComponent<Cube>().OnCubeSplit += CubeSpawner_OnCubeSplit;
         }
     }
 
-    public GameObject SpawnCube(Vector3 scale, Vector3 position)
+    private void CubeSpawner_OnCubeSplit(GameObject arg0)
     {
-        GameObject cube = GameObject.Instantiate(_cube);
+        throw new System.NotImplementedException();
+    }
+
+    private GameObject SpawnCube(Vector3 scale, Vector3 position)
+    {
+        GameObject cube = Instantiate(_cube);
         cube.transform.position = position;
         cube.transform.localScale = scale;        
 
@@ -34,7 +41,7 @@ public class CubeSpawner : MonoBehaviour
         return cube;
     }
 
-    public void DestroyCube(GameObject cube)
+    private void DestroyCube(GameObject cube)
     {
         //GameObject explosionPrefab = Resources.Load<GameObject>("Prefabs/VFX_Explosion");
 
@@ -44,7 +51,7 @@ public class CubeSpawner : MonoBehaviour
         //Destroy(effect, 1);
     }
 
-    public GameObject SplitCube(GameObject cube)
+    private GameObject SplitCube(GameObject cube)
     {
         float radius = 2f;
         Vector3 randomOffset = Random.insideUnitSphere * radius;
