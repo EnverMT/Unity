@@ -42,4 +42,20 @@ public class CubeSpawner : MonoBehaviour
         Destroy(cube);
         Destroy(effect, 1);
     }
+
+    public GameObject SplitCube(GameObject cube)
+    {
+        float radius = 2f;
+        Vector3 randomOffset = Random.insideUnitSphere * radius;
+        if (randomOffset.y < cube.transform.position.y)
+            randomOffset.y *= -1;           // To prevent dropping under terrain
+
+        Vector3 spawnPos = transform.position + randomOffset;
+        GameObject newCube = this.SpawnCube(PrimitiveType.Cube, transform.localScale, spawnPos);
+
+        newCube.transform.localScale /= 2;
+        newCube.GetComponent<Cube>().SplitChance = cube.GetComponent<Cube>().SplitChance / 2;
+
+        return newCube;
+    }
 }

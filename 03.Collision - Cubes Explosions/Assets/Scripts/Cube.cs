@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class Cube : MonoBehaviour
 {
+    [SerializeField] public float SplitChance = 1;
+
     [SerializeField] private CubeSpawner _cubeSpawner;
-    [SerializeField] private float _splitChance = 1;
     [SerializeField] private float _explosionRadius = 20;
     [SerializeField] private float _explosionForce = 100;
 
@@ -19,7 +20,7 @@ public class Cube : MonoBehaviour
         {
             for (int i = 0; i < newCubeCount; i++)
             {
-                SpawnNewCube();
+                this._cubeSpawner.SplitCube(gameObject);
             }
             Explosion();
         }
@@ -44,39 +45,15 @@ public class Cube : MonoBehaviour
         return this;
     }
 
-    public Cube SetSplitChance(float splitChance)
-    {
-        this._splitChance = splitChance;
-        return this;
-    }
-
     private bool CanSplit()
     {
         var random = new System.Random();
 
-        if (random.NextDouble() < (double)_splitChance)
+        if (random.NextDouble() < (double)SplitChance)
         {
             return true;
         }
 
         return false;
-    }
-
-    private GameObject SpawnNewCube()
-    {
-        float radius = 2f;
-        Vector3 randomOffset = Random.insideUnitSphere * radius;
-        if (randomOffset.y < transform.position.y)
-            randomOffset.y *= -1;           // To prevent dropping under terrain
-
-        Vector3 spawnPos = transform.position + randomOffset;
-
-        GameObject cube = this._cubeSpawner.SpawnCube(PrimitiveType.Cube, transform.localScale, spawnPos);
-
-        cube.transform.localScale /= 2;
-
-        cube.GetComponent<Cube>().SetSplitChance(this._splitChance / 2);
-
-        return cube;
     }
 }
