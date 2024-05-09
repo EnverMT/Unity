@@ -12,13 +12,7 @@ public class CubeSpawner : MonoBehaviour
     private const float _explodeRange = 60;
 
     private const int _splitCubeMin = 2;
-    private const int _splitCubeMax = 6;
-
-    private void OnValidate()
-    {
-        if (_cubePrefab.GetComponent<Cube>() == null)
-            _cubePrefab.AddComponent<Cube>();
-    }
+    private const int _splitCubeMax = 6;    
 
     private void Start()
     {
