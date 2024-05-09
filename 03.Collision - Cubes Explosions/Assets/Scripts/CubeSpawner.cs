@@ -37,6 +37,7 @@ public class CubeSpawner : MonoBehaviour
     private GameObject Spawn(GameObject prefab, Vector3 position, Vector3 scale, float splitChance = 1f)
     {
         GameObject cubeObject = Instantiate(prefab, position, prefab.transform.rotation);
+        cubeObject.transform.SetParent(gameObject.transform, false);
 
         Cube cube = cubeObject.GetComponent<Cube>();
 
