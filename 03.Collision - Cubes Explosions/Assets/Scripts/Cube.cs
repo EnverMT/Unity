@@ -3,23 +3,18 @@ using UnityEngine.Events;
 
 public class Cube : MonoBehaviour
 {
-    public event UnityAction<GameObject> OnCubeSplit;
+    public float SplitChance { get; private set; }
 
-    [SerializeField] private float _splitChance;
+    public event UnityAction<Cube> OnSplitting;
 
-    public float SplitChance
+    public void Init(float splitChance, Vector3 scale)
     {
-        get => _splitChance;
-        set
-        {
-            if (value <= 0 || value > 1)
-                throw new UnityException("Split chance should be beetwen 0 and 1");
-
-            this._splitChance = value;
-        }
+        SetRandomColor();
+        SplitChance = splitChance;
+        gameObject.transform.localScale = scale;
     }
 
-    public void SetRandomColor()
+    private void SetRandomColor()
     {
         Color randomColor = new Color(Random.value, Random.value, Random.value, Random.value);
         GetComponent<Renderer>().material.SetColor("_Color", randomColor);
@@ -28,16 +23,13 @@ public class Cube : MonoBehaviour
     private void OnMouseUpAsButton()
     {
         if (CanSplit())
-            OnCubeSplit?.Invoke(gameObject);
+            OnSplitting?.Invoke(this);
 
         Destroy(gameObject);
     }
 
     private bool CanSplit()
     {
-        if (Random.value <= SplitChance)
-            return true;
-
-        return false;
+        return Random.value <= SplitChance;
     }
 }

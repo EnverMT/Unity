@@ -12,7 +12,13 @@ public class CubeSpawner : MonoBehaviour
     private const float _explodeRange = 60;
 
     private const int _splitCubeMin = 2;
-    private const int _splitCubeMax = 6;    
+    private const int _splitCubeMax = 6;
+
+    private void OnValidate()
+    {
+        if (_cubePrefab.GetComponent<Cube>() == null)
+            _cubePrefab.AddComponent<Cube>();
+    }
 
     private void Start()
     {
@@ -31,35 +37,30 @@ public class CubeSpawner : MonoBehaviour
     private GameObject Spawn(GameObject prefab, Vector3 position, Vector3 scale, float splitChance = 1f)
     {
         GameObject cubeObject = Instantiate(prefab, position, prefab.transform.rotation);
-        cubeObject.transform.localScale = scale;
 
         Cube cube = cubeObject.GetComponent<Cube>();
-        if (null == cube)
-            throw new UnityException("Game prefab must have Cube component");
 
-        cube.SetRandomColor();
-        cube.SplitChance = splitChance;
-
-        cube.OnCubeSplit += SplitCube;
+        cube.Init(splitChance, scale);
+        cube.OnSplitting += Cube_OnSplitting;
 
         return cubeObject;
     }
 
-    private void SplitCube(GameObject cubeObject)
+    private void Cube_OnSplitting(Cube cube)
     {
-        float splitChance = cubeObject.GetComponent<Cube>().SplitChance * _multipleChanceOnEachSplit;
-        Vector3 scale = cubeObject.transform.localScale * _multipleScaleOnEachSplit;
+        float splitChance = cube.SplitChance * _multipleChanceOnEachSplit;
+        Vector3 scale = cube.gameObject.transform.localScale * _multipleScaleOnEachSplit;
         int newCubeCount = Random.Range(_splitCubeMin, _splitCubeMax);
 
         List<GameObject> childObjects = new();
 
         for (int i = 0; i < newCubeCount; i++)
         {
-            Vector3 spawnPos = cubeObject.transform.position + GetRandomOffset(1f);
-            childObjects.Add(Spawn(cubeObject, spawnPos, scale, splitChance));
+            Vector3 spawnPos = cube.transform.position + GetRandomOffset(1f);
+            childObjects.Add(Spawn(cube.gameObject, spawnPos, scale, splitChance));
         }
 
-        RadialExplodeForce(cubeObject, childObjects);
+        RadialExplodeForce(cube.gameObject, childObjects);
     }
 
     private void RadialExplodeForce(GameObject cubeObject, List<GameObject> childObjects)
