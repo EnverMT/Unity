@@ -33,7 +33,9 @@ public class CubeSpawner : MonoBehaviour
         GameObject cubeObject = Instantiate(prefab, position, prefab.transform.rotation);
         cubeObject.transform.SetParent(gameObject.transform, false);
 
-        Cube cube = cubeObject.AddComponent<Cube>();
+        Cube cube = cubeObject.GetComponent<Cube>();
+        if (cube == null)
+            throw new UnityException("Prefab must have Cube script");
 
         cube.Init(splitChance, scale);
         cube.OnSplitting += Cube_OnSplitting;
