@@ -12,7 +12,7 @@ public class CubeSpawner : MonoBehaviour
     private const float _explodeRange = 60;
 
     private const int _splitCubeMin = 2;
-    private const int _splitCubeMax = 6;    
+    private const int _splitCubeMax = 6;
 
     private void Start()
     {
@@ -33,7 +33,7 @@ public class CubeSpawner : MonoBehaviour
         GameObject cubeObject = Instantiate(prefab, position, prefab.transform.rotation);
         cubeObject.transform.SetParent(gameObject.transform, false);
 
-        Cube cube = cubeObject.GetComponent<Cube>();
+        Cube cube = cubeObject.AddComponent<Cube>();
 
         cube.Init(splitChance, scale);
         cube.OnSplitting += Cube_OnSplitting;
