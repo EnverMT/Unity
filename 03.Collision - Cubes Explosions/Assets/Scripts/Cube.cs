@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Renderer), typeof(Rigidbody), typeof(Explosion))]
+[RequireComponent(typeof(Renderer), typeof(Explosion))]
 public class Cube : MonoBehaviour
 {
     public float SplitChance { get; private set; }
@@ -18,7 +18,7 @@ public class Cube : MonoBehaviour
     private void SetRandomColor()
     {
         Color randomColor = new Color(Random.value, Random.value, Random.value, Random.value);
-        GetComponent<Renderer>().material.SetColor("_Color", randomColor);
+        GetComponent<Renderer>().material.color = randomColor;
     }
 
     private void OnMouseUpAsButton()
