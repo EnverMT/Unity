@@ -1,12 +1,12 @@
 using UnityEngine;
-using UnityEngine.Events;
 
-[RequireComponent(typeof(Renderer), typeof(Rigidbody))]
+[RequireComponent(typeof(Renderer), typeof(Rigidbody), typeof(Explosion))]
 public class Cube : MonoBehaviour
 {
     public float SplitChance { get; private set; }
 
-    public event UnityAction<Cube> OnSplitting;
+    public delegate GameObject[] CubeDelegate(Cube cube);
+    public event CubeDelegate OnSplitting;
 
     public void Init(float splitChance, Vector3 scale)
     {
@@ -24,7 +24,12 @@ public class Cube : MonoBehaviour
     private void OnMouseUpAsButton()
     {
         if (CanSplit())
-            OnSplitting?.Invoke(this);
+        {
+            GameObject[] childObjects = OnSplitting?.Invoke(this);
+
+            Explosion explosion = GetComponent<Explosion>();
+            explosion.Explode(childObjects);
+        }
 
         Destroy(gameObject);
     }

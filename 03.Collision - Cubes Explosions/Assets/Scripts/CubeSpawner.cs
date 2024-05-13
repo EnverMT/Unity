@@ -3,20 +3,19 @@ using UnityEngine;
 
 public class CubeSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject _cubePrefab;
+    [SerializeField] private Cube _cubePrefab;
 
     private const float _multipleScaleOnEachSplit = 0.5f;
     private const float _multipleChanceOnEachSplit = 0.5f;
 
-    private const float _explodeForce = 600;
-    private const float _explodeRange = 60;
-
     private const int _splitCubeMin = 2;
     private const int _splitCubeMax = 6;
 
+    private const int _initialCubeCount = 4;
+
     private void Start()
     {
-        InitializeObjectsOnScene(_cubePrefab, 5);
+        InitializeObjectsOnScene(_cubePrefab.gameObject, _initialCubeCount);
     }
 
     private void InitializeObjectsOnScene(GameObject prefab, int count)
@@ -38,13 +37,15 @@ public class CubeSpawner : MonoBehaviour
             throw new UnityException("Prefab must have Cube script");
 
         cube.Init(splitChance, scale);
-        cube.OnSplitting += Cube_OnSplitting;
+        cube.OnSplitting += Splitting;
 
         return cubeObject;
     }
 
-    private void Cube_OnSplitting(Cube cube)
+    private GameObject[] Splitting(Cube cube)
     {
+        cube.OnSplitting -= Splitting;
+
         float splitChance = cube.SplitChance * _multipleChanceOnEachSplit;
         Vector3 scale = cube.gameObject.transform.localScale * _multipleScaleOnEachSplit;
         int newCubeCount = Random.Range(_splitCubeMin, _splitCubeMax);
@@ -57,15 +58,7 @@ public class CubeSpawner : MonoBehaviour
             childObjects.Add(Spawn(cube.gameObject, spawnPos, scale, splitChance));
         }
 
-        RadialExplodeForce(cube.gameObject, childObjects);
-    }
-
-    private void RadialExplodeForce(GameObject cubeObject, List<GameObject> childObjects)
-    {
-        foreach (GameObject child in childObjects)
-        {
-            child.GetComponent<Rigidbody>().AddExplosionForce(_explodeForce, cubeObject.transform.position, _explodeRange);
-        }
+        return childObjects.ToArray();
     }
 
     private Vector3 GetRandomOffset(float radius = 1f)
