@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CubeSpawner : MonoBehaviour
 {
-    [SerializeField] private Cube _cubePrefab;
+    [SerializeField] private Cube _cube;
 
     private const float _multipleScaleOnEachSplit = 0.5f;
     private const float _multipleChanceOnEachSplit = 0.5f;
@@ -12,29 +12,28 @@ public class CubeSpawner : MonoBehaviour
     private const int _splitCubeMax = 6;    
 
     private const int _initialCubeCount = 8;
+    private readonly Vector3 _initialScale = new Vector3(1f, 1f, 1f);
 
     private void Start()
     {
-        InitializeObjectsOnScene(_cubePrefab.gameObject, _initialCubeCount);
+        InitializeObjectsOnScene(_cube, _initialCubeCount);
     }
 
-    private void InitializeObjectsOnScene(GameObject prefab, int count)
+    private void InitializeObjectsOnScene(Cube cube, int count)
     {        
         for (int i = 0; i < count; i++)
         {            
             Vector3 position = new(Random.Range(-7, 7), Random.Range(2, 6), Random.Range(-7, 7));
-            Spawn(prefab, position, prefab.transform.localScale);
+            Spawn(cube, position, _initialScale);
         }
     }
 
-    private GameObject Spawn(GameObject prefab, Vector3 position, Vector3 scale, float splitChance = 1f)
+    private GameObject Spawn(Cube cubePrefab, Vector3 position, Vector3 scale, float splitChance = 1f)
     {
-        GameObject cubeObject = Instantiate(prefab, position, prefab.transform.rotation);
+        GameObject cubeObject = Instantiate(cubePrefab.gameObject, position, Quaternion.identity);
         cubeObject.transform.SetParent(gameObject.transform, false);
 
-        Cube cube = cubeObject.GetComponent<Cube>();
-        if (cube == null)
-            throw new UnityException("Prefab must have Cube script");
+        Cube cube = cubeObject.GetComponent<Cube>();    
 
         cube.Init(splitChance, scale);
         cube.OnSplitting += Splitting;
@@ -55,7 +54,7 @@ public class CubeSpawner : MonoBehaviour
         for (int i = 0; i < newCubeCount; i++)
         {
             Vector3 spawnPos = cube.transform.position + GetRandomOffset(1f);
-            childObjects.Add(Spawn(cube.gameObject, spawnPos, scale, splitChance));
+            childObjects.Add(Spawn(cube, spawnPos, scale, splitChance));
         }
 
         return childObjects.ToArray();
