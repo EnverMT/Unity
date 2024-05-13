@@ -9,9 +9,9 @@ public class CubeSpawner : MonoBehaviour
     private const float _multipleChanceOnEachSplit = 0.5f;
 
     private const int _splitCubeMin = 2;
-    private const int _splitCubeMax = 6;
+    private const int _splitCubeMax = 6;    
 
-    private const int _initialCubeCount = 4;
+    private const int _initialCubeCount = 8;
 
     private void Start()
     {
@@ -19,9 +19,9 @@ public class CubeSpawner : MonoBehaviour
     }
 
     private void InitializeObjectsOnScene(GameObject prefab, int count)
-    {
+    {        
         for (int i = 0; i < count; i++)
-        {
+        {            
             Vector3 position = new(Random.Range(-7, 7), Random.Range(2, 6), Random.Range(-7, 7));
             Spawn(prefab, position, prefab.transform.localScale);
         }
