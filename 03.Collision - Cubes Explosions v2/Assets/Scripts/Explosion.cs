@@ -3,13 +3,16 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
+    private const float _initExplodeForce = 300f;
+    private const float _initExplodeRange = 10f;
+
     private float _explodeForce;
     private float _explodeRange;
 
     public void Init(float explosionMultiplier = 1f)
     {
-        _explodeForce = 300f * explosionMultiplier;
-        _explodeRange = 10f * explosionMultiplier;
+        _explodeForce = _initExplodeForce * explosionMultiplier;
+        _explodeRange = _initExplodeRange * explosionMultiplier;
     }
 
     public void Explode()
