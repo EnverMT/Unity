@@ -238,6 +238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cube: {fileID: -3402815617507466539, guid: 79d2d08368c180643bb36eca72b1d136, type: 3}
+  _terrain: {fileID: 1850311886}
 --- !u!4 &695126442
 Transform:
   m_ObjectHideFlags: 0
