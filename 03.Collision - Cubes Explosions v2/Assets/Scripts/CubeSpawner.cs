@@ -50,14 +50,14 @@ public class CubeSpawner : MonoBehaviour
         Cube cube = cubeObject.GetComponent<Cube>();
 
         cube.Init(splitChance, scale);
-        cube.OnSplitting += Splitting;
+        cube.OnSplitting += Split;
 
         return cubeObject;
     }
 
-    private Collider[] Splitting(Cube cube)
+    private Collider[] Split(Cube cube)
     {
-        cube.OnSplitting -= Splitting;
+        cube.OnSplitting -= Split;
 
         float splitChance = cube.SplitChance * _multipleChanceOnEachSplit;
         float scale = cube.ScaleMultiplier * _multipleScaleOnEachSplit;
