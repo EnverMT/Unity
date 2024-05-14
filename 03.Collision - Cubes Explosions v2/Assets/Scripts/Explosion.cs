@@ -20,11 +20,11 @@ public class Explosion : MonoBehaviour
 
     public void Explode(Collider[] colliders)
     {
-        foreach (Collider child in colliders)
+        foreach (Collider collider in colliders)
         {
-            if (child.TryGetComponent(out Rigidbody rigid))
+            if (collider.TryGetComponent(out Rigidbody rigidbody))
             {
-                rigid.AddExplosionForce(_initExplodeForce * _explodeMultiplier, transform.position, _initExplodeRange * _explodeMultiplier);
+                rigidbody.AddExplosionForce(_initExplodeForce * _explodeMultiplier, transform.position, _initExplodeRange * _explodeMultiplier);
             }
         }
     }

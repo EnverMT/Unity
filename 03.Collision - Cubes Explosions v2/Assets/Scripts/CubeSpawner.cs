@@ -38,7 +38,7 @@ public class CubeSpawner : MonoBehaviour
             float randomY = Random.Range(yTerrainPos + _minHeight, yTerrainPos + _maxHeight);
             float randomZ = Random.Range(zTerrainPos, zTerrainPos + terrainLength);            
 
-            Spawn(cube, new(randomX, randomY, randomZ), _initialScale);
+            Spawn(cube, new Vector3(randomX, randomY, randomZ), _initialScale);
         }
     }
 
