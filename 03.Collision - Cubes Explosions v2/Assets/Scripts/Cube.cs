@@ -4,15 +4,20 @@ using UnityEngine;
 public class Cube : MonoBehaviour
 {
     public float SplitChance { get; private set; }
+    public float ScaleMultiplier { get; private set; }
 
     public delegate GameObject[] CubeDelegate(Cube cube);
     public event CubeDelegate OnSplitting;
 
-    public void Init(float splitChance, Vector3 scale)
+    private readonly Vector3 _initScale = Vector3.one;
+
+    public void Init(float splitChance, float scaleMultiplier)
     {
         SetRandomColor();
         SplitChance = splitChance;
-        gameObject.transform.localScale = scale;
+        ScaleMultiplier = scaleMultiplier;
+
+        gameObject.transform.localScale = _initScale * scaleMultiplier;
     }
 
     private void SetRandomColor()
@@ -25,11 +30,15 @@ public class Cube : MonoBehaviour
     {
         if (CanSplit())
         {
-            GameObject[] childObjects = OnSplitting?.Invoke(this);
-
-            Explosion explosion = GetComponent<Explosion>();
-            explosion.Explode(childObjects);
+            OnSplitting?.Invoke(this);
         }
+
+        Explosion explosion = GetComponent<Explosion>();
+        float explodeRadius = explosion.ExplodeRange / ScaleMultiplier;
+        float expldoeForceMultiplier = 1 / ScaleMultiplier;
+
+        Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, explodeRadius);
+        explosion.Explode(colliders, expldoeForceMultiplier);
 
         Destroy(gameObject);
     }

@@ -9,10 +9,10 @@ public class CubeSpawner : MonoBehaviour
     private const float _multipleChanceOnEachSplit = 0.5f;
 
     private const int _splitCubeMin = 2;
-    private const int _splitCubeMax = 6;    
+    private const int _splitCubeMax = 6;
 
     private const int _initialCubeCount = 8;
-    private readonly Vector3 _initialScale = new Vector3(1f, 1f, 1f);
+    private const float _initialScale = 1f;
 
     private void Start()
     {
@@ -20,20 +20,20 @@ public class CubeSpawner : MonoBehaviour
     }
 
     private void InitializeObjectsOnScene(Cube cube, int count)
-    {        
+    {
         for (int i = 0; i < count; i++)
-        {            
+        {
             Vector3 position = new(Random.Range(-7, 7), Random.Range(2, 6), Random.Range(-7, 7));
             Spawn(cube, position, _initialScale);
         }
     }
 
-    private GameObject Spawn(Cube cubePrefab, Vector3 position, Vector3 scale, float splitChance = 1f)
+    private GameObject Spawn(Cube cubePrefab, Vector3 position, float scale, float splitChance = 1f)
     {
         GameObject cubeObject = Instantiate(cubePrefab.gameObject, position, Quaternion.identity);
         cubeObject.transform.SetParent(gameObject.transform, false);
 
-        Cube cube = cubeObject.GetComponent<Cube>();    
+        Cube cube = cubeObject.GetComponent<Cube>();
 
         cube.Init(splitChance, scale);
         cube.OnSplitting += Splitting;
@@ -46,7 +46,7 @@ public class CubeSpawner : MonoBehaviour
         cube.OnSplitting -= Splitting;
 
         float splitChance = cube.SplitChance * _multipleChanceOnEachSplit;
-        Vector3 scale = cube.gameObject.transform.localScale * _multipleScaleOnEachSplit;
+        float scale = cube.ScaleMultiplier * _multipleScaleOnEachSplit;
         int newCubeCount = Random.Range(_splitCubeMin, _splitCubeMax);
 
         List<GameObject> childObjects = new();

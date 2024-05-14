@@ -1,16 +1,19 @@
 using UnityEngine;
 
-[RequireComponent (typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody))]
 public class Explosion : MonoBehaviour
 {
-    private const float _explodeForce = 600;
-    private const float _explodeRange = 60;
+    public float ExplodeForce { get; private set; } = 300f;
+    public float ExplodeRange { get; private set; } = 10;
 
-    public void Explode(GameObject[] affectedObjects)
-    {
-        foreach (GameObject child in affectedObjects)
+    public void Explode(Collider[] affectedObjects, float explosionMultiplier)
+    {     
+        foreach (Collider child in affectedObjects)
         {
-            child.GetComponent<Rigidbody>().AddExplosionForce(_explodeForce, transform.position, _explodeRange);
+            if (child.TryGetComponent<Cube>(out _))
+            {
+                child.GetComponent<Rigidbody>().AddExplosionForce(ExplodeForce * explosionMultiplier, transform.position, ExplodeRange * explosionMultiplier);
+            }
         }
     }
 }
