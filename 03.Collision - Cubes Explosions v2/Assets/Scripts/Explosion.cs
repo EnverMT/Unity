@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 public class Explosion : MonoBehaviour
 {
     public float ExplodeForce { get; private set; } = 300f;
@@ -10,9 +9,9 @@ public class Explosion : MonoBehaviour
     {     
         foreach (Collider child in affectedObjects)
         {
-            if (child.TryGetComponent<Cube>(out _))
+            if (child.TryGetComponent<Cube>(out _) && child.TryGetComponent<Rigidbody>(out Rigidbody rigid))
             {
-                child.GetComponent<Rigidbody>().AddExplosionForce(ExplodeForce * explosionMultiplier, transform.position, ExplodeRange * explosionMultiplier);
+                rigid.AddExplosionForce(ExplodeForce * explosionMultiplier, transform.position, ExplodeRange * explosionMultiplier);
             }
         }
     }
