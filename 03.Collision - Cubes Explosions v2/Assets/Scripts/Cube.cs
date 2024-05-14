@@ -10,9 +10,13 @@ public class Cube : MonoBehaviour
     public event CubeDelegate OnSplitting;
 
     private readonly Vector3 _initScale = Vector3.one;
+    private Explosion _explosion;
 
     public void Init(float splitChance, float scaleMultiplier)
     {
+        _explosion = GetComponent<Explosion>();
+        _explosion.Init(1 / scaleMultiplier);
+
         SetRandomColor();
         SplitChance = splitChance;
         ScaleMultiplier = scaleMultiplier;
@@ -33,12 +37,7 @@ public class Cube : MonoBehaviour
             OnSplitting?.Invoke(this);
         }
 
-        Explosion explosion = GetComponent<Explosion>();
-        float explodeRadius = explosion.ExplodeRange / ScaleMultiplier;
-        float expldoeForceMultiplier = 1 / ScaleMultiplier;
-
-        Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, explodeRadius);
-        explosion.Explode(colliders, expldoeForceMultiplier);
+        _explosion.Explode();
 
         Destroy(gameObject);
     }

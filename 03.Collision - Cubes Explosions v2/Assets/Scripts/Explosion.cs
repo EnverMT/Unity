@@ -1,18 +1,30 @@
+using System.Linq;
 using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
-    public float ExplodeForce { get; private set; } = 300f;
-    public float ExplodeRange { get; private set; } = 10;
+    private float _explodeForce;
+    private float _explodeRange;
 
-    public void Explode(Collider[] affectedObjects, float explosionMultiplier)
-    {     
-        foreach (Collider child in affectedObjects)
+    public void Init(float explosionMultiplier = 1f)
+    {
+        _explodeForce = 300f * explosionMultiplier;
+        _explodeRange = 10f * explosionMultiplier;
+    }
+
+    public void Explode()
+    {
+        foreach (Collider child in GetAffectedCubeObject())
         {
-            if (child.TryGetComponent<Cube>(out _) && child.TryGetComponent<Rigidbody>(out Rigidbody rigid))
+            if (child.TryGetComponent<Rigidbody>(out Rigidbody rigid))
             {
-                rigid.AddExplosionForce(ExplodeForce * explosionMultiplier, transform.position, ExplodeRange * explosionMultiplier);
+                rigid.AddExplosionForce(_explodeForce, transform.position, _explodeRange);
             }
         }
+    }
+
+    private Collider[] GetAffectedCubeObject()
+    {
+        return Physics.OverlapSphere(gameObject.transform.position, _explodeRange).Where(obj => obj.TryGetComponent<Cube>(out _)).ToArray();
     }
 }
