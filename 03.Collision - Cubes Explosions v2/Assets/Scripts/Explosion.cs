@@ -17,7 +17,7 @@ public class Explosion : MonoBehaviour
 
     public void Explode()
     {
-        foreach (Collider child in GetAffectedCubeObject())
+        foreach (Collider child in GetAffectedCubeObjects())
         {
             if (child.TryGetComponent<Rigidbody>(out Rigidbody rigid))
             {
@@ -26,7 +26,7 @@ public class Explosion : MonoBehaviour
         }
     }
 
-    private Collider[] GetAffectedCubeObject()
+    private Collider[] GetAffectedCubeObjects()
     {
         return Physics.OverlapSphere(gameObject.transform.position, _explodeRange).Where(obj => obj.TryGetComponent<Cube>(out _)).ToArray();
     }
