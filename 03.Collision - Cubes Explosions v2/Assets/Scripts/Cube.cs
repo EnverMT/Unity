@@ -16,7 +16,8 @@ public class Cube : MonoBehaviour
     {
         if (CanSplit())
         {
-            _explosion.Explode(OnSplitting?.Invoke(this));
+            Collider[] colliders = OnSplitting?.Invoke(this);
+            _explosion.Explode(colliders);
         }
         else
         {
