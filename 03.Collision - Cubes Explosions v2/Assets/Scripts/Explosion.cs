@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(Cube), typeof(Collider))]
+[RequireComponent(typeof(Cube), typeof(Rigidbody))]
 public class Explosion : MonoBehaviour
 {
     private const float InitExplodeForce = 300f;
@@ -20,34 +20,33 @@ public class Explosion : MonoBehaviour
     private void OnDisable()
     {
         cube.Destroying -= OnDestroying;
-    }    
+    }
 
     private void OnDestroying(Cube cube)
     {
         this.explodeMultiplier = 1 / cube.ScaleMultiplier;
         if (cube.children.Count > 0)
         {
-            this.Explode(cube.children.Select(c => c.GetComponent<Collider>()).ToArray());
+            this.Explode(cube.children.Select(c => c.GetComponent<Rigidbody>()).ToArray());
         }
         else
         {
             this.Explode(this.GetAffectedCubeObjects());
         }
     }
-    private void Explode(Collider[] colliders)
+    private void Explode(Rigidbody[] rigidBodies)
     {
-        foreach (Collider collider in colliders)
+        foreach (Rigidbody rigidbody in rigidBodies)
         {
-            if (collider.TryGetComponent(out Rigidbody rigidbody))
-            {
-                rigidbody.AddExplosionForce(InitExplodeForce * this.explodeMultiplier, this.transform.position, InitExplodeRange * this.explodeMultiplier);
-            }
+            rigidbody.AddExplosionForce(InitExplodeForce * this.explodeMultiplier, this.transform.position, InitExplodeRange * this.explodeMultiplier);
         }
     }
 
-    private Collider[] GetAffectedCubeObjects()
+    private Rigidbody[] GetAffectedCubeObjects()
     {
         return Physics.OverlapSphere(this.gameObject.transform.position, InitExplodeRange * this.explodeMultiplier)
-            .Where(obj => obj.TryGetComponent(out Cube _)).ToArray();
+            .Where(c => c.TryGetComponent(out Cube _))
+            .Select(c => c.GetComponent<Rigidbody>())
+            .ToArray();
     }
 }

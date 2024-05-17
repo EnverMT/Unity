@@ -6,8 +6,8 @@ public class Cube : MonoBehaviour
 {
     public readonly List<Cube> children = new List<Cube>();
 
-    private readonly Vector3 initScale = Vector3.one;    
-        
+    private readonly Vector3 initScale = Vector3.one;
+
     public event System.Action<Cube> Clicked;
     public event System.Action<Cube> Destroying;
 
