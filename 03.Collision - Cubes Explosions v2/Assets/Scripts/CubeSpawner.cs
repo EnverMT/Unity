@@ -3,72 +3,78 @@ using UnityEngine;
 
 public class CubeSpawner : MonoBehaviour
 {
-    [SerializeField] private Cube _cube;
-    [SerializeField] private Terrain _terrain;
+    [Header("Split Chances")]
+    [SerializeField] private const float MultipleScaleOnEachSplit = 0.5f;
+    [SerializeField] private const float MultipleChanceOnEachSplit = 0.5f;
 
-    private const float _multipleScaleOnEachSplit = 0.5f;
-    private const float _multipleChanceOnEachSplit = 0.5f;
+    [Header("Split count")]
+    [SerializeField] private const int SplitCubeMin = 2;
+    [SerializeField] private const int SplitCubeMax = 6;
 
-    private const int _splitCubeMin = 2;
-    private const int _splitCubeMax = 6;
+    [Header("Initial cube")]
+    [SerializeField] private const int InitialCubeCount = 8;
+    [SerializeField] private const float InitialScale = 1f;
+     
+    [Header("Initial cubes position")]
+    [SerializeField] private const float MinHeight = 5f;
+    [SerializeField] private const float MaxHeight = 10f;
 
-    private const int _initialCubeCount = 8;
-    private const float _initialScale = 1f;
-
-    private const float _minHeight = 5f;
-    private const float _maxHeight = 10f;
+    [Header("Prefabs")]
+    [SerializeField] private readonly Cube cube;
+    [Header("Terrain")]
+    [SerializeField] private readonly Terrain terrain;
 
     private void Start()
     {
-        GenerateCubesOnTerrain(_cube, _initialCubeCount);
+        this.GenerateCubesOnTerrain(this.cube, InitialCubeCount);
     }
 
     private void GenerateCubesOnTerrain(Cube cube, int count)
     {
-        float terrainWidth = _terrain.terrainData.size.x;
-        float terrainLength = _terrain.terrainData.size.z;
+        float terrainWidth = this.terrain.terrainData.size.x;
+        float terrainLength = this.terrain.terrainData.size.z;
 
-        float xTerrainPos = _terrain.transform.position.x;
-        float yTerrainPos = _terrain.transform.position.y;
-        float zTerrainPos = _terrain.transform.position.z;
+        float xTerrainPos = this.terrain.transform.position.x;
+        float yTerrainPos = this.terrain.transform.position.y;
+        float zTerrainPos = this.terrain.transform.position.z;
 
         for (int i = 0; i < count; i++)
         {
             float randomX = Random.Range(xTerrainPos, xTerrainPos + terrainWidth);
-            float randomY = Random.Range(yTerrainPos + _minHeight, yTerrainPos + _maxHeight);
+            float randomY = Random.Range(yTerrainPos + MinHeight, yTerrainPos + MaxHeight);
             float randomZ = Random.Range(zTerrainPos, zTerrainPos + terrainLength);
 
-            Spawn(cube, new Vector3(randomX, randomY, randomZ), _initialScale);
+            this.Spawn(cube, new Vector3(randomX, randomY, randomZ), InitialScale);
         }
     }
 
     private GameObject Spawn(Cube cubePrefab, Vector3 position, float scale, float splitChance = 1f)
     {
         GameObject cubeObject = Instantiate(cubePrefab.gameObject, position, Quaternion.identity);
-        cubeObject.transform.SetParent(gameObject.transform, false);
+        cubeObject.transform.SetParent(this.gameObject.transform, false);
 
         Cube cube = cubeObject.GetComponent<Cube>();
 
         cube.Init(splitChance, scale);
-        cube.OnSplitting += Split;
+        cube.OnSplitting += this.Split;
 
         return cubeObject;
     }
 
     private Collider[] Split(Cube cube)
     {
-        cube.OnSplitting -= Split;
+        cube.OnSplitting -= this.Split;
 
-        float splitChance = cube.SplitChance * _multipleChanceOnEachSplit;
-        float scale = cube.ScaleMultiplier * _multipleScaleOnEachSplit;
-        int newCubeCount = Random.Range(_splitCubeMin, _splitCubeMax);
+        float splitChance = cube.SplitChance * MultipleChanceOnEachSplit;
+        float scale = cube.ScaleMultiplier * MultipleScaleOnEachSplit;
+        int newCubeCount = Random.Range(SplitCubeMin, SplitCubeMax);
 
         List<Collider> childObjects = new();
 
         for (int i = 0; i < newCubeCount; i++)
         {
-            Vector3 spawnPos = cube.transform.position + GetRandomOffset(1f);
-            GameObject spawnedCube = Spawn(cube, spawnPos, scale, splitChance);
+            Vector3 spawnPos = cube.transform.position + this.GetRandomOffset(1f);
+            GameObject spawnedCube = this.Spawn(cube, spawnPos, scale, splitChance);
             if (spawnedCube.TryGetComponent(out Collider collider))
             {
                 childObjects.Add(collider);
