@@ -14,15 +14,15 @@ public class Explosion : MonoBehaviour
     private void OnEnable()
     {
         cube = GetComponent<Cube>();
-        cube.Destroying += OnDestroying;
+        cube.Destroying += OnCubeDestroying;
     }
 
     private void OnDisable()
     {
-        cube.Destroying -= OnDestroying;
+        cube.Destroying -= OnCubeDestroying;
     }
 
-    private void OnDestroying(Cube cube)
+    private void OnCubeDestroying(Cube cube)
     {
         this.explodeMultiplier = 1 / cube.ScaleMultiplier;
         if (cube.children.Count > 0)
