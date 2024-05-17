@@ -252,6 +252,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b8fb352a1ac7c64087dbbe271f0977d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cube: {fileID: -3402815617507466539, guid: 79d2d08368c180643bb36eca72b1d136, type: 3}
+  terrain: {fileID: 1850311886}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

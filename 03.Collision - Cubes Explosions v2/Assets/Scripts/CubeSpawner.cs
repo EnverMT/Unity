@@ -2,27 +2,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CubeSpawner : MonoBehaviour
-{
-    [Header("Split Chances")]
-    [SerializeField] private const float MultipleScaleOnEachSplit = 0.5f;
-    [SerializeField] private const float MultipleChanceOnEachSplit = 0.5f;
+{    
+     private const float MultipleScaleOnEachSplit = 0.5f;
+     private const float MultipleChanceOnEachSplit = 0.5f;
 
-    [Header("Split count")]
-    [SerializeField] private const int SplitCubeMin = 2;
-    [SerializeField] private const int SplitCubeMax = 6;
+     private const int SplitCubeMin = 2;
+     private const int SplitCubeMax = 6;
 
-    [Header("Initial cube")]
-    [SerializeField] private const int InitialCubeCount = 8;
-    [SerializeField] private const float InitialScale = 1f;
-     
-    [Header("Initial cubes position")]
-    [SerializeField] private const float MinHeight = 5f;
-    [SerializeField] private const float MaxHeight = 10f;
+     private const int InitialCubeCount = 8;
+     private const float InitialScale = 1f;
+  
+     private const float MinHeight = 5f;
+     private const float MaxHeight = 10f;
 
     [Header("Prefabs")]
-    [SerializeField] private readonly Cube cube;
+    [SerializeField] private Cube cube;
     [Header("Terrain")]
-    [SerializeField] private readonly Terrain terrain;
+    [SerializeField] private Terrain terrain;
 
     private void Start()
     {
