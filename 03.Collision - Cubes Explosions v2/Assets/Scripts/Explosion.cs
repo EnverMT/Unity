@@ -47,6 +47,7 @@ public class Explosion : MonoBehaviour
 
     private Collider[] GetAffectedCubeObjects()
     {
-        return Physics.OverlapSphere(this.gameObject.transform.position, InitExplodeRange * this.explodeMultiplier).Select(obj => obj.GetComponent<Collider>()).ToArray();
+        return Physics.OverlapSphere(this.gameObject.transform.position, InitExplodeRange * this.explodeMultiplier)
+            .Where(obj => obj.TryGetComponent(out Cube _)).ToArray();
     }
 }
