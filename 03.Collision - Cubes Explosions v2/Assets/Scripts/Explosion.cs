@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
-    [SerializeField] private const float InitExplodeForce = 300f;
-    [SerializeField] private const float InitExplodeRange = 10f;
+    private const float InitExplodeForce = 300f;
+    private const float InitExplodeRange = 10f;
 
     private float explodeMultiplier;
 
