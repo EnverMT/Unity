@@ -43,6 +43,27 @@ public class CubeSpawner : MonoBehaviour
         }
     }
 
+    private Vector3 GetRandomOffset(float radius = 1f)
+    {
+        float offsetX = Random.Range(-1f, 1f) * radius;
+        float offsetY = Random.Range(0f, 1f) * radius;
+        float offsetZ = Random.Range(-1f, 1f) * radius;
+
+        return new Vector3(offsetX, offsetY, offsetZ);
+    }
+
+    private void OnCubeClicked(Cube cube)
+    {
+        if (cube.CanSplit)
+            this.Split(cube);
+    }
+
+    private void OnCubeDestroying(Cube cube)
+    {
+        cube.Clicked -= OnCubeClicked;
+        cube.Destroying -= OnCubeDestroying;
+    }
+
     private Cube Spawn(Cube cubePrefab, Vector3 position, float scale, float splitChance = 1f)
     {
         Cube cube = Instantiate(cubePrefab, position, Quaternion.identity);
@@ -53,18 +74,6 @@ public class CubeSpawner : MonoBehaviour
         cube.Destroying += OnCubeDestroying;
 
         return cube;
-    }
-
-    private void OnCubeDestroying(Cube cube)
-    {
-        cube.Clicked -= OnCubeClicked;
-        cube.Destroying -= OnCubeDestroying;
-    }
-
-    private void OnCubeClicked(Cube cube)
-    {
-        if (cube.CanSplit)
-            this.Split(cube);
     }
 
     private void Split(Cube cube)
@@ -79,14 +88,5 @@ public class CubeSpawner : MonoBehaviour
             Cube spawnedCube = this.Spawn(cube, spawnPos, scale, splitChance);
             cube.children.Add(spawnedCube);
         }
-    }
-
-    private Vector3 GetRandomOffset(float radius = 1f)
-    {
-        float offsetX = Random.Range(-1f, 1f) * radius;
-        float offsetY = Random.Range(0f, 1f) * radius;
-        float offsetZ = Random.Range(-1f, 1f) * radius;
-
-        return new Vector3(offsetX, offsetY, offsetZ);
     }
 }
