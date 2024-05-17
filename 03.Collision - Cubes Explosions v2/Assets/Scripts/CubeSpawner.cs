@@ -2,18 +2,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CubeSpawner : MonoBehaviour
-{    
-     private const float MultipleScaleOnEachSplit = 0.5f;
-     private const float MultipleChanceOnEachSplit = 0.5f;
+{
+    private const float MultipleScaleOnEachSplit = 0.5f;
+    private const float MultipleChanceOnEachSplit = 0.5f;
 
-     private const int SplitCubeMin = 2;
-     private const int SplitCubeMax = 6;
+    private const int SplitCubeMin = 2;
+    private const int SplitCubeMax = 6;
 
-     private const int InitialCubeCount = 8;
-     private const float InitialScale = 1f;
-  
-     private const float MinHeight = 5f;
-     private const float MaxHeight = 10f;
+    private const int InitialCubeCount = 8;
+    private const float InitialScale = 1f;
+
+    private const float MinHeight = 5f;
+    private const float MaxHeight = 10f;
 
     [Header("Prefabs")]
     [SerializeField] private Cube cube;
@@ -49,31 +49,37 @@ public class CubeSpawner : MonoBehaviour
         Cube cube = Instantiate(cubePrefab, position, Quaternion.identity);
         cube.transform.SetParent(this.gameObject.transform, false);
         cube.Init(splitChance, scale);
-        cube.Splitting += this.OnSplitting;
+
+        cube.Clicked += OnCubeClicked;
+        cube.Destroying += OnCubeDestroying;
+
         return cube;
     }
 
-    private Collider[] OnSplitting(Cube cube)
+    private void OnCubeDestroying(Cube cube)
     {
-        cube.Splitting -= this.OnSplitting;
+        cube.Clicked -= OnCubeClicked;
+        cube.Destroying -= OnCubeDestroying;
+    }
 
+    private void OnCubeClicked(Cube cube)
+    {
+        if (cube.CanSplit)
+            this.Split(cube);
+    }
+
+    private void Split(Cube cube)
+    {
         float splitChance = cube.SplitChance * MultipleChanceOnEachSplit;
         float scale = cube.ScaleMultiplier * MultipleScaleOnEachSplit;
         int newCubeCount = Random.Range(SplitCubeMin, SplitCubeMax);
 
-        List<Collider> childObjects = new();
-
         for (int i = 0; i < newCubeCount; i++)
         {
-            Vector3 spawnPos = cube.transform.position + this.GetRandomOffset(1f);
+            Vector3 spawnPos = cube.transform.position + this.GetRandomOffset();
             Cube spawnedCube = this.Spawn(cube, spawnPos, scale, splitChance);
-            if (spawnedCube.TryGetComponent(out Collider collider))
-            {
-                childObjects.Add(collider);
-            }
+            cube.children.Add(spawnedCube);
         }
-
-        return childObjects.ToArray();
     }
 
     private Vector3 GetRandomOffset(float radius = 1f)

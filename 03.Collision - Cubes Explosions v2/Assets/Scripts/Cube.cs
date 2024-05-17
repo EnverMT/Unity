@@ -1,46 +1,35 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Renderer), typeof(Explosion))]
 public class Cube : MonoBehaviour
 {
-    private readonly Vector3 initScale = Vector3.one;
-    private Explosion explosion;      
+    public readonly List<Cube> children = new List<Cube>();
 
-    public event System.Func<Cube, Collider[]> Splitting;
+    private readonly Vector3 initScale = Vector3.one;    
+        
+    public event System.Action<Cube> Clicked;
+    public event System.Action<Cube> Destroying;
 
+    public bool CanSplit => Random.value <= this.SplitChance;
     public float SplitChance { get; private set; }
     public float ScaleMultiplier { get; private set; }
 
     private void OnMouseUpAsButton()
     {
-        if (this.CanSplit())
-        {
-            Collider[] colliders = this.Splitting?.Invoke(this);
-            this.explosion.Explode(colliders);
-        }
-        else
-        {
-            this.explosion.Explode();
-        }
+        Clicked?.Invoke(this);
 
+        Destroying?.Invoke(this);
         Destroy(this.gameObject);
     }
 
     public void Init(float splitChance, float scaleMultiplier)
     {
-        this.explosion = this.GetComponent<Explosion>();
-        this.explosion.Init(1 / scaleMultiplier);
-
         this.SetRandomColor();
         this.SplitChance = splitChance;
         this.ScaleMultiplier = scaleMultiplier;
 
         this.gameObject.transform.localScale = this.initScale * scaleMultiplier;
-    }
-
-    private bool CanSplit()
-    {
-        return Random.value <= this.SplitChance;
     }
 
     private void SetRandomColor()
