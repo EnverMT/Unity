@@ -4,21 +4,18 @@ using UnityEngine;
 public class Cube : MonoBehaviour
 {
     private readonly Vector3 initScale = Vector3.one;
-    private Explosion explosion;
+    private Explosion explosion;      
 
-    public delegate Collider[] CubeDelegate(Cube cube);
-
-    public event CubeDelegate OnSplitting;
+    public event System.Func<Cube, Collider[]> Splitting;
 
     public float SplitChance { get; private set; }
-
     public float ScaleMultiplier { get; private set; }
 
     private void OnMouseUpAsButton()
     {
         if (this.CanSplit())
         {
-            Collider[] colliders = this.OnSplitting?.Invoke(this);
+            Collider[] colliders = this.Splitting?.Invoke(this);
             this.explosion.Explode(colliders);
         }
         else
