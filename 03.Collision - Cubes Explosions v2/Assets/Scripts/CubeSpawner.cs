@@ -44,17 +44,13 @@ public class CubeSpawner : MonoBehaviour
         }
     }
 
-    private GameObject Spawn(Cube cubePrefab, Vector3 position, float scale, float splitChance = 1f)
+    private Cube Spawn(Cube cubePrefab, Vector3 position, float scale, float splitChance = 1f)
     {
-        GameObject cubeObject = Instantiate(cubePrefab.gameObject, position, Quaternion.identity);
-        cubeObject.transform.SetParent(this.gameObject.transform, false);
-
-        Cube cube = cubeObject.GetComponent<Cube>();
-
+        Cube cube = Instantiate(cubePrefab, position, Quaternion.identity);
+        cube.transform.SetParent(this.gameObject.transform, false);
         cube.Init(splitChance, scale);
         cube.Splitting += this.OnSplitting;
-
-        return cubeObject;
+        return cube;
     }
 
     private Collider[] OnSplitting(Cube cube)
@@ -70,7 +66,7 @@ public class CubeSpawner : MonoBehaviour
         for (int i = 0; i < newCubeCount; i++)
         {
             Vector3 spawnPos = cube.transform.position + this.GetRandomOffset(1f);
-            GameObject spawnedCube = this.Spawn(cube, spawnPos, scale, splitChance);
+            Cube spawnedCube = this.Spawn(cube, spawnPos, scale, splitChance);
             if (spawnedCube.TryGetComponent(out Collider collider))
             {
                 childObjects.Add(collider);
