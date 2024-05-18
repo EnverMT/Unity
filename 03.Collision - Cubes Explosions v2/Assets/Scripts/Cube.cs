@@ -5,7 +5,7 @@ public class Cube : MonoBehaviour
 {
     private readonly Vector3 _initScale = Vector3.one;
 
-    public bool CanSplit => Random.value <= this.SplitChance;
+    public bool CanSplit => Random.value <= SplitChance;
     public float SplitChance { get; private set; }
     public float ScaleMultiplier { get; private set; }
 
