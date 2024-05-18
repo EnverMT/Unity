@@ -1,52 +1,35 @@
 using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(Cube), typeof(Rigidbody))]
 public class Explosion : MonoBehaviour
 {
     private const float InitExplodeForce = 300f;
     private const float InitExplodeRange = 10f;
 
-    private float explodeMultiplier;
-
-    private Cube cube;
-
-    private void OnEnable()
+    public void Explode(Vector3 explosionCenter, float explodeMultiplier, Cube[] cubes = null)
     {
-        cube = GetComponent<Cube>();
-        cube.Destroying += OnCubeDestroying;
-    }
+        Rigidbody[] rigidbodies;
 
-    private void OnDisable()
-    {
-        cube.Destroying -= OnCubeDestroying;
-    }
-
-    private void OnCubeDestroying(Cube cube)
-    {
-        this.explodeMultiplier = 1 / cube.ScaleMultiplier;
-        if (cube.children.Count > 0)
+        if (cubes == null)
         {
-            this.Explode(cube.children.Select(c => c.GetComponent<Rigidbody>()).ToArray());
+            rigidbodies = GetRigidbodiesInRadius(explosionCenter, explodeMultiplier);
         }
         else
         {
-            this.Explode(this.GetAffectedCubeObjects());
+            rigidbodies = cubes.Select(cube => cube.GetComponent<Rigidbody>()).ToArray();
         }
-    }
-    private void Explode(Rigidbody[] rigidBodies)
-    {
-        foreach (Rigidbody rigidbody in rigidBodies)
+
+        foreach (Rigidbody rigidbody in rigidbodies)
         {
-            rigidbody.AddExplosionForce(InitExplodeForce * this.explodeMultiplier, this.transform.position, InitExplodeRange * this.explodeMultiplier);
+            rigidbody.AddExplosionForce(InitExplodeForce * explodeMultiplier, explosionCenter, InitExplodeRange * explodeMultiplier);
         }
     }
 
-    private Rigidbody[] GetAffectedCubeObjects()
+    private Rigidbody[] GetRigidbodiesInRadius(Vector3 center, float explodeMultiplier)
     {
-        return Physics.OverlapSphere(this.gameObject.transform.position, InitExplodeRange * this.explodeMultiplier)
-            .Where(c => c.TryGetComponent(out Cube _))
-            .Select(c => c.GetComponent<Rigidbody>())
+        return Physics.OverlapSphere(center, InitExplodeRange * explodeMultiplier)
+            .Where(collider => collider.TryGetComponent(out Cube _))
+            .Select(collider => collider.GetComponent<Rigidbody>())
             .ToArray();
     }
 }

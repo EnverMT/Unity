@@ -1,18 +1,19 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CubeSpawner : MonoBehaviour
 {
-    private const float MultipleScaleOnEachSplit = 0.5f;
-    private const float MultipleChanceOnEachSplit = 0.5f;
+    private const float _multipleScaleOnEachSplit = 0.5f;
+    private const float _multipleChanceOnEachSplit = 0.5f;
 
-    private const int SplitCubeMin = 2;
-    private const int SplitCubeMax = 6;
+    private const int _splitCubeMin = 2;
+    private const int _splitCubeMax = 6;
 
-    private const int InitialCubeCount = 8;
-    private const float InitialScale = 1f;
+    private const int _initialCubeCount = 8;
+    private const float _initialScale = 1f;
 
-    private const float MinHeight = 5f;
-    private const float MaxHeight = 10f;
+    private const float _minHeight = 5f;
+    private const float _maxHeight = 10f;
 
     [Header("Prefabs")]
     [SerializeField] private Cube cube;
@@ -21,25 +22,43 @@ public class CubeSpawner : MonoBehaviour
 
     private void Start()
     {
-        this.GenerateCubesOnTerrain(this.cube, InitialCubeCount);
+        GenerateCubesOnTerrain(cube, _initialCubeCount);
+    }
+
+    public Cube[] Split(Cube cube)
+    {
+        float splitChance = cube.SplitChance * _multipleChanceOnEachSplit;
+        float scale = cube.ScaleMultiplier * _multipleScaleOnEachSplit;
+        int newCubeCount = Random.Range(_splitCubeMin, _splitCubeMax);
+
+        List<Cube> cubes = new List<Cube>();
+
+        for (int i = 0; i < newCubeCount; i++)
+        {
+            Vector3 spawnPos = cube.transform.position + GetRandomOffset();
+            Cube spawnedCube = Spawn(cube, spawnPos, scale, splitChance);
+            cubes.Add(spawnedCube);
+        }
+
+        return cubes.ToArray();
     }
 
     private void GenerateCubesOnTerrain(Cube cube, int count)
     {
-        float terrainWidth = this.terrain.terrainData.size.x;
-        float terrainLength = this.terrain.terrainData.size.z;
+        float terrainWidth = terrain.terrainData.size.x;
+        float terrainLength = terrain.terrainData.size.z;
 
-        float xTerrainPos = this.terrain.transform.position.x;
-        float yTerrainPos = this.terrain.transform.position.y;
-        float zTerrainPos = this.terrain.transform.position.z;
+        float xTerrainPos = terrain.transform.position.x;
+        float yTerrainPos = terrain.transform.position.y;
+        float zTerrainPos = terrain.transform.position.z;
 
         for (int i = 0; i < count; i++)
         {
             float randomX = Random.Range(xTerrainPos, xTerrainPos + terrainWidth);
-            float randomY = Random.Range(yTerrainPos + MinHeight, yTerrainPos + MaxHeight);
+            float randomY = Random.Range(yTerrainPos + _minHeight, yTerrainPos + _maxHeight);
             float randomZ = Random.Range(zTerrainPos, zTerrainPos + terrainLength);
 
-            this.Spawn(cube, new Vector3(randomX, randomY, randomZ), InitialScale);
+            Spawn(cube, new Vector3(randomX, randomY, randomZ), _initialScale);
         }
     }
 
@@ -52,41 +71,12 @@ public class CubeSpawner : MonoBehaviour
         return new Vector3(offsetX, offsetY, offsetZ);
     }
 
-    private void OnCubeClicked(Cube cube)
-    {
-        if (cube.CanSplit)
-            this.Split(cube);
-    }
-
-    private void OnCubeDestroying(Cube cube)
-    {
-        cube.Clicked -= OnCubeClicked;
-        cube.Destroying -= OnCubeDestroying;
-    }
-
     private Cube Spawn(Cube cubePrefab, Vector3 position, float scale, float splitChance = 1f)
     {
         Cube cube = Instantiate(cubePrefab, position, Quaternion.identity);
-        cube.transform.SetParent(this.gameObject.transform, false);
+        cube.transform.SetParent(gameObject.transform, false);
         cube.Init(splitChance, scale);
 
-        cube.Clicked += OnCubeClicked;
-        cube.Destroying += OnCubeDestroying;
-
         return cube;
-    }
-
-    private void Split(Cube cube)
-    {
-        float splitChance = cube.SplitChance * MultipleChanceOnEachSplit;
-        float scale = cube.ScaleMultiplier * MultipleScaleOnEachSplit;
-        int newCubeCount = Random.Range(SplitCubeMin, SplitCubeMax);
-
-        for (int i = 0; i < newCubeCount; i++)
-        {
-            Vector3 spawnPos = cube.transform.position + this.GetRandomOffset();
-            Cube spawnedCube = this.Spawn(cube, spawnPos, scale, splitChance);
-            cube.children.Add(spawnedCube);
-        }
     }
 }
