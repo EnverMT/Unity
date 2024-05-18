@@ -31,11 +31,13 @@ public class ClickHandler : MonoBehaviour
                 }
                 else
                 {
-                    _explosion.Explode(explosionCenter, explodeMult);
+                    _explosion.ExpodeInRadius(explosionCenter, explodeMult);
                 }
 
                 Destroy(cube.gameObject);
             }
         }
     }
+
+
 }
