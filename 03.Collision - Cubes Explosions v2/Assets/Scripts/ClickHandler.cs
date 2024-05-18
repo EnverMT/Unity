@@ -5,6 +5,7 @@ public class ClickHandler : MonoBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private CubeSpawner _cubeSpawner;
     [SerializeField] private Explosion _explosion;
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -13,10 +14,9 @@ public class ClickHandler : MonoBehaviour
 
     private void CubeClicked()
     {
-        RaycastHit hit;
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
             if (hit.transform.gameObject.TryGetComponent(out Cube cube))
             {
@@ -38,6 +38,4 @@ public class ClickHandler : MonoBehaviour
             }
         }
     }
-
-
 }

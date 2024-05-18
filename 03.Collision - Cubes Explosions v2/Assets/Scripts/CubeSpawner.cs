@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class CubeSpawner : MonoBehaviour
 {
+    [Header("Prefabs")]
+    [SerializeField] private Cube cube;
+    [Header("Terrain")]
+    [SerializeField] private Terrain terrain;
+
     private const float _multipleScaleOnEachSplit = 0.5f;
     private const float _multipleChanceOnEachSplit = 0.5f;
 
@@ -14,11 +19,6 @@ public class CubeSpawner : MonoBehaviour
 
     private const float _minHeight = 5f;
     private const float _maxHeight = 10f;
-
-    [Header("Prefabs")]
-    [SerializeField] private Cube cube;
-    [Header("Terrain")]
-    [SerializeField] private Terrain terrain;
 
     private void Start()
     {
