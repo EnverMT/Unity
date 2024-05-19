@@ -10,7 +10,7 @@ public class Spawner : MonoBehaviour
 
     private ObjectPool<Cube> _cubePool;
 
-    private Coroutine _coroutine;
+    private Coroutine _spawnCoroutine;
 
     #region UnityMethods
     private void Awake()
@@ -20,15 +20,15 @@ public class Spawner : MonoBehaviour
 
     private void OnEnable()
     {
-        _coroutine = StartCoroutine(SpawnPeriodically());
+        _spawnCoroutine = StartCoroutine(SpawnPeriodically());
     }
 
     private void OnDisable()
     {
-        if (_coroutine != null)
-            StopCoroutine(_coroutine);
+        if (_spawnCoroutine != null)
+            StopCoroutine(_spawnCoroutine);
 
-        _coroutine = null;
+        _spawnCoroutine = null;
     }
     #endregion
 
