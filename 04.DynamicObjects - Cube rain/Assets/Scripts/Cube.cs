@@ -1,16 +1,50 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Pool;
 
 [RequireComponent(typeof(Renderer))]
 public class Cube : MonoBehaviour
 {
-    public void Init(float splitChance, float scaleMultiplier)
+    private const float MinLifetime = 2f;
+    private const float MaxLifetime = 5f;
+
+    private ObjectPool<Cube> _pool;
+
+    private bool _isColorChanged;
+
+    private void OnEnable()
     {
-        SetRandomColor();        
+        SetColor(Color.gray);
+        _isColorChanged = false;
     }
 
-    private void SetRandomColor()
+    private void OnCollisionEnter(Collision collision)
     {
-        Color randomColor = new Color(Random.value, Random.value, Random.value, Random.value);
-        GetComponent<Renderer>().material.color = randomColor;
+        if (_isColorChanged == true)
+            return;
+
+        if (collision.gameObject.TryGetComponent<Plane>(out _))
+        {
+            _isColorChanged = true;
+            SetColor(Random.ColorHSV());
+            StartCoroutine(Deactivate(Random.Range(MinLifetime, MaxLifetime)));
+        }
+    }
+
+    public void SetPool(ObjectPool<Cube> pool)
+    {
+        _pool = pool;
+    }
+
+    private IEnumerator Deactivate(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        _pool.Release(this);
+    }
+
+    private void SetColor(Color color)
+    {
+        GetComponent<Renderer>().material.color = color;
     }
 }
