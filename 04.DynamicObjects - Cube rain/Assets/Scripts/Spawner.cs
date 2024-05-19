@@ -10,9 +10,6 @@ public class Spawner : MonoBehaviour
 
     private ObjectPool<Cube> _cubePool;
 
-    private const float MinCubeLifetime = 2f;
-    private const float MaxCubeLifetime = 5f;
-
     private Coroutine _coroutine;
 
     #region UnityMethods
@@ -35,7 +32,7 @@ public class Spawner : MonoBehaviour
     }
     #endregion
 
-    #region CubePool 
+    #region CubePoolMethods 
     private Cube CreateCube()
     {
         Cube cube = Instantiate(_cube);
