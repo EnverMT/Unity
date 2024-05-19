@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Pool;
-using UnityEngine.UIElements;
 
 public class Spawner : MonoBehaviour
 {
@@ -74,19 +73,19 @@ public class Spawner : MonoBehaviour
     private Cube SpawnCube()
     {
         Cube cube = _cubePool.Get();
-        
+
         cube.transform.SetParent(gameObject.transform, false);
-        cube.transform.position = _cubeSpawnCenter + GetRandomPosition();
+        cube.transform.position = GetCubeSpawnPosition();
         cube.transform.rotation = Random.rotation;
 
         return cube;
     }
 
-    private Vector3 GetRandomPosition()
+    private Vector3 GetCubeSpawnPosition()
     {
         Vector2 random2 = Random.insideUnitCircle * _spawnRadius;
         Vector3 random3 = new Vector3(random2.x, 0, random2.y);
 
-        return random3;
+        return random3 + _cubeSpawnCenter;
     }
 }

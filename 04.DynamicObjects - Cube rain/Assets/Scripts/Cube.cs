@@ -12,6 +12,7 @@ public class Cube : MonoBehaviour
 
     private bool _isColorChanged;
 
+    #region UnityMethods
     private void OnEnable()
     {
         SetColor(Color.gray);
@@ -30,6 +31,7 @@ public class Cube : MonoBehaviour
             StartCoroutine(Deactivate(Random.Range(MinLifetime, MaxLifetime)));
         }
     }
+    #endregion
 
     public void SetPool(ObjectPool<Cube> pool)
     {
