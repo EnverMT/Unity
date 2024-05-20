@@ -36,8 +36,7 @@ public class Spawner : MonoBehaviour
     #region EnemyObjectPoolMethods 
     private Enemy OnEnemyCreate()
     {
-        Enemy enemy = Instantiate(_enemy);
-        enemy.SetPool(_enemyPool);
+        Enemy enemy = Instantiate(_enemy);        
         return enemy;
     }
 
