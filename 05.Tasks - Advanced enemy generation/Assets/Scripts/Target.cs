@@ -1,18 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class Target : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Vector3[] _path;
+    [SerializeField] private float _speed;
+
+    private int _pathIndex = 0;
+
+    private void OnEnable()
     {
-        
+        if (_path.Length < 2)
+            throw new UnityException("Path should have at least two point");
+
+        gameObject.transform.position = _path[_pathIndex];
+    }
+    private void Update()
+    {
+        Vector3 targetPosition = GetTargetPosition();
     }
 
-    // Update is called once per frame
-    void Update()
+    private Vector3 GetTargetPosition()
     {
-        
+        int index = 0;        
+
+        return _path[index];
     }
+
 }
