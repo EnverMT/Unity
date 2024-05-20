@@ -4,7 +4,7 @@ using UnityEngine.Pool;
 
 public class Spawner : MonoBehaviour
 {
-    private const float _spawnRate = 2f;
+    private const float SpawnRate = 2f;
 
     [SerializeField] private Enemy _enemy;
     [SerializeField] private float _enemySpeed;
@@ -21,7 +21,7 @@ public class Spawner : MonoBehaviour
 
     private void OnEnable()
     {
-        _spawnCoroutine = StartCoroutine(SpawnPeriodically(_spawnRate));
+        _spawnCoroutine = StartCoroutine(SpawnPeriodically(SpawnRate));
     }
 
     private void OnDisable()

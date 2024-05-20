@@ -3,12 +3,11 @@ using UnityEngine.Pool;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Enemy : MonoBehaviour
-{
-    [SerializeField] private float _speed;
-
+{    
     private ObjectPool<Enemy> _pool;
     private Rigidbody _rigidBody;
     private Vector3 _direction;
+    private float _speed;
 
     private void Awake()
     {
