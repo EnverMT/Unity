@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 238731510}
   - component: {fileID: 238731511}
   m_Layer: 0
-  m_Name: SpawnPoint
+  m_Name: Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -166,7 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemy: {fileID: 526263710677303540, guid: 2bcd3029b21c1ab4694969594eb07757, type: 3}
   _enemySpeed: 1
-  _spawnPoints: []
+  _target: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -380,6 +380,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aa02cc5c5b80e4459aefacbdbbe5ffd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _path: []
+  _speed: 0
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
