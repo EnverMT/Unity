@@ -8,11 +8,17 @@ public class Cube : MonoBehaviour
     private const float MinLifetime = 2f;
     private const float MaxLifetime = 5f;
 
+    private Renderer _renderer;
+
     private ObjectPool<Cube> _pool;
 
     private bool _isColorChanged;
 
     #region UnityMethods
+    private void Awake()
+    {
+        _renderer = GetComponent<Renderer>();
+    }
     private void OnEnable()
     {
         SetColor(Color.gray);
@@ -47,6 +53,6 @@ public class Cube : MonoBehaviour
 
     private void SetColor(Color color)
     {
-        GetComponent<Renderer>().material.color = color;
+        _renderer.material.color = color;
     }
 }
