@@ -18,6 +18,9 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         gameObject.transform.Translate(_direction * _speed * Time.deltaTime);
+
+        if (gameObject.transform.position.y < 0)
+            _pool.Release(this);
     }
 
     public void Init(Vector3 spawnPosition, Vector3 direction, float speed)
