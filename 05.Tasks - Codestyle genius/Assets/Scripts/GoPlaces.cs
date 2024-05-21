@@ -24,16 +24,13 @@ public class GoPlaces : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, waypoint.position, _speed * Time.deltaTime);
 
         if (Vector3.Distance(transform.position, waypoint.position) < MinDistance)
-            GetNextWaypoint();
+            transform.LookAt(GetNextWaypoint());
     }
 
     private Vector3 GetNextWaypoint()
     {
         _waypointIndex = (_waypointIndex + 1) % _waypoints.Length;
 
-        Vector3 nextWaypoint = _waypoints[_waypointIndex].transform.position;
-        transform.LookAt(nextWaypoint);
-
-        return nextWaypoint;
+        return _waypoints[_waypointIndex].transform.position;
     }
 }
