@@ -6,7 +6,7 @@ public class InstantiateBulletsShooting : MonoBehaviour
     [SerializeField] private Transform _target;
     [SerializeField] private Rigidbody _bulletPrefab;
     [SerializeField] private float _speed;
-    [SerializeField] private float _timeWaitShooting = 1f;    
+    [SerializeField] private float _timeWaitShooting = 1f;
 
     private void Start()
     {
