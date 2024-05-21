@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Renderer))]
 public class Target : MonoBehaviour
 {
     private const float MinDistance = 0.1f;
