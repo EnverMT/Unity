@@ -12,7 +12,12 @@ public class SpawnPoint : MonoBehaviour
 
     private void Awake()
     {
-        _enemyPool = new ObjectPool<Enemy>(OnEnemyCreate, OnEnemyGet, OnEnemyRelease, OnEnemyDestroy);
+        _enemyPool = new ObjectPool<Enemy>(
+            createFunc: () => Instantiate(_enemy),
+            actionOnGet: (enemy) => enemy.gameObject.SetActive(true),
+            actionOnRelease: (enemy) => enemy.gameObject.SetActive(false),
+            actionOnDestroy: (enemy) => Destroy(enemy.gameObject)
+            );
     }
 
     public Enemy Spawn()
@@ -32,26 +37,4 @@ public class SpawnPoint : MonoBehaviour
 
         _enemyPool.Release(enemy);
     }
-
-    #region EnemyObjectPoolMethods 
-    private Enemy OnEnemyCreate()
-    {
-        return Instantiate(_enemy);
-    }
-
-    private void OnEnemyGet(Enemy enemy)
-    {
-        enemy.gameObject.SetActive(true);
-    }
-
-    private void OnEnemyRelease(Enemy enemy)
-    {
-        enemy.gameObject.SetActive(false);
-    }
-
-    private void OnEnemyDestroy(Enemy enemy)
-    {
-        Destroy(enemy.gameObject);
-    }
-    #endregion
 }

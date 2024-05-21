@@ -6,11 +6,11 @@ public class Enemy : MonoBehaviour
 {
     private const float DistanceToDie = 0.1f;
 
-    public event Action<Enemy> Died;
-
     private Target _target;
     private float _speed;
     private Renderer _renderer;
+
+    public event Action<Enemy> Died;
 
     private void Awake()
     {

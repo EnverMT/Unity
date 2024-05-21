@@ -21,11 +21,7 @@ public class Target : MonoBehaviour
         float distance = Vector3.Distance(gameObject.transform.position, _waypoints[_waypointIndex].transform.position);
 
         if (distance < MinDistance)
-        {
-            _waypointIndex++;
-            if (_waypointIndex >= _waypoints.Length)
-                _waypointIndex = 0;
-        }
+            _waypointIndex = (_waypointIndex + 1) % _waypoints.Length;
 
         return _waypoints[_waypointIndex].transform.position;
     }
