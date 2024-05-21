@@ -32,6 +32,6 @@ public class Enemy : MonoBehaviour
         _renderer.material.color = color;
         _target = target;
         _speed = speed;
-        gameObject.transform.position = spawnPosition;        
+        gameObject.transform.position = spawnPosition;
     }
 }
