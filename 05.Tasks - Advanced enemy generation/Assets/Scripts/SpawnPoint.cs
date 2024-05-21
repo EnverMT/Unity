@@ -20,7 +20,7 @@ public class SpawnPoint : MonoBehaviour
         Enemy enemy = _enemyPool.Get();
 
         enemy.Init(gameObject.transform.position, _target, _speed, _color);
-        enemy.gameObject.transform.SetParent(gameObject.transform, false);
+        enemy.gameObject.transform.SetParent(gameObject.transform, true);
         enemy.Died += OnEnemyDied;
 
         return enemy;

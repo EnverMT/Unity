@@ -5,37 +5,30 @@ public class Target : MonoBehaviour
 {
     private const float MinDistance = 0.1f;
 
-    [SerializeField] private float _speed;
-    [SerializeField] private Vector3[] _path;
+    [SerializeField] private float _speed;    
+    [SerializeField] private Waypoint[] _waypoints;
 
-    private int _pathIndex;
-
-    private void OnValidate()
-    {
-        if (_path.Length < 2)
-            throw new UnityException("Path should have at least two point");
-    }
+    private int _waypointIndex = 0;
 
     private void Update()
-    {
-        Vector3 desiredPosition = GetDesiredPosition();
-        Vector3 direction = (desiredPosition - gameObject.transform.position).normalized;
+    {        
+        Vector3 direction = (GetWaypointPosition() - gameObject.transform.position).normalized;
 
         gameObject.transform.Translate(direction * _speed * Time.deltaTime);
     }
 
-    private Vector3 GetDesiredPosition()
+    private Vector3 GetWaypointPosition()
     {
-        float distance = Vector3.Distance(gameObject.transform.position, _path[_pathIndex]);
+        float distance = Vector3.Distance(gameObject.transform.position, _waypoints[_waypointIndex].transform.position);
         
         if (distance < MinDistance)
         {
-            _pathIndex++;
-            if (_pathIndex >= _path.Length)
-                _pathIndex = 0;
+            _waypointIndex++;
+            if (_waypointIndex >= _waypoints.Length)
+                _waypointIndex = 0;
         }
 
-        return _path[_pathIndex];
+        return _waypoints[_waypointIndex].transform.position;
     }
 
 }
