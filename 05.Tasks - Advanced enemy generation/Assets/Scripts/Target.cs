@@ -14,7 +14,7 @@ public class Target : MonoBehaviour
     {
         Vector3 direction = (GetWaypointPosition() - gameObject.transform.position).normalized;
 
-        gameObject.transform.Translate(direction * _speed * Time.deltaTime);
+        gameObject.transform.Translate(direction * _speed * Time.deltaTime, Space.World);
     }
 
     private Vector3 GetWaypointPosition()

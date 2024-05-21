@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
     {
         Vector3 direction = (_target.gameObject.transform.position - gameObject.transform.position).normalized;
 
-        gameObject.transform.Translate(direction * _speed * Time.deltaTime);
+        gameObject.transform.Translate(direction * _speed * Time.deltaTime, Space.World);
 
         if (Vector3.Distance(gameObject.transform.position, _target.gameObject.transform.position) <= DistanceToDie)
             Died?.Invoke(this);

@@ -28,6 +28,8 @@ public class SpawnPoint : MonoBehaviour
 
     private void OnEnemyDied(Enemy enemy)
     {
+        enemy.Died -= OnEnemyDied;
+
         _enemyPool.Release(enemy);
     }
 
