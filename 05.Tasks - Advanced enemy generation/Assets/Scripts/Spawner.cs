@@ -6,23 +6,13 @@ public class Spawner : MonoBehaviour
 {
     private const float SpawnRate = 2f;
 
-    [SerializeField] private Enemy _enemy;
-    [SerializeField] private float _enemySpeed;
-    [SerializeField] private Target _target;
-    [SerializeField] private Color _color;
-
-    private ObjectPool<Enemy> _enemyPool;
+    [SerializeField] private SpawnPoint[] _spawnPoints;    
+        
     private Coroutine _spawnCoroutine;
-
-    #region UnityMethods
-    private void Awake()
-    {
-        _enemyPool = new ObjectPool<Enemy>(OnEnemyCreate, OnEnemyGet, OnEnemyRelease, OnEnemyDestroy);        
-    }
 
     private void OnEnable()
     {
-        _spawnCoroutine = StartCoroutine(SpawnPeriodically(SpawnRate));        
+        _spawnCoroutine = StartCoroutine(SpawnPeriodically(SpawnRate));
     }
 
     private void OnDisable()
@@ -31,30 +21,7 @@ public class Spawner : MonoBehaviour
             StopCoroutine(_spawnCoroutine);
 
         _spawnCoroutine = null;
-    }
-    #endregion
-
-    #region EnemyObjectPoolMethods 
-    private Enemy OnEnemyCreate()
-    {
-        return Instantiate(_enemy);        
-    }
-
-    private void OnEnemyGet(Enemy enemy)
-    {
-        enemy.gameObject.SetActive(true);
-    }
-
-    private void OnEnemyRelease(Enemy enemy)
-    {
-        enemy.gameObject.SetActive(false);
-    }
-
-    private void OnEnemyDestroy(Enemy enemy)
-    {
-        Destroy(enemy.gameObject);
-    }
-    #endregion
+    }   
 
     private IEnumerator SpawnPeriodically(float delay)
     {
@@ -62,27 +29,8 @@ public class Spawner : MonoBehaviour
 
         while (enabled)
         {
-            Spawn();
+            _spawnPoints[Random.Range(0, _spawnPoints.Length)].Spawn();            
             yield return wait;
         }
-    }
-
-    private Enemy Spawn()
-    {
-        Enemy enemy = _enemyPool.Get();
-        Vector3 spawnPosition = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
-
-        enemy.Init(spawnPosition, _target, _enemySpeed, _color);
-        enemy.transform.SetParent(gameObject.transform, false);
-        enemy.Died += OnEnemyDied;
-
-        return enemy;
-    }
-
-    private void OnEnemyDied(Enemy enemy)
-    {
-        enemy.Died -= OnEnemyDied;
-
-        _enemyPool.Release(enemy);
-    }
+    }    
 }
