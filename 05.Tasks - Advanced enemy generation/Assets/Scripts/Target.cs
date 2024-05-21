@@ -1,12 +1,19 @@
-using System.IO;
 using UnityEngine;
 
+[RequireComponent(typeof(Renderer))]
 public class Target : MonoBehaviour
 {
-    [SerializeField] private Vector3[] _path;
-    [SerializeField] private float _speed;
+    private const float MinDistance = 0.1f;
 
+    [SerializeField] private float _speed;
+    [SerializeField] private Vector3[] _path;
+
+    private Renderer _renderer;
     private int _pathIndex = 0;
+    private void Awake()
+    {
+        _renderer = GetComponent<Renderer>();
+    }
 
     private void OnEnable()
     {
@@ -17,14 +24,28 @@ public class Target : MonoBehaviour
     }
     private void Update()
     {
-        Vector3 targetPosition = GetTargetPosition();
+        Vector3 desiredPosition = GetDesiredPosition();
+        Vector3 direction = (desiredPosition - gameObject.transform.position).normalized;
+
+        gameObject.transform.Translate(direction * _speed * Time.deltaTime);
     }
 
-    private Vector3 GetTargetPosition()
+    public void Init(Color color)
     {
-        int index = 0;        
+        _renderer.material.color = color;
+    }
 
-        return _path[index];
+    private Vector3 GetDesiredPosition()
+    {
+        float distance = Vector3.Distance(gameObject.transform.position, _path[_pathIndex]);
+        if (distance < MinDistance)
+        {
+            _pathIndex++;
+            if (_pathIndex >= _path.Length)
+                _pathIndex = 0;
+        }
+
+        return _path[_pathIndex];
     }
 
 }

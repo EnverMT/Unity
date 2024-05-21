@@ -9,6 +9,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private Enemy _enemy;
     [SerializeField] private float _enemySpeed;
     [SerializeField] private Target _target;
+    [SerializeField] private Color _color;
 
     private ObjectPool<Enemy> _enemyPool;
     private Coroutine _spawnCoroutine;
@@ -16,12 +17,12 @@ public class Spawner : MonoBehaviour
     #region UnityMethods
     private void Awake()
     {
-        _enemyPool = new ObjectPool<Enemy>(OnEnemyCreate, OnEnemyGet, OnEnemyRelease, OnEnemyDestroy);
+        _enemyPool = new ObjectPool<Enemy>(OnEnemyCreate, OnEnemyGet, OnEnemyRelease, OnEnemyDestroy);        
     }
 
     private void OnEnable()
     {
-        _spawnCoroutine = StartCoroutine(SpawnPeriodically(SpawnRate));
+        _spawnCoroutine = StartCoroutine(SpawnPeriodically(SpawnRate));        
     }
 
     private void OnDisable()
@@ -36,8 +37,7 @@ public class Spawner : MonoBehaviour
     #region EnemyObjectPoolMethods 
     private Enemy OnEnemyCreate()
     {
-        Enemy enemy = Instantiate(_enemy);
-        return enemy;
+        return Instantiate(_enemy);        
     }
 
     private void OnEnemyGet(Enemy enemy)
@@ -69,8 +69,10 @@ public class Spawner : MonoBehaviour
 
     private Enemy Spawn()
     {
-        Enemy enemy = _enemyPool.Get();                
-        
+        Enemy enemy = _enemyPool.Get();
+        Vector3 spawnPosition = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
+
+        enemy.Init(spawnPosition, _target, _enemySpeed, _color);
         enemy.transform.SetParent(gameObject.transform, false);
         enemy.Died += OnEnemyDied;
 
