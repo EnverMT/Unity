@@ -1,45 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GoPlaces : MonoBehaviour
 {
-    public float _float;
+    private const float MinDistance = 0.01f;
 
+    [SerializeField] private float _speed;
+    [SerializeField] private Transform WaypointCollection;
 
-
-    public Transform AllPlacespoint;
-    Transform[] arrayPlaces;
-    private int NumberOfPlaceInArrayPlaces;
-    void Start()
+    private Transform[] waypoints;
+    private int _waypointIndex;
+    
+    private void Start()
     {
-        arrayPlaces = new Transform[AllPlacespoint.childCount];
+        waypoints = new Transform[WaypointCollection.childCount];
 
-        for (int abcd = 0; abcd < AllPlacespoint.childCount; abcd++)
-            arrayPlaces[abcd] = AllPlacespoint.GetChild(abcd).GetComponent<Transform>();
-    }
-    // Update is called once per frame
-    public void Update()
-    {
-        var _pointByNumberInArray = arrayPlaces[NumberOfPlaceInArrayPlaces];
-        transform.position = Vector3.MoveTowards(transform.position, _pointByNumberInArray.position, _float * Time.deltaTime);
-
-
-        if (transform.position == _pointByNumberInArray.position) NextPlaceTakerLogic();
-    }
-    public Vector3 NextPlaceTakerLogic()
-    {
-        NumberOfPlaceInArrayPlaces++;
-
-        if (NumberOfPlaceInArrayPlaces == arrayPlaces.Length)
-            NumberOfPlaceInArrayPlaces = 0;
-
-        var thisPointVector = arrayPlaces[NumberOfPlaceInArrayPlaces].transform.position;
-        transform.forward = thisPointVector - transform.position;
-        return thisPointVector;
-
-
+        for (int i = 0; i < WaypointCollection.childCount; i++)
+        {
+            if (WaypointCollection.GetChild(i).TryGetComponent(out Transform transform))
+                waypoints[i] = transform;
+        }
     }
 
+    private void Update()
+    {
+        Transform waypoint = waypoints[_waypointIndex];
+        transform.position = Vector3.MoveTowards(transform.position, waypoint.position, _speed * Time.deltaTime);
+        
+        if (Vector3.Distance(transform.position, waypoint.position) < MinDistance)
+            GetNextWaypoint();
+    }
 
+    private Vector3 GetNextWaypoint()
+    {
+        _waypointIndex = (_waypointIndex + 1) % waypoints.Length;
+        
+        Vector3 nextWaypoint = waypoints[_waypointIndex].transform.position;        
+        
+        transform.LookAt(nextWaypoint);
+
+        return nextWaypoint;
+    }
 }

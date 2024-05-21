@@ -1,46 +1,31 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 public class InstantiateBulletsShooting : MonoBehaviour
 {
+    [SerializeField] private Transform _target;
+    [SerializeField] private Rigidbody _bulletPrefab;
+    [SerializeField] private float _speed;
+    [SerializeField] private float _timeWaitShooting = 1f;    
 
-    [SerializeField] public float number;
-
-    [SerializeField] GameObject _prefab;
-    public Transform ObjectToShoot;
-    [SerializeField] float _timeWaitShooting;
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-
-        StartCoroutine(_shootingWorker());
+        StartCoroutine(CreateBullet());
     }
-    IEnumerator _shootingWorker()
+
+    private IEnumerator CreateBullet()
     {
-        bool isWork = enabled;
-        while (isWork)
+        WaitForSeconds delay = new WaitForSeconds(_timeWaitShooting);
+
+        while (enabled)
         {
-            var _vector3direction = (ObjectToShoot.position - transform.position).normalized;
-            var NewBullet = Instantiate(_prefab, transform.position + _vector3direction, Quaternion.identity);
+            Vector3 direction = (_target.position - transform.position).normalized;
+            Rigidbody bullet = Instantiate(_bulletPrefab, transform.position + direction, Quaternion.identity);
 
-            NewBullet.GetComponent<Rigidbody>().transform.up = _vector3direction;
-            NewBullet.GetComponent<Rigidbody>().velocity = _vector3direction * number;
+            bullet.transform.up = direction;
+            bullet.velocity = direction * _speed;
 
-            yield return new WaitForSeconds(_timeWaitShooting);
+            yield return delay;
         }
-
-
     }
-    public void Update()
-    {
-        // Update is called once per frame
-    }
-
-
-
-
-
 }
