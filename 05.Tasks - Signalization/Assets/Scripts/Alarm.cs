@@ -25,7 +25,7 @@ public class Alarm : MonoBehaviour
         if (_coroutine != null)
             StopCoroutine(_coroutine);
 
-        _coroutine = StartCoroutine(FadeVolume(0, _maxVolume));
+        _coroutine = StartCoroutine(FadeVolume(_audioSource.volume, _maxVolume));
     }
 
     public void Deactivate()
@@ -33,7 +33,7 @@ public class Alarm : MonoBehaviour
         if (_coroutine != null)
             StopCoroutine(_coroutine);
 
-        StartCoroutine(FadeVolume(1f, _minVolume));
+        StartCoroutine(FadeVolume(_audioSource.volume, _minVolume));
     }
 
     private IEnumerator FadeVolume(float startVolume, float targetVolume)
