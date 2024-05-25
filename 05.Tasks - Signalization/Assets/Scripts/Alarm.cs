@@ -10,6 +10,8 @@ public class Alarm : MonoBehaviour
 
     private AudioSource _audioSource;
 
+    private Coroutine _coroutine;
+
 
     private void Awake()
     {
@@ -20,17 +22,24 @@ public class Alarm : MonoBehaviour
     {
         _audioSource.Play();
 
-        StartCoroutine(Fade(0, _maxVolume));
+        if (_coroutine != null)
+            StopCoroutine(_coroutine);
+
+        _coroutine = StartCoroutine(FadeVolume(0, _maxVolume));
     }
 
     public void Deactivate()
     {
-        StartCoroutine(Fade(1f, _minVolume));
+        if (_coroutine != null)
+            StopCoroutine(_coroutine);
+
+        StartCoroutine(FadeVolume(1f, _minVolume));
     }
 
-    private IEnumerator Fade(float startVolume, float targetVolume)
+    private IEnumerator FadeVolume(float startVolume, float targetVolume)
     {
         float elapsed = 0f;
+        _audioSource.volume = startVolume;
 
         while (elapsed < _fadeDuration)
         {
