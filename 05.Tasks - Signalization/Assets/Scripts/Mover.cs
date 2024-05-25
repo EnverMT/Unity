@@ -1,18 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Mover : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private float _speed;
+    [SerializeField] private KeyCode _left;
+    [SerializeField] private KeyCode _right;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (Input.GetKey(_right))
+        {
+            transform.Translate(Vector3.right * _speed * Time.deltaTime);
+        }
+
+        if (Input.GetKey(_left))
+        {
+            transform.Translate(Vector3.left * _speed * Time.deltaTime);
+        }
     }
 }

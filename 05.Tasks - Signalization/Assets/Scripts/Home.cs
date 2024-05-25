@@ -1,16 +1,24 @@
 using UnityEngine;
 
+
+[RequireComponent(typeof(BoxCollider2D))]
 public class Home : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
+    [SerializeField] private Alarm _alarm;
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out Player _))
+        {
+            _alarm.Activate();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit2D(Collider2D collision)
     {
-
+        if (collision.gameObject.TryGetComponent(out Player _))
+        {
+            _alarm.Deactivate();
+        }
     }
 }
