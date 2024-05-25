@@ -8,16 +8,12 @@ public class Home : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.TryGetComponent(out Player _))
-        {
             _alarm.Activate();
-        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.TryGetComponent(out Player _))
-        {
             _alarm.Deactivate();
-        }
     }
 }
