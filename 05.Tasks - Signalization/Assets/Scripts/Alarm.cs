@@ -19,8 +19,8 @@ public class Alarm : MonoBehaviour
 
     public void Activate()
     {
-        if (_coroutine != null)        
-            StopCoroutine(_coroutine);                    
+        if (_coroutine != null)
+            StopCoroutine(_coroutine);
 
         _audioSource.Play();
         _coroutine = StartCoroutine(FadeVolume(_audioSource, _maxVolume, _fadeDuration));
@@ -42,7 +42,7 @@ public class Alarm : MonoBehaviour
             yield return null;
         }
 
-        if (audioSource.volume < _minVolume)
+        if (audioSource.volume <= _minVolume)
             audioSource.Stop();
     }
 }
