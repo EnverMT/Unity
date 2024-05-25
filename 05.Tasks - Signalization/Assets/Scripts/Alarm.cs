@@ -9,23 +9,21 @@ public class Alarm : MonoBehaviour
     [SerializeField] private float _maxVolume = 1f;
 
     private AudioSource _audioSource;
-
     private Coroutine _coroutine;
-
 
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
+        _audioSource.volume = _minVolume;
     }
 
     public void Activate()
     {
+        if (_coroutine != null)        
+            StopCoroutine(_coroutine);                    
+
         _audioSource.Play();
-
-        if (_coroutine != null)
-            StopCoroutine(_coroutine);
-
-        _coroutine = StartCoroutine(FadeVolume(_audioSource.volume, _maxVolume));
+        _coroutine = StartCoroutine(FadeVolume(_audioSource, _maxVolume, _fadeDuration));
     }
 
     public void Deactivate()
@@ -33,27 +31,18 @@ public class Alarm : MonoBehaviour
         if (_coroutine != null)
             StopCoroutine(_coroutine);
 
-        StartCoroutine(FadeVolume(_audioSource.volume, _minVolume));
+        StartCoroutine(FadeVolume(_audioSource, _minVolume, _fadeDuration));
     }
 
-    private IEnumerator FadeVolume(float startVolume, float targetVolume)
+    private IEnumerator FadeVolume(AudioSource audioSource, float targetVolume, float fadeDuration)
     {
-        float elapsed = 0f;
-        _audioSource.volume = startVolume;
-
-        while (elapsed < _fadeDuration)
+        while (!Mathf.Approximately(audioSource.volume, targetVolume))
         {
-            elapsed += Time.deltaTime;
-            _audioSource.volume = Mathf.Lerp(startVolume, targetVolume, elapsed / _fadeDuration);
-
-            Debug.Log($"Current volume={_audioSource.volume}");
-
+            audioSource.volume = Mathf.MoveTowards(audioSource.volume, targetVolume, Time.deltaTime / fadeDuration);
             yield return null;
         }
 
-        _audioSource.volume = targetVolume;
-
-        if (_audioSource.volume <= _minVolume)
-            _audioSource.Stop();
+        if (audioSource.volume < _minVolume)
+            audioSource.Stop();
     }
 }
