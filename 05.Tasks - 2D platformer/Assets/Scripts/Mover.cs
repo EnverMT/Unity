@@ -31,25 +31,25 @@ public class Mover : MonoBehaviour
 
     private void Update()
     {
-        Jump();
-        HorizontalMovement();
-        FlipHorizontally();
+        if (_isGrounded && Input.GetKey(_jumpKey))
+            Jump();
+
+        HorizontalMovement(Input.GetAxis(HozirontalAxis));
+
+        if (Mathf.Abs(_body.velocity.x) > 0)
+            FlipHorizontally();
 
         _animator.SetFloat(AnimationSpeed, Mathf.Abs(_body.velocity.x));
     }
 
     private void Jump()
     {
-        if (_isGrounded && Input.GetKey(_jumpKey))
-        {
-            _body.velocity = Vector2.up * _jumpSpeed;
-            _isGrounded = false;
-        }
+        _body.velocity = Vector2.up * _jumpSpeed;
+        _isGrounded = false;
     }
 
-    private void HorizontalMovement()
+    private void HorizontalMovement(float direction)
     {
-        float direction = Input.GetAxis(HozirontalAxis);
         _body.velocity = new Vector2(direction * _speed, _body.velocity.y);
     }
 
@@ -57,8 +57,6 @@ public class Mover : MonoBehaviour
     {
         Vector2 scale = transform.localScale;
         scale.x = Input.GetAxisRaw(HozirontalAxis) * Mathf.Abs(scale.x);
-
-        if (scale.x != 0)
-            transform.localScale = scale;
+        transform.localScale = scale;
     }
 }
