@@ -33,6 +33,7 @@ public class Mover : MonoBehaviour
     {
         Jump();
         HorizontalMovement();
+        FlipHorizontally();
 
         _animator.SetFloat(AnimationSpeed, Mathf.Abs(_body.velocity.x));
     }
@@ -50,7 +51,10 @@ public class Mover : MonoBehaviour
     {
         float direction = Input.GetAxis(HozirontalAxis);
         _body.velocity = new Vector2(direction * _speed, _body.velocity.y);
+    }
 
+    private void FlipHorizontally()
+    {
         Vector2 scale = transform.localScale;
         scale.x = Input.GetAxisRaw(HozirontalAxis) * Mathf.Abs(scale.x);
 
