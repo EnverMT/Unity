@@ -1,12 +1,15 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(CapsuleCollider2D))]
+[RequireComponent(typeof(Animator))]
 public class Mover : MonoBehaviour
 {
+    private const string AnimationSpeed = "Speed";
+    private const string HozirontalAxis = "Horizontal";
+
     [Header("Movement")]
-    [SerializeField] private KeyCode _leftKey;
-    [SerializeField] private KeyCode _rightKey;
-    [SerializeField] private float _speed;
+    [SerializeField, Range(0, 10f)] private float _speed;
 
     [Header("Jump")]
     [SerializeField] private KeyCode _jumpKey;
@@ -14,10 +17,12 @@ public class Mover : MonoBehaviour
     [SerializeField] private bool _isGrounded;
 
     private Rigidbody2D _body;
+    private Animator _animator;
 
     private void Awake()
     {
         _body = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
@@ -26,16 +31,30 @@ public class Mover : MonoBehaviour
 
     private void Update()
     {
+        Jump();
+        HorizontalMovement();
+
+        _animator.SetFloat(AnimationSpeed, Mathf.Abs(_body.velocity.x));
+    }
+
+    private void Jump()
+    {
         if (_isGrounded && Input.GetKey(_jumpKey))
         {
-            _body.velocity = Vector3.up * _jumpSpeed;
+            _body.velocity = Vector2.up * _jumpSpeed;
             _isGrounded = false;
         }
+    }
 
-        if (Input.GetKey(_rightKey))
-            transform.Translate(Vector3.right * _speed * Time.deltaTime);
+    private void HorizontalMovement()
+    {
+        float direction = Input.GetAxis(HozirontalAxis);
+        _body.velocity = new Vector2(direction * _speed, _body.velocity.y);
 
-        if (Input.GetKey(_leftKey))
-            transform.Translate(Vector3.left * _speed * Time.deltaTime);
+        Vector2 scale = transform.localScale;
+        scale.x = Input.GetAxisRaw(HozirontalAxis) * Mathf.Abs(scale.x);
+
+        if (scale.x != 0)
+            transform.localScale = scale;
     }
 }
