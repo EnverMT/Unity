@@ -2,10 +2,8 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
-[RequireComponent(typeof(Animator))]
 public class Mover : MonoBehaviour
 {
-    private const string AnimationSpeed = "Speed";
     private const string HozirontalAxis = "Horizontal";
 
     [Header("Movement")]
@@ -13,25 +11,23 @@ public class Mover : MonoBehaviour
 
     [Header("Jump")]
     [SerializeField] private KeyCode _jumpKey;
-    [SerializeField] private float _jumpSpeed;
-    [SerializeField] private bool _isGrounded;
+    [SerializeField] private float _jumpSpeed;    
 
     private Rigidbody2D _body;
-    private Animator _animator;
-
     private float _axisInput;
     private float _axisRawInput;
     private bool _jump;
+
+    public bool IsGrounded { get; private set; }
 
     #region Unity methods
     private void Awake()
     {
         _body = GetComponent<Rigidbody2D>();
-        _animator = GetComponent<Animator>();
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
-        _isGrounded = true;
+        IsGrounded = true;
     }
 
     private void Update()
@@ -39,13 +35,11 @@ public class Mover : MonoBehaviour
         _jump = Input.GetKey(_jumpKey);
         _axisInput = Input.GetAxis(HozirontalAxis);
         _axisRawInput = Input.GetAxisRaw(HozirontalAxis);
-
-        _animator.SetFloat(AnimationSpeed, Mathf.Abs(_body.velocity.x));
     }
 
     private void FixedUpdate()
     {
-        if (_isGrounded && _jump)
+        if (IsGrounded && _jump)
             Jump();
 
         if (_axisInput != 0f)
@@ -59,7 +53,7 @@ public class Mover : MonoBehaviour
     private void Jump()
     {
         _body.velocity = new Vector2(_body.velocity.x, _jumpSpeed);
-        _isGrounded = false;
+        IsGrounded = false;
     }
 
     private void HorizontalMovement(float axisInput)
