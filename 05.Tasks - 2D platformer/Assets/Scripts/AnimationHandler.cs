@@ -4,16 +4,14 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(BaseUnit))]
-public class PlayerAnimation : MonoBehaviour
+public class AnimationHandler : MonoBehaviour
 {
     private const string ParamHorizontalSpeed = "HorizontalSpeed";
     private const string ParamVerticalSpeed = "VerticalSpeed";
-
-    private const string ParamOnGround = "OnGround";    
+    private const string ParamOnGround = "OnGround";
 
     private Rigidbody2D _body;
     private Animator _animator;
-    private Mover _mover;
     private BaseUnit _unit;
 
     private void Awake()
@@ -27,6 +25,6 @@ public class PlayerAnimation : MonoBehaviour
     {
         _animator.SetFloat(ParamHorizontalSpeed, Mathf.Abs(_body.velocity.x));
         _animator.SetFloat(ParamVerticalSpeed, _body.velocity.y);
-        _animator.SetBool(ParamOnGround, _unit.OnGround);        
+        _animator.SetBool(ParamOnGround, _unit.OnGround);
     }
 }
