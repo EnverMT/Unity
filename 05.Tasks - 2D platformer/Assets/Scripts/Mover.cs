@@ -39,6 +39,8 @@ public class Mover : MonoBehaviour
         _jump = Input.GetKey(_jumpKey);
         _axisInput = Input.GetAxis(HozirontalAxis);
         _axisRawInput = Input.GetAxisRaw(HozirontalAxis);
+
+        _animator.SetFloat(AnimationSpeed, Mathf.Abs(_body.velocity.x));
     }
 
     private void FixedUpdate()
@@ -51,11 +53,6 @@ public class Mover : MonoBehaviour
 
         if (Mathf.Abs(_axisRawInput) > 0)
             FlipHorizontally(_axisRawInput);
-    }
-
-    private void LateUpdate()
-    {
-        _animator.SetFloat(AnimationSpeed, Mathf.Abs(_body.velocity.x));
     }
     #endregion
 
