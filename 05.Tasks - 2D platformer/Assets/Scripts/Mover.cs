@@ -3,7 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
-[RequireComponent(typeof(CUnit))]
+[RequireComponent(typeof(BaseUnit))]
 public class Mover : MonoBehaviour
 {
     private const string HozirontalAxis = "Horizontal";
@@ -19,13 +19,13 @@ public class Mover : MonoBehaviour
     private float _axisInput;
     private float _axisRawInput;
     private bool _jumpInput;
-    private CUnit _unit;
+    private BaseUnit _unit;
 
     #region Unity methods
     private void Awake()
     {
         _body = GetComponent<Rigidbody2D>();
-        _unit = GetComponent<CUnit>();
+        _unit = GetComponent<BaseUnit>();
     }
 
     private void Update()

@@ -3,7 +3,7 @@ using UnityEngine.Tilemaps;
 
 namespace Assets.Scripts.Base
 {
-    public abstract class CUnit : MonoBehaviour
+    public abstract class BaseUnit : MonoBehaviour
     {
         public bool OnGround { get; private set; }
 

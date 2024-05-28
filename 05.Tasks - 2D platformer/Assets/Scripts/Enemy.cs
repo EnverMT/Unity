@@ -1,5 +1,5 @@
 using Assets.Scripts.Base;
 
-public class Enemy : CUnit
+public class Enemy : BaseUnit
 {
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(CUnit))]
+[RequireComponent(typeof(BaseUnit))]
 public class PlayerAnimation : MonoBehaviour
 {
     private const string ParamHorizontalSpeed = "HorizontalSpeed";
@@ -14,13 +14,13 @@ public class PlayerAnimation : MonoBehaviour
     private Rigidbody2D _body;
     private Animator _animator;
     private Mover _mover;
-    private CUnit _unit;
+    private BaseUnit _unit;
 
     private void Awake()
     {
         _body = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-        _unit = GetComponent<CUnit>();
+        _unit = GetComponent<BaseUnit>();
     }
 
     private void Update()
