@@ -1,5 +1,6 @@
-using UnityEngine;
+using Assets.Scripts.Base;
 
-public class Player : MonoBehaviour
+public class Player : Unit
 {
+
 }

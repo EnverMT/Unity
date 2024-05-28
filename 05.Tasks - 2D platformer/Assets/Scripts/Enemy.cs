@@ -1,5 +1,5 @@
-using UnityEngine;
+using Assets.Scripts.Base;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Unit
 {
 }

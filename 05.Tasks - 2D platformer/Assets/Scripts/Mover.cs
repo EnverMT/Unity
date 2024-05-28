@@ -1,7 +1,9 @@
+using Assets.Scripts.Base;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
+[RequireComponent(typeof(Unit))]
 public class Mover : MonoBehaviour
 {
     private const string HozirontalAxis = "Horizontal";
@@ -10,36 +12,32 @@ public class Mover : MonoBehaviour
     [SerializeField, Range(0, 10f)] private float _speed;
 
     [Header("Jump")]
-    [SerializeField] private KeyCode _jumpKey;
-    [SerializeField] private float _jumpSpeed;    
+    [SerializeField] private KeyCode _jumpKeyCode;
+    [SerializeField] private float _jumpSpeed;
 
     private Rigidbody2D _body;
     private float _axisInput;
     private float _axisRawInput;
-    private bool _jump;
-
-    public bool IsGrounded { get; private set; }
+    private bool _jumpInput;
+    private Unit _unit;
 
     #region Unity methods
     private void Awake()
     {
         _body = GetComponent<Rigidbody2D>();
-    }
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        IsGrounded = true;
+        _unit = GetComponent<Unit>();
     }
 
     private void Update()
     {
-        _jump = Input.GetKey(_jumpKey);
+        _jumpInput = Input.GetKey(_jumpKeyCode);
         _axisInput = Input.GetAxis(HozirontalAxis);
         _axisRawInput = Input.GetAxisRaw(HozirontalAxis);
     }
 
     private void FixedUpdate()
     {
-        if (IsGrounded && _jump)
+        if (_unit.CanJump && _jumpInput)
             Jump();
 
         if (_axisInput != 0f)
@@ -53,7 +51,7 @@ public class Mover : MonoBehaviour
     private void Jump()
     {
         _body.velocity = new Vector2(_body.velocity.x, _jumpSpeed);
-        IsGrounded = false;
+        _unit.Jumped();
     }
 
     private void HorizontalMovement(float axisInput)
