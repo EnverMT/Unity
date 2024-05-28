@@ -9,8 +9,7 @@ public class PlayerAnimation : MonoBehaviour
     private const string ParamHorizontalSpeed = "HorizontalSpeed";
     private const string ParamVerticalSpeed = "VerticalSpeed";
 
-    private const string ParamOnGround = "OnGround";
-    private const string ParamJumping = "Jumping";
+    private const string ParamOnGround = "OnGround";    
 
     private Rigidbody2D _body;
     private Animator _animator;
@@ -28,7 +27,6 @@ public class PlayerAnimation : MonoBehaviour
     {
         _animator.SetFloat(ParamHorizontalSpeed, Mathf.Abs(_body.velocity.x));
         _animator.SetFloat(ParamVerticalSpeed, _body.velocity.y);
-        _animator.SetBool(ParamOnGround, _unit.OnGround);
-        _animator.SetBool(ParamJumping, _unit.Jumping);
+        _animator.SetBool(ParamOnGround, _unit.OnGround);        
     }
 }
