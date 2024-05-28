@@ -1,6 +1,6 @@
 using Assets.Scripts.Base;
 
-public class Player : Unit
+public class Player : CUnit
 {
 
 }

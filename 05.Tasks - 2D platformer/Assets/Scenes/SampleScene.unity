@@ -2405,7 +2405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 10
-  _jumpKey: 273
+  _jumpKeyCode: 273
   _jumpSpeed: 10
 --- !u!50 &1570214848
 Rigidbody2D:
