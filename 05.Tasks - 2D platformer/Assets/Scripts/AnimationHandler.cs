@@ -25,6 +25,6 @@ public class AnimationHandler : MonoBehaviour
     {
         _animator.SetFloat(ParamHorizontalSpeed, Mathf.Abs(_body.velocity.x));
         _animator.SetFloat(ParamVerticalSpeed, _body.velocity.y);
-        _animator.SetBool(ParamOnGround, _unit.OnGround);
+        _animator.SetBool(ParamOnGround, _unit.OnGround);        
     }
 }

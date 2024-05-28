@@ -170,7 +170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 10
   _jumpKeyCode: 273
-  _jumpSpeed: 6
+  _jumpSpeed: 8
 --- !u!70 &2119941411286352383
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
