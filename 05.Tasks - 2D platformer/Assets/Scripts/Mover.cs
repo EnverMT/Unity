@@ -19,6 +19,11 @@ public class Mover : MonoBehaviour
     private Rigidbody2D _body;
     private Animator _animator;
 
+    private float _axisInput;
+    private float _axisRawInput;
+    private bool _jump;
+
+    #region Unity methods
     private void Awake()
     {
         _body = GetComponent<Rigidbody2D>();
@@ -31,32 +36,44 @@ public class Mover : MonoBehaviour
 
     private void Update()
     {
-        if (_isGrounded && Input.GetKey(_jumpKey))
+        _jump = Input.GetKey(_jumpKey);
+        _axisInput = Input.GetAxis(HozirontalAxis);
+        _axisRawInput = Input.GetAxisRaw(HozirontalAxis);
+    }
+
+    private void FixedUpdate()
+    {
+        if (_isGrounded && _jump)
             Jump();
 
-        HorizontalMovement(Input.GetAxis(HozirontalAxis));
+        if (_axisInput != 0f)
+            HorizontalMovement(_axisInput);
 
-        if (Mathf.Abs(_body.velocity.x) > 0)
-            FlipHorizontally();
+        if (Mathf.Abs(_axisRawInput) > 0)
+            FlipHorizontally(_axisRawInput);
+    }
 
+    private void LateUpdate()
+    {
         _animator.SetFloat(AnimationSpeed, Mathf.Abs(_body.velocity.x));
     }
+    #endregion
 
     private void Jump()
     {
-        _body.velocity = Vector2.up * _jumpSpeed;
+        _body.velocity = new Vector2(_body.velocity.x, _jumpSpeed);
         _isGrounded = false;
     }
 
-    private void HorizontalMovement(float direction)
+    private void HorizontalMovement(float axisInput)
     {
-        _body.velocity = new Vector2(direction * _speed, _body.velocity.y);
+        _body.velocity = new Vector2(axisInput * _speed, _body.velocity.y);
     }
 
-    private void FlipHorizontally()
+    private void FlipHorizontally(float axisRawDirection)
     {
         Vector2 scale = transform.localScale;
-        scale.x = Input.GetAxisRaw(HozirontalAxis) * Mathf.Abs(scale.x);
+        scale.x = axisRawDirection * Mathf.Abs(scale.x);
         transform.localScale = scale;
     }
 }
