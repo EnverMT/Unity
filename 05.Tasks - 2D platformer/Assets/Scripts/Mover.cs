@@ -17,7 +17,6 @@ public class Mover : MonoBehaviour
 
     private Rigidbody2D _body;
     private float _axisInput;
-    private float _axisRawInput;
     private bool _jumpInput;
     private BaseUnit _unit;
 
@@ -32,7 +31,6 @@ public class Mover : MonoBehaviour
     {
         _jumpInput = Input.GetKey(_jumpKeyCode);
         _axisInput = Input.GetAxis(HozirontalAxis);
-        _axisRawInput = Input.GetAxisRaw(HozirontalAxis);
     }
 
     private void FixedUpdate()
@@ -42,9 +40,6 @@ public class Mover : MonoBehaviour
 
         if (_axisInput != 0f)
             HorizontalMovement(_axisInput);
-
-        if (Mathf.Abs(_axisRawInput) > 0)
-            FlipHorizontally(_axisRawInput);
     }
     #endregion
 
@@ -57,12 +52,5 @@ public class Mover : MonoBehaviour
     private void HorizontalMovement(float axisInput)
     {
         _body.velocity = new Vector2(axisInput * _speed, _body.velocity.y);
-    }
-
-    private void FlipHorizontally(float axisRawDirection)
-    {
-        Vector2 scale = transform.localScale;
-        scale.x = axisRawDirection * Mathf.Abs(scale.x);
-        transform.localScale = scale;
     }
 }
