@@ -6,17 +6,15 @@ using UnityEngine;
 [RequireComponent(typeof(BaseUnit))]
 public class AnimationHandler : MonoBehaviour
 {
-    private const string HozirontalAxis = "Horizontal";
-
     private const string ParamHorizontalSpeed = "HorizontalSpeed";
     private const string ParamVerticalSpeed = "VerticalSpeed";
     private const string ParamOnGround = "OnGround";
 
+    [SerializeField] private bool _isFacingRight = true;
+
     private Rigidbody2D _body;
     private Animator _animator;
     private BaseUnit _unit;
-
-    private float _axisRawInput;
 
     private void Awake()
     {
@@ -30,20 +28,31 @@ public class AnimationHandler : MonoBehaviour
         _animator.SetFloat(ParamHorizontalSpeed, Mathf.Abs(_body.velocity.x));
         _animator.SetFloat(ParamVerticalSpeed, _body.velocity.y);
         _animator.SetBool(ParamOnGround, _unit.OnGround);
-
-        _axisRawInput = Input.GetAxisRaw(HozirontalAxis);
     }
 
     private void FixedUpdate()
     {
-        if (Mathf.Abs(_axisRawInput) > 0)
-            FlipHorizontally(_axisRawInput);
+        if (ShouldFlip())
+            FlipHorizontally();
     }
 
-    private void FlipHorizontally(float axisRawDirection)
+    private void FlipHorizontally()
     {
+        _isFacingRight = !_isFacingRight;
+
         Vector2 scale = transform.localScale;
-        scale.x = axisRawDirection * Mathf.Abs(scale.x);
+        scale.x *= -1;
         transform.localScale = scale;
+    }
+
+    private bool ShouldFlip()
+    {
+        if (_isFacingRight && _body.velocity.x < 0)
+            return true;
+
+        if (!_isFacingRight && _body.velocity.x > 0)
+            return true;
+
+        return false;
     }
 }
