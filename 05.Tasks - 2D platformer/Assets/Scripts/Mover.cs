@@ -35,7 +35,7 @@ public class Mover : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_unit.OnGround && _jumpInput)
+        if (_unit.HasJumpAbility && _unit.OnGround && _jumpInput)
             Jump();
 
         if (_axisInput != 0f)

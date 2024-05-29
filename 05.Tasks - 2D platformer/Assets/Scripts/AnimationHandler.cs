@@ -26,8 +26,12 @@ public class AnimationHandler : MonoBehaviour
     private void Update()
     {
         _animator.SetFloat(ParamHorizontalSpeed, Mathf.Abs(_body.velocity.x));
-        _animator.SetFloat(ParamVerticalSpeed, _body.velocity.y);
-        _animator.SetBool(ParamOnGround, _unit.OnGround);
+
+        if (_unit.HasJumpAbility)
+        {
+            _animator.SetFloat(ParamVerticalSpeed, _body.velocity.y);
+            _animator.SetBool(ParamOnGround, _unit.OnGround);
+        }
     }
 
     private void FixedUpdate()
