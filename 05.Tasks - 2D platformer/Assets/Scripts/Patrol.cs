@@ -7,41 +7,44 @@ public class Patrol : MonoBehaviour
     [SerializeField] private Waypoint[] _waypoints;
     [SerializeField] private int _speed;
 
-    private int _currentPatrolPointIndex = 0;
+    [SerializeField] private Vector2 _velosity;
 
+    private Waypoint _targetWaypoint;
     private Rigidbody2D _body;
+    private int _waypointIndex = 0;
 
     private void Awake()
     {
         _body = GetComponent<Rigidbody2D>();
     }
 
+    private void OnEnable()
+    {
+        _targetWaypoint = _waypoints[_waypointIndex];
+    }
+
     private void OnValidate()
     {
-        Assert.AreNotEqual(0, _waypoints.Length);
+        Assert.IsTrue(_waypoints.Length >= 2);
     }
 
     private void Update()
     {
-        Vector2 target = _waypoints[_currentPatrolPointIndex].gameObject.transform.position;
+        Vector2 direction = (_targetWaypoint.transform.position - transform.position).normalized;
 
-        if (IsTargetBehind(target))
+        _body.velocity = new Vector2(Mathf.Sign(direction.x), _body.velocity.y);
+        _velosity = _body.velocity;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.TryGetComponent(out Waypoint waypoint))
         {
-            _currentPatrolPointIndex = GetNextIndex(_waypoints, _currentPatrolPointIndex);
-            target = _waypoints[_currentPatrolPointIndex].gameObject.transform.position;
+            if (waypoint == _targetWaypoint)
+            {
+                _waypointIndex = (_waypointIndex + 1) % _waypoints.Length;
+                _targetWaypoint = _waypoints[_waypointIndex];
+            }
         }
-
-        Vector2 speed = (target - (Vector2)transform.position).normalized * _speed;
-        _body.velocity = new Vector2(speed.x, _body.velocity.y);
-    }
-
-    private bool IsTargetBehind(Vector2 target)
-    {
-        return (target - (Vector2)transform.position).normalized.x != _body.velocity.normalized.x;
-    }
-
-    private int GetNextIndex(Waypoint[] waypoints, int currentIndex)
-    {
-        return currentIndex + 1 % waypoints.Length;
     }
 }
