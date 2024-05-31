@@ -6,6 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(BaseUnit))]
 public class AnimationHandler : MonoBehaviour
 {
+    private const string HozirontalAxis = "Horizontal";
+
     private const string ParamHorizontalSpeed = "HorizontalSpeed";
     private const string ParamVerticalSpeed = "VerticalSpeed";
     private const string ParamOnGround = "OnGround";
@@ -51,10 +53,12 @@ public class AnimationHandler : MonoBehaviour
 
     private bool ShouldFlip()
     {
-        if (_isFacingRight && _body.velocity.x < 0)
+        float _axisInput = Input.GetAxisRaw(HozirontalAxis);
+
+        if (_isFacingRight && _axisInput < 0)
             return true;
 
-        if (!_isFacingRight && _body.velocity.x > 0)
+        if (!_isFacingRight && _axisInput > 0)
             return true;
 
         return false;
