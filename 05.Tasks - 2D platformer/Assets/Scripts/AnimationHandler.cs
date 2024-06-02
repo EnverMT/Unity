@@ -13,7 +13,7 @@ public class AnimationHandler : MonoBehaviour
     private const string ParamOnGround = "OnGround";
 
     [SerializeField] private bool _isFacingRight = true;
-    [SerializeField] private bool _inputFlip = false;
+    [SerializeField] private bool _flipOnInput = false;
 
     private Rigidbody2D _body;
     private Animator _animator;
@@ -54,12 +54,12 @@ public class AnimationHandler : MonoBehaviour
 
     private bool ShouldFlip()
     {
-        float flip = _inputFlip ? Input.GetAxisRaw(HozirontalAxis) : _body.velocity.x;
+        float axis = _flipOnInput ? Input.GetAxisRaw(HozirontalAxis) : _body.velocity.x;
 
-        if (_isFacingRight && flip < 0)
+        if (_isFacingRight && axis < 0)
             return true;
 
-        if (!_isFacingRight && flip > 0)
+        if (!_isFacingRight && axis > 0)
             return true;
 
         return false;

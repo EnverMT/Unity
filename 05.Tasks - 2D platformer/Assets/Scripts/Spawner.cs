@@ -30,12 +30,4 @@ public class Spawner : MonoBehaviour
             coin.transform.position = spawnPoint.transform.position;
         }
     }
-
-    private void OnDisable()
-    {
-        foreach (Coin coin in _coins)
-        {
-            Destroy(coin.gameObject);
-        }
-    }
 }
