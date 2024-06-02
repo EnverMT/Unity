@@ -8,7 +8,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private CoinSpawnPoints _coinSpawnPoints;
 
     private SpawnPoint[] _spawnPoints;
-    private List<Coin> _coins;
+    private List<Coin> _coins = new();
 
     private void OnValidate()
     {
