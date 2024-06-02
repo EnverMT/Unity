@@ -39,7 +39,7 @@ public class Mover : MonoBehaviour
             Jump();
 
         if (_axisInput != 0f)
-            HorizontalMovement(_axisInput);
+            SetHorizontalVelocity(_axisInput);
     }
     #endregion
 
@@ -49,7 +49,7 @@ public class Mover : MonoBehaviour
         _unit.Jumped();
     }
 
-    private void HorizontalMovement(float axisInput)
+    private void SetHorizontalVelocity(float axisInput)
     {
         _body.velocity = new Vector2(axisInput * _speed, _body.velocity.y);
     }
