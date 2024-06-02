@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
-using System.Collections.Generic;
 
 public class Spawner : MonoBehaviour
 {
@@ -27,7 +27,7 @@ public class Spawner : MonoBehaviour
         {
             Coin coin = Instantiate(_coin, spawnPoint.gameObject.transform);
             _coins.Add(coin);
-            coin.transform.position = spawnPoint.transform.position; 
+            coin.transform.position = spawnPoint.transform.position;
         }
     }
 
