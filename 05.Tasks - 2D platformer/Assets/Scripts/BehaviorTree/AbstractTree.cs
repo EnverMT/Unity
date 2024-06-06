@@ -2,7 +2,7 @@
 
 namespace BehaviorTree
 {
-    public abstract class Tree : MonoBehaviour
+    public abstract class AbstractTree : MonoBehaviour
     {
         private Node _root = null;
 
