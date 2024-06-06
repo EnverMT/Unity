@@ -18,13 +18,13 @@ public class Mover : MonoBehaviour
     private Rigidbody2D _body;
     private float _axisInput;
     private bool _jumpInput;
-    private BaseUnit _unit;
+    private Player _unit;
 
     #region Unity methods
     private void Awake()
     {
         _body = GetComponent<Rigidbody2D>();
-        _unit = GetComponent<BaseUnit>();
+        _unit = GetComponent<Player>();
     }
 
     private void Update()

@@ -220,3 +220,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5856ba914a46e404cb0487035c35d438, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isFacingRight: 1
+  _flipOnInput: 1

@@ -28,11 +28,11 @@ public class Enemy : BaseUnit
 
     private void Pursue(Player player)
     {
-        Debug.Log("start pursue");
+        Debug.Log($"{gameObject.transform.position} start pursue");
     }
 
     private void StopPursue(Player player)
     {
-        Debug.Log("stop pursue");
+        Debug.Log($"{gameObject.transform.position} stop pursue");
     }
 }
