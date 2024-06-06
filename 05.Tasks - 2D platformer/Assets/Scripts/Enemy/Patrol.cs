@@ -36,15 +36,6 @@ public class Patrol : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent(out Waypoint waypoint))
             ChangeTarget(waypoint);
-
-        if (collision.gameObject.TryGetComponent(out Player player))
-            Debug.Log("player in");
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.TryGetComponent(out Player player))
-            Debug.Log("player out");
     }
 
     private void ChangeTarget(Waypoint waypoint)
