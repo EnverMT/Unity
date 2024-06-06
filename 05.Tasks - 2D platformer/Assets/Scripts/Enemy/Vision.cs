@@ -4,9 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class Vision : MonoBehaviour
 {
-#nullable enable
-    private Player? _target;
-#nullable disable
+    private Player _target;
 
     public event Action<Player> TargetFound;
     public event Action<Player> TargetLost;
