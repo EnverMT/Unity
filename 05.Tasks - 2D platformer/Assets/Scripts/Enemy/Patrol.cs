@@ -32,11 +32,19 @@ public class Patrol : MonoBehaviour
         _body.velocity = new Vector2(Mathf.Sign(direction.x), _body.velocity.y);
     }
 
-    private void OnTriggerEnter2D(Collider2D collider)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collider.gameObject.TryGetComponent(out Waypoint waypoint))
+        if (collision.gameObject.TryGetComponent(out Waypoint waypoint))
             ChangeTarget(waypoint);
 
+        if (collision.gameObject.TryGetComponent(out Player player))
+            Debug.Log("player in");
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out Player player))
+            Debug.Log("player out");
     }
 
     private void ChangeTarget(Waypoint waypoint)
