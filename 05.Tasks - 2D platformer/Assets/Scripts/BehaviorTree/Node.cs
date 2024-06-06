@@ -10,9 +10,11 @@ namespace BehaviorTree
     }
     public class Node
     {
-        protected NodeState state;
         public Node Parent;
+
+        protected NodeState state;
         protected List<Node> children = new();
+
         private Dictionary<string, object> _dataContext = new();
 
         public Node()
