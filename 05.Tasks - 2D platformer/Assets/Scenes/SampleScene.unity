@@ -12047,6 +12047,11 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!1 &499620131 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1768022795488952443, guid: 69b12550b5df583468f9d10afec3bb36, type: 3}
+  m_PrefabInstance: {fileID: 218197445419791369}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -12571,6 +12576,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8795678499759400422, guid: 69b12550b5df583468f9d10afec3bb36, type: 3}
   m_PrefabInstance: {fileID: 218197445419791369}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1570214865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 499620131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 337a2db5ee9cc8941847a3960f1f979b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isFacingRight: 1
 --- !u!1 &1729887124
 GameObject:
   m_ObjectHideFlags: 0
@@ -13208,10 +13226,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6632002158375696612, guid: 69b12550b5df583468f9d10afec3bb36, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1768022795488952443, guid: 69b12550b5df583468f9d10afec3bb36, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1570214865}
   m_SourcePrefab: {fileID: 100100000, guid: 69b12550b5df583468f9d10afec3bb36, type: 3}
 --- !u!1001 &7597775705519935031
 PrefabInstance:
@@ -13221,6 +13243,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1172383201}
     m_Modifications:
+    - target: {fileID: 4782738441017345244, guid: 10b5bae094b25254daf2e9aee2913913, type: 3}
+      propertyPath: _isFacingRight
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4826188169963481013, guid: 10b5bae094b25254daf2e9aee2913913, type: 3}
       propertyPath: m_Name
       value: Enemy

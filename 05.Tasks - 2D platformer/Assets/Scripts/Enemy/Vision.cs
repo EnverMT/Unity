@@ -4,7 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class Vision : MonoBehaviour
 {
-    [SerializeField] public Player? Target { get; private set; } = null;
+#nullable enable
+    private Player? _target;
+#nullable disable
 
     public event Action<Player> TargetFound;
     public event Action<Player> TargetLost;
@@ -13,16 +15,16 @@ public class Vision : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent(out Player player))
         {
-            Target = player;
+            _target = player;
             TargetFound?.Invoke(player);
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out Player player) && Target == player)
+        if (collision.gameObject.TryGetComponent(out Player player) && _target == player)
         {
-            Target = null;
+            _target = null;
             TargetLost?.Invoke(player);
         }
     }

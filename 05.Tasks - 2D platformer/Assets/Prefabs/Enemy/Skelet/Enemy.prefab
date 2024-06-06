@@ -426,13 +426,13 @@ PrefabInstance:
       addedObject: {fileID: 2359345354256340857}
     - targetCorrespondingSourceObject: {fileID: 312320201983474571, guid: af8372814d3915847a2d6b83ba8b3dfe, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4608709117532322829}
-    - targetCorrespondingSourceObject: {fileID: 312320201983474571, guid: af8372814d3915847a2d6b83ba8b3dfe, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 8021184971756120759}
     - targetCorrespondingSourceObject: {fileID: 312320201983474571, guid: af8372814d3915847a2d6b83ba8b3dfe, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4880914128040644516}
+    - targetCorrespondingSourceObject: {fileID: 312320201983474571, guid: af8372814d3915847a2d6b83ba8b3dfe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4782738441017345244}
   m_SourcePrefab: {fileID: 100100000, guid: af8372814d3915847a2d6b83ba8b3dfe, type: 3}
 --- !u!1 &4280652496734690866 stripped
 GameObject:
@@ -479,20 +479,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &4608709117532322829
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4280652496734690866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5856ba914a46e404cb0487035c35d438, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isFacingRight: 0
-  _flipOnInput: 0
 --- !u!70 &8021184971756120759
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -546,6 +532,19 @@ MonoBehaviour:
   - {fileID: 5617301993673031055}
   - {fileID: 4021663594826151118}
   _speed: 3
+--- !u!114 &4782738441017345244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4280652496734690866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88b633188cf7eb14bb75f5e6a04f0a15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isFacingRight: 0
 --- !u!4 &4280652496734690867 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 312320201983474570, guid: af8372814d3915847a2d6b83ba8b3dfe, type: 3}
