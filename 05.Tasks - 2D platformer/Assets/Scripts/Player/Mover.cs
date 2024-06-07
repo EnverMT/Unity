@@ -18,6 +18,8 @@ public class Mover : MonoBehaviour
     private bool _jumpInput;
     private Player _unit;
 
+    public Vector2 Direction { get; private set; }
+
     #region Unity methods
     private void Awake()
     {
@@ -50,5 +52,6 @@ public class Mover : MonoBehaviour
     private void SetHorizontalVelocity(float axisInput)
     {
         _body.velocity = new Vector2(axisInput * _speed, _body.velocity.y);
+        Direction = (new Vector2(_body.velocity.x, 0)).normalized;
     }
 }

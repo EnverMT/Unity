@@ -25,7 +25,6 @@ public class CheckTargetinFOVRange : Node
             if (colliders.Length > 0)
             {
                 Parent.Parent.SetData(Data.TARGET, colliders[0]);
-                Debug.Log($"Target found. Pursuing");
 
                 state = NodeState.SUCCESS;
                 return state;
@@ -39,7 +38,6 @@ public class CheckTargetinFOVRange : Node
 
         if (distance > _radius)
         {
-            Debug.Log($"Target lost. Back to Patrol");
             ClearData(Data.TARGET);
 
             state = NodeState.FAILURE;

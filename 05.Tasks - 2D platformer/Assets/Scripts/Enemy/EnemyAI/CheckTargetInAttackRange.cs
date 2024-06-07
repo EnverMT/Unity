@@ -3,13 +3,11 @@ using UnityEngine;
 
 public class CheckTargetInAttackRange : Node
 {
-    private readonly Animator _animator;
     private readonly Rigidbody2D _rb;
     private readonly float _attackRadius;
 
-    public CheckTargetInAttackRange(Rigidbody2D rigidbody2D, Animator animator, float attackRadius)
+    public CheckTargetInAttackRange(Rigidbody2D rigidbody2D, float attackRadius)
     {
-        _animator = animator;
         _rb = rigidbody2D;
         _attackRadius = attackRadius;
     }

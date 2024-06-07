@@ -27,7 +27,7 @@ public class SkeletBT : AbstractTree
             {
                 new Sequence(new List<Node>
                     {
-                        new CheckTargetInAttackRange(_rb, _animator, _attackRange),
+                        new CheckTargetInAttackRange(_rb, _attackRange),
                         new TaskAttack(_rb, _animator, _attackTime)
                     }),
                 new Sequence(new List<Node>
