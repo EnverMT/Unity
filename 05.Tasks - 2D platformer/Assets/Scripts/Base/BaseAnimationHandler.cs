@@ -6,9 +6,6 @@ using UnityEngine;
 [RequireComponent(typeof(BaseUnit))]
 public class BaseAnimationHandler : MonoBehaviour
 {
-    protected const string HozirontalAxis = "Horizontal";
-    protected const string ParamHorizontalSpeed = "HorizontalSpeed";
-
     [SerializeField] protected bool _isFacingRight = true;
 
     protected Rigidbody2D _body;
@@ -24,7 +21,7 @@ public class BaseAnimationHandler : MonoBehaviour
 
     protected virtual void Update()
     {
-        _animator.SetFloat(ParamHorizontalSpeed, Mathf.Abs(_body.velocity.x));
+        _animator.SetFloat(Params.Axis.Horizontal, Mathf.Abs(_body.velocity.x));
     }
 
     protected virtual void FixedUpdate()

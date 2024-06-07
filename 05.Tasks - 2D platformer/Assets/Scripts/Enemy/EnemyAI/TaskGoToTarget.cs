@@ -16,7 +16,7 @@ public class TaskGoToTarget : Node
 
     public override NodeState Evaluate()
     {
-        CapsuleCollider2D target = (CapsuleCollider2D)GetData(Data.TARGET);
+        CapsuleCollider2D target = GetData(Data.TARGET) as CapsuleCollider2D;
 
         if (Vector2.Distance(target.transform.position, _rb.position) > _minDistance)
         {

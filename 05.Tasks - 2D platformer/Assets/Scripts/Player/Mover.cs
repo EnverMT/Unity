@@ -6,8 +6,6 @@ using UnityEngine;
 [RequireComponent(typeof(BaseUnit))]
 public class Mover : MonoBehaviour
 {
-    private const string HozirontalAxis = "Horizontal";
-
     [Header("Movement")]
     [SerializeField, Range(0, 10f)] private float _speed;
 
@@ -30,7 +28,7 @@ public class Mover : MonoBehaviour
     private void Update()
     {
         _jumpInput = Input.GetKey(_jumpKeyCode);
-        _axisInput = Input.GetAxis(HozirontalAxis);
+        _axisInput = Input.GetAxis(Params.Axis.Horizontal);
     }
 
     private void FixedUpdate()

@@ -37,7 +37,7 @@ public class TaskAttack : Node
         if (_attackCounter > _attackTime)
         {
             bool isTargetDead = _targetUnit.TakeDamage(10f);
-            _animator.SetTrigger(AnimatorParams.Attack.Attacking);
+            _animator.SetTrigger(Params.Attack.Attacking);
 
             if (isTargetDead)
                 ClearData(Data.TARGET);

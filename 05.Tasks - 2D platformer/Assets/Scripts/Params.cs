@@ -1,5 +1,11 @@
-public static class AnimatorParams
+public static class Params
 {
+    public static class Axis
+    {
+        public const string Horizontal = nameof(Horizontal);
+        public const string Vertical = nameof(Vertical);
+    }
+
     public static class Attack
     {
         public const string IsAttacking = nameof(IsAttacking);

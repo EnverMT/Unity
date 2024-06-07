@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CheckTargetinFOVRange : Node
 {
-    private const string TargetLayer = "Player";
+    private const int TargetLayer = 1 << 7;
 
     private readonly Rigidbody2D _rb;
     private readonly float _radius;
@@ -20,7 +20,8 @@ public class CheckTargetinFOVRange : Node
 
         if (target == null)
         {
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(_rb.gameObject.transform.position, _radius, 1 << 7);
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(_rb.gameObject.transform.position, _radius, TargetLayer);
+
             if (colliders.Length > 0)
             {
                 Parent.Parent.SetData(Data.TARGET, colliders[0]);
