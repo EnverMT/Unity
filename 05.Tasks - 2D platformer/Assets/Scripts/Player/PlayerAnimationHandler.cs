@@ -2,15 +2,12 @@ using UnityEngine;
 
 public class PlayerAnimationHandler : BaseAnimationHandler
 {
-    private const string ParamVerticalSpeed = "VerticalSpeed";
-    private const string ParamOnGround = "OnGround";
-
     protected override void Update()
     {
         base.Update();
 
-        _animator.SetFloat(ParamVerticalSpeed, _body.velocity.y);
-        _animator.SetBool(ParamOnGround, _unit.OnGround);
+        _animator.SetFloat(AnimatorParams.Jump.VerticalSpeed, _body.velocity.y);
+        _animator.SetBool(AnimatorParams.Jump.OnGround, _unit.OnGround);
     }
 
     protected override float GetAxis()

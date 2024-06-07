@@ -7,7 +7,7 @@ public class CheckTargetInAttackRange : Node
     private readonly Rigidbody2D _rb;
     private readonly float _attackRadius;
 
-    public CheckTargetInAttackRange(Animator animator, Rigidbody2D rigidbody2D, float attackRadius)
+    public CheckTargetInAttackRange(Rigidbody2D rigidbody2D, Animator animator, float attackRadius)
     {
         _animator = animator;
         _rb = rigidbody2D;
@@ -28,13 +28,9 @@ public class CheckTargetInAttackRange : Node
 
         if (distance <= _attackRadius)
         {
-            _animator.SetBool(AnimatorParams.Params.IsAttacking, true);
-
             state = NodeState.SUCCESS;
             return state;
         }
-
-        _animator.SetBool(AnimatorParams.Params.IsAttacking, false);
 
         state = NodeState.FAILURE;
         return state;
