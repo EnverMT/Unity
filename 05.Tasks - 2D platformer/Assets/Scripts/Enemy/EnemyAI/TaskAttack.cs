@@ -1,4 +1,3 @@
-using Assets.Scripts.Base;
 using BehaviorTree;
 using UnityEngine;
 

@@ -1,21 +1,13 @@
 using UnityEngine;
 
 [RequireComponent(typeof(CircleCollider2D))]
-public class Coin : MonoBehaviour
+public class Coin : BaseCollectable
 {
-    [SerializeField] public int Value { get; private set; }
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected override void Collected(BaseUnit unit)
     {
-        if (collision.TryGetComponent(out Player player))
+        if (unit is Player)
         {
-            player.Heal(Value);
             Destroy(gameObject);
         }
-    }
-
-    public void Init(int value)
-    {
-        Value = value;
     }
 }

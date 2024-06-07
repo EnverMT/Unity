@@ -1,49 +1,46 @@
 ﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Assets.Scripts.Base
+public abstract class BaseUnit : MonoBehaviour
 {
-    public abstract class BaseUnit : MonoBehaviour
+    [SerializeField] public virtual bool HasJumpAbility { get; protected set; } = false;
+    [SerializeField] private float _health;
+
+    public bool OnGround { get; private set; }
+
+    private void OnCollisionStay2D(Collision2D collision)
     {
-        [SerializeField] public virtual bool HasJumpAbility { get; protected set; } = false;
-        [SerializeField] private float _health;
+        if (collision.gameObject.TryGetComponent(out TilemapCollider2D _))
+            OnGround = true;
+    }
 
-        public bool OnGround { get; private set; }
+    public void Jumped()
+    {
+        OnGround = false;
+    }
 
-        private void OnCollisionStay2D(Collision2D collision)
-        {
-            if (collision.gameObject.TryGetComponent(out TilemapCollider2D _))
-                OnGround = true;
-        }
+    public virtual bool TakeDamage(float damage)
+    {
+        _health -= damage;
+        Debug.Log($"Take damage. HP={_health}");
 
-        public void Jumped()
-        {
-            OnGround = false;
-        }
+        bool isDead = _health <= 0;
 
-        public virtual bool TakeDamage(float damage)
-        {
-            _health -= damage;
-            Debug.Log($"Take damage. HP={_health}");
+        if (isDead)
+            Die();
 
-            bool isDead = _health <= 0;
+        return isDead;
+    }
 
-            if (isDead)
-                Die();
+    public virtual void Heal(float amount)
+    {
+        float oldHealth = _health;
+        _health += amount;
+        Debug.Log($"Healed: HP before={oldHealth} after={_health}");
+    }
 
-            return isDead;
-        }
-
-        public virtual void Heal(float amount)
-        {
-            float oldHealth = _health;
-            _health += amount;
-            Debug.Log($"Healed: HP before={oldHealth} after={_health}");
-        }
-
-        private void Die()
-        {
-            Destroy(gameObject);
-        }
+    private void Die()
+    {
+        Destroy(gameObject);
     }
 }
