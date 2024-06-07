@@ -548,7 +548,7 @@ MonoBehaviour:
   - {fileID: 2776746470072949209}
   _speed: 1
   _enemySearchRadius: 10
-  _attackRange: 1
+  _attackRange: 2
   _attackTime: 1
 --- !u!4 &4280652496734690867 stripped
 Transform:

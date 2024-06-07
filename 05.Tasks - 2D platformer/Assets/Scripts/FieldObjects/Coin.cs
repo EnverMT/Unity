@@ -1,12 +1,9 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(CircleCollider2D))]
 public class Coin : MonoBehaviour
 {
     [SerializeField] public int Value { get; private set; }
-
-    public event Action<Coin, Player> Collected;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

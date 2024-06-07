@@ -21,7 +21,7 @@ public class BaseAnimationHandler : MonoBehaviour
 
     protected virtual void Update()
     {
-        _animator.SetFloat(Params.Axis.Horizontal, Mathf.Abs(_body.velocity.x));
+        _animator.SetFloat(Params.Movement.HorizontalSpeed, Mathf.Abs(_body.velocity.x));
     }
 
     protected virtual void FixedUpdate()
@@ -48,10 +48,10 @@ public class BaseAnimationHandler : MonoBehaviour
     {
         float axis = GetAxis();
 
-        if (_isFacingRight && axis < 0)
+        if (_isFacingRight && axis < -0.1f)
             return true;
 
-        if (!_isFacingRight && axis > 0)
+        if (!_isFacingRight && axis > 0.1f)
             return true;
 
         return false;
