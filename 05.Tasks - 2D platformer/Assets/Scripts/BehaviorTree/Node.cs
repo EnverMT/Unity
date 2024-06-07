@@ -8,6 +8,12 @@ namespace BehaviorTree
         SUCCESS,
         FAILURE
     }
+
+    public enum Data
+    {
+        TARGET
+    }
+
     public class Node
     {
         public Node Parent;
@@ -15,7 +21,7 @@ namespace BehaviorTree
         protected NodeState state;
         protected List<Node> children = new();
 
-        private Dictionary<string, object> _dataContext = new();
+        private Dictionary<Data, object> _dataContext = new();
 
         public Node()
         {
@@ -30,12 +36,12 @@ namespace BehaviorTree
 
         public virtual NodeState Evaluate() => NodeState.FAILURE;
 
-        public void SetData(string key, object value)
+        public void SetData(Data key, object value)
         {
             _dataContext[key] = value;
         }
 
-        public object GetData(string key)
+        public object GetData(Data key)
         {
             object value = null;
 
@@ -57,7 +63,7 @@ namespace BehaviorTree
             return value;
         }
 
-        public bool ClearData(string key)
+        public bool ClearData(Data key)
         {
             if (_dataContext.ContainsKey(key))
             {
