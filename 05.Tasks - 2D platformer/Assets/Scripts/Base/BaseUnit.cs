@@ -22,7 +22,7 @@ public abstract class BaseUnit : MonoBehaviour
     public virtual bool TakeDamage(float damage)
     {
         _health -= damage;
-        Debug.Log($"Take damage. HP={_health}");
+        Debug.Log($"{gameObject.name} Take damage. HP={_health}");
 
         bool isDead = _health <= 0;
 

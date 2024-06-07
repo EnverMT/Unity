@@ -268,7 +268,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 112740441}
-  - component: {fileID: 112740440}
+  - component: {fileID: 112740442}
   m_Layer: 0
   m_Name: SpawnPoints
   m_TagString: Untagged
@@ -276,18 +276,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &112740440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 112740439}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9b0f388397c90047bb124a275a1e246, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &112740441
 Transform:
   m_ObjectHideFlags: 0
@@ -306,6 +294,18 @@ Transform:
   - {fileID: 2137111283}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &112740442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112740439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bbaef2fda223ec41b202aa9251ff2c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &189617422
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,7 +547,7 @@ GameObject:
   - component: {fileID: 225173411}
   - component: {fileID: 225173412}
   m_Layer: 0
-  m_Name: SpawnPoint (1)
+  m_Name: Coin-2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -580,6 +580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de236e5242833145a93c2c97109206d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _item: {fileID: 8988848482187807291, guid: 4bc4bb1572225d64487346e6431b839f, type: 3}
 --- !u!1 &262130341
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,9 +610,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3d1e89777eb53a4eb5f65bf2133b631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _coin: {fileID: 8988848482187807291, guid: 4bc4bb1572225d64487346e6431b839f, type: 3}
-  _coinSpawnPoints: {fileID: 112740440}
-  _healAmount: 100
+  _spawnPointsCollectionParent: {fileID: 112740442}
 --- !u!4 &262130343
 Transform:
   m_ObjectHideFlags: 0
@@ -12581,7 +12580,7 @@ GameObject:
   - component: {fileID: 1464218058}
   - component: {fileID: 1464218059}
   m_Layer: 0
-  m_Name: SpawnPoint
+  m_Name: Coin-1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12614,6 +12613,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de236e5242833145a93c2c97109206d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _item: {fileID: 8988848482187807291, guid: 4bc4bb1572225d64487346e6431b839f, type: 3}
 --- !u!4 &1570214857 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8795678499759400422, guid: 69b12550b5df583468f9d10afec3bb36, type: 3}
@@ -12974,7 +12974,7 @@ GameObject:
   - component: {fileID: 2137111283}
   - component: {fileID: 2137111284}
   m_Layer: 0
-  m_Name: SpawnPoint (2)
+  m_Name: Coin-3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13007,6 +13007,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8de236e5242833145a93c2c97109206d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _item: {fileID: 8988848482187807291, guid: 4bc4bb1572225d64487346e6431b839f, type: 3}
 --- !u!1001 &218197445419791369
 PrefabInstance:
   m_ObjectHideFlags: 0
