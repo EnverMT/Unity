@@ -4,6 +4,7 @@ using UnityEngine;
 public class TaskGoToTarget : Node
 {
     private const float MinDistance = 0.1f;
+
     private readonly Rigidbody2D _rb;
     private readonly float _speed;
 
@@ -27,4 +28,3 @@ public class TaskGoToTarget : Node
         return state;
     }
 }
-

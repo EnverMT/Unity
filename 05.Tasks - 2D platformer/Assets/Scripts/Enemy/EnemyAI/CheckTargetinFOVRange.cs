@@ -8,8 +8,6 @@ public class CheckTargetinFOVRange : Node
     private readonly Rigidbody2D _rb;
     private readonly float _radius;
 
-
-
     public CheckTargetinFOVRange(Rigidbody2D rigidbody2D, float radius)
     {
         _rb = rigidbody2D;
