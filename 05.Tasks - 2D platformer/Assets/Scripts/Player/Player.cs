@@ -33,7 +33,6 @@ public class Player : BaseUnit
         {
             _animator.SetTrigger(Params.Attack.Attacking);
             Enemy[] enemies = GetEnemies();
-            Debug.Log(enemies.Length);
 
             if (enemies.Length > 0)
                 Attack(enemies);
@@ -42,28 +41,19 @@ public class Player : BaseUnit
 
     private Enemy[] GetEnemies()
     {
-        Ray ray = new Ray(gameObject.transform.position, _mover.Direction * _attackRange);
-        RaycastHit[] hits = Physics.RaycastAll(ray);
-
         List<Enemy> enemies = new List<Enemy>();
+        RaycastHit2D[] hits = Physics2D.RaycastAll(gameObject.transform.position, _mover.Direction * _attackRange);
 
-        foreach (RaycastHit hit in hits)
-        {
-            if (hit.transform.gameObject.TryGetComponent(out Enemy enemy))
-            {
+        foreach (RaycastHit2D hit in hits)
+            if (hit.collider.gameObject.TryGetComponent(out Enemy enemy))
                 enemies.Add(enemy);
-            }
-        }
 
         return enemies.ToArray();
     }
 
     private void Attack(Enemy[] enemies)
     {
-        Debug.Log("attack");
         foreach (Enemy enemy in enemies)
-        {
             enemy.TakeDamage(_attackDamage);
-        }
     }
 }
