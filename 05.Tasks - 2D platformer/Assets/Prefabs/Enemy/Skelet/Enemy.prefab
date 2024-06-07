@@ -453,6 +453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd36a9a0a9786cc42a883acf47ac14cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _health: 0
 --- !u!50 &2359345354256340857
 Rigidbody2D:
   serializedVersion: 4
@@ -514,7 +515,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.82, y: 2.46}
+  m_Offset: {x: 0, y: 2.48}
   m_Size: {x: 1.34, y: 4.93}
   m_Direction: 0
 --- !u!114 &4782738441017345244
@@ -547,6 +548,8 @@ MonoBehaviour:
   - {fileID: 2776746470072949209}
   _speed: 1
   _enemySearchRadius: 10
+  _attackRange: 1
+  _attackTime: 1
 --- !u!4 &4280652496734690867 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 312320201983474570, guid: af8372814d3915847a2d6b83ba8b3dfe, type: 3}

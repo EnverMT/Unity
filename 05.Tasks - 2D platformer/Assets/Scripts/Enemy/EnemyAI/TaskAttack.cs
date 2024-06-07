@@ -32,23 +32,17 @@ public class TaskAttack : Node
         }
 
         _attackCounter += Time.deltaTime;
-
         _rb.velocity = Vector3.zero;
-
 
         if (_attackCounter > _attackTime)
         {
-            bool isTargetDead = _targetUnit.TakeHit(10f);
+            bool isTargetDead = _targetUnit.TakeDamage(10f);
+            _animator.SetTrigger(AnimatorParams.Attack.Attacking);
 
             if (isTargetDead)
-            {
-                _animator.SetBool(AnimatorParams.Attack.IsAttacking, false);
                 ClearData(Data.TARGET);
-            }
-
-            Debug.Log($"Attacking");
-            _animator.SetBool(AnimatorParams.Attack.IsAttacking, true);
-            _attackCounter = 0f;
+            else
+                _attackCounter = 0f;
         }
 
         state = NodeState.RUNNING;

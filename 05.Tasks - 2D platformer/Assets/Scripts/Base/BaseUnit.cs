@@ -21,15 +21,24 @@ namespace Assets.Scripts.Base
             OnGround = false;
         }
 
-        public bool TakeHit(float damage)
+        public virtual bool TakeDamage(float damage)
         {
             _health -= damage;
-            Debug.Log($"Take hit. HP={_health}");
+            Debug.Log($"Take damage. HP={_health}");
 
             bool isDead = _health <= 0;
+
             if (isDead)
                 Die();
+
             return isDead;
+        }
+
+        public virtual void Heal(float amount)
+        {
+            float oldHealth = _health;
+            _health += amount;
+            Debug.Log($"Healed: HP before={oldHealth} after={_health}");
         }
 
         private void Die()

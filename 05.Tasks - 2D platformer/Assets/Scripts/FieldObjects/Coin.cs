@@ -12,7 +12,7 @@ public class Coin : MonoBehaviour
     {
         if (collision.TryGetComponent(out Player player))
         {
-            Collected?.Invoke(this, player);
+            player.Heal(Value);
             Destroy(gameObject);
         }
     }

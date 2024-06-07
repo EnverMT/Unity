@@ -3,6 +3,7 @@ public static class AnimatorParams
     public static class Attack
     {
         public const string IsAttacking = nameof(IsAttacking);
+        public const string Attacking = nameof(Attacking);
     }
 
     public static class Movement

@@ -611,6 +611,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _coin: {fileID: 8988848482187807291, guid: 4bc4bb1572225d64487346e6431b839f, type: 3}
   _coinSpawnPoints: {fileID: 112740440}
+  _healAmount: 100
 --- !u!4 &262130343
 Transform:
   m_ObjectHideFlags: 0
@@ -13017,6 +13018,10 @@ PrefabInstance:
     - target: {fileID: 1768022795488952443, guid: 69b12550b5df583468f9d10afec3bb36, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6491341607135040195, guid: 69b12550b5df583468f9d10afec3bb36, type: 3}
+      propertyPath: _health
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 8795678499759400422, guid: 69b12550b5df583468f9d10afec3bb36, type: 3}
       propertyPath: m_LocalPosition.x
