@@ -11,6 +11,7 @@ public class SkeletBT : AbstractTree
     [SerializeField] private float _enemySearchRadius = 10f;
     [SerializeField] private float _attackRange = 2f;
     [SerializeField] private float _attackTime = 1f;
+    [SerializeField] private float _attackDamage = 10f;
 
     private Rigidbody2D _rb;
     private Animator _animator;
@@ -28,7 +29,7 @@ public class SkeletBT : AbstractTree
                 new Sequence(new List<Node>
                     {
                         new CheckTargetInAttackRange(_rb, _attackRange),
-                        new TaskAttack(_rb, _animator, _attackTime)
+                        new TaskAttack(_rb, _animator, _attackTime, _attackDamage)
                     }),
                 new Sequence(new List<Node>
                     {

@@ -12,12 +12,14 @@ public class TaskAttack : Node
 
     private float _attackTime;
     private float _attackCounter = 0f;
+    private float _attackDamage;
 
-    public TaskAttack(Rigidbody2D rigidbody2D, Animator animator, float attackTime)
+    public TaskAttack(Rigidbody2D rigidbody2D, Animator animator, float attackTime, float attackDamage)
     {
         _rb = rigidbody2D;
         _animator = animator;
         _attackTime = attackTime;
+        _attackDamage = attackDamage;
     }
 
     public override NodeState Evaluate()
@@ -35,7 +37,7 @@ public class TaskAttack : Node
 
         if (_attackCounter > _attackTime)
         {
-            bool isTargetDead = _targetUnit.TakeDamage(10f);
+            bool isTargetDead = _targetUnit.TakeDamage(_attackDamage);
             _animator.SetTrigger(Params.Attack.Attacking);
 
             if (isTargetDead)
