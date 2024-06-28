@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Audio;
 
 
@@ -12,6 +13,11 @@ public class AudioController : MonoBehaviour
     private const float NormalizedMinVolume = 0.0001f;
     private const float NormalizedMaxVolume = 1f;
     private const float NormalizedMultiplier = 20f;
+
+    private void OnValidate()
+    {
+        Assert.IsNotNull(_mixerGroup);
+    }
 
     public void ToggleMasterAudioMute(bool enabled)
     {
