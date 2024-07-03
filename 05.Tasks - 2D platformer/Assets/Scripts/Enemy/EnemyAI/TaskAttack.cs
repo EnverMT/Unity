@@ -8,13 +8,13 @@ public class TaskAttack : Node
 
     private Rigidbody2D _rb;
     private CapsuleCollider2D _lastTarget;
-    private BaseUnit _targetUnit;
+    private Health _targetUnitHealth;
 
     private float _attackTime;
     private float _attackCounter = 0f;
-    private float _attackDamage;
+    private uint _attackDamage;
 
-    public TaskAttack(Rigidbody2D rigidbody2D, Animator animator, float attackTime, float attackDamage)
+    public TaskAttack(Rigidbody2D rigidbody2D, Animator animator, float attackTime, uint attackDamage)
     {
         _rb = rigidbody2D;
         _animator = animator;
@@ -29,7 +29,7 @@ public class TaskAttack : Node
         if (target != _lastTarget)
         {
             _lastTarget = target;
-            _targetUnit = target.GetComponent<BaseUnit>();
+            _targetUnitHealth = target.GetComponent<Health>();
         }
 
         _attackCounter += Time.deltaTime;
@@ -37,10 +37,10 @@ public class TaskAttack : Node
 
         if (_attackCounter > _attackTime)
         {
-            bool isTargetDead = _targetUnit.TakeDamage(_attackDamage);
+            _targetUnitHealth.TakeDamage(_attackDamage);
             _animator.SetTrigger(Params.Attack.Attacking);
 
-            if (isTargetDead)
+            if (!_targetUnitHealth.IsAlive)
                 ClearData(Data.TARGET);
             else
                 _attackCounter = 0f;

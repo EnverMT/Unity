@@ -11,7 +11,7 @@ public class SkeletBT : AbstractTree
     [SerializeField] private float _enemySearchRadius = 10f;
     [SerializeField] private float _attackRange = 2f;
     [SerializeField] private float _attackTime = 1f;
-    [SerializeField] private float _attackDamage = 10f;
+    [SerializeField] private uint _attackDamage = 10;
 
     private Rigidbody2D _rb;
     private Animator _animator;

@@ -7,22 +7,25 @@ public class Player : BaseUnit
 {
     [SerializeField] private int _attackMouseButton = 0;
     [SerializeField] private float _attackRange = 1f;
-    [SerializeField] private float _attackDamage = 10f;
+    [SerializeField] private uint _attackDamage = 10;
+
 
     private bool _attack = false;
     private Mover _mover;
     private Animator _animator;
 
-    public override bool HasJumpAbility { get => true; }
-
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         _mover = GetComponent<Mover>();
         _animator = GetComponent<Animator>();
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
+
         _attack = Input.GetMouseButtonDown(_attackMouseButton);
     }
 
@@ -53,6 +56,6 @@ public class Player : BaseUnit
     private void Attack(Enemy[] enemies)
     {
         foreach (Enemy enemy in enemies)
-            enemy.TakeDamage(_attackDamage);
+            enemy.Health.TakeDamage(_attackDamage);
     }
 }

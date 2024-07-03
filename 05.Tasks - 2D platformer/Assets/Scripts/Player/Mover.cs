@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
@@ -19,6 +20,9 @@ public class Mover : MonoBehaviour
 
     public Vector2 Direction { get; private set; }
 
+    public bool OnGround { get; private set; }
+
+
     #region Unity methods
     private void Awake()
     {
@@ -34,18 +38,24 @@ public class Mover : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_unit.HasJumpAbility && _unit.OnGround && _jumpInput)
+        if (OnGround && _jumpInput)
             Jump();
 
         if (_axisInput != 0f)
             SetHorizontalVelocity(_axisInput);
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out TilemapCollider2D _))
+            OnGround = true;
     }
     #endregion
 
     private void Jump()
     {
         _body.velocity = new Vector2(_body.velocity.x, _jumpSpeed);
-        _unit.Jumped();
+        OnGround = false;
     }
 
     private void SetHorizontalVelocity(float axisInput)
