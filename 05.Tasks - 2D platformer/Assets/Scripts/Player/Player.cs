@@ -9,7 +9,6 @@ public class Player : BaseUnit
     [SerializeField] private float _attackRange = 1f;
     [SerializeField] private uint _attackDamage = 10;
 
-
     private bool _attack = false;
     private Mover _mover;
     private Animator _animator;

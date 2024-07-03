@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
+    [SerializeField] public bool _isImmortal;
     [SerializeField] private int _currentHP;
     [SerializeField] private uint _maxHP;
-    [SerializeField] public bool _isImmortal;
 
     public int CurrentHP
     {
@@ -15,6 +15,8 @@ public class Health : MonoBehaviour
         {
             _currentHP = value;
             HealthChanged?.Invoke(this);
+
+            Debug.Log($"CurrentHP={CurrentHP}");
         }
     }
 
@@ -37,6 +39,7 @@ public class Health : MonoBehaviour
 
     public event Action<Health> HealthChanged;
 
+
     private void OnEnable()
     {
         MaxHP = 100;
@@ -49,7 +52,6 @@ public class Health : MonoBehaviour
             return;
 
         CurrentHP = Mathf.Clamp(CurrentHP - (int)amount, 0, (int)_maxHP);
-        Debug.Log($"CurrentHP={CurrentHP}");
     }
 
     public void Heal(uint amount)
