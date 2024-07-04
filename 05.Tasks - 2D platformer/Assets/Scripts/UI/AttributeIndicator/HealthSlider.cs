@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthSlider : BaseAtributUI
+public class HealthSlider : BaseAtributeUI
 {
     [SerializeField] private Slider slider;
     protected override void OnValueChanged(IAttribute attribute)

@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class HealthText : BaseAtributUI
+public class HealthText : BaseAtributeUI
 {
     [SerializeField] private TextMeshProUGUI _textPro;
 
