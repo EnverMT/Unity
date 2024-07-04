@@ -4,8 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Mover))]
 public class Player : BaseUnit
 {
-    [SerializeField] private int _attackMouseButton = 0;
-
+    private int _attackMouseButton = 0;
     private bool _attackInput = false;
     private Mover _mover;
 

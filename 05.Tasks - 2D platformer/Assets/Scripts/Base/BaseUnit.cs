@@ -5,8 +5,8 @@
 [RequireComponent(typeof(Attack))]
 public abstract class BaseUnit : MonoBehaviour
 {
-    public Health Health;
-    public Attack Attack;
+    [HideInInspector] public Health Health;
+    [HideInInspector] public Attack Attack;
 
 
     protected virtual void Awake()
