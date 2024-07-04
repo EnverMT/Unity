@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Health : BaseAttribute
+public class Health : BaseAttribute<float>
 {
     [SerializeField] public bool _isImmortal;
     [SerializeField] private float _currentHP;
