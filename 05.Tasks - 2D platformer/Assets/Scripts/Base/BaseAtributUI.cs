@@ -2,17 +2,17 @@ using UnityEngine;
 
 public abstract class BaseAtributUI : MonoBehaviour
 {
-    [SerializeField] protected IAtribute atribute { get; private set; }
+    [SerializeField] protected BaseAttribut Attribute;
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
-        atribute.ValueChanged += OnValueChanged;
+        Attribute.ValueChanged += OnValueChanged;
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
-        atribute.ValueChanged -= OnValueChanged;
+        Attribute.ValueChanged -= OnValueChanged;
     }
 
-    protected abstract void OnValueChanged(IAtribute atribute);
+    protected abstract void OnValueChanged(IAttribute attribute);
 }

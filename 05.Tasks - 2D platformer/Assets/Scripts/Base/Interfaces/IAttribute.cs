@@ -1,8 +1,8 @@
 using System;
 
-public interface IAtribute
+public interface IAttribute
 {
-    public event Action<IAtribute> ValueChanged;
+    public event Action<IAttribute> ValueChanged;
 
     public uint Value { get; }
     public uint MaxValue { get; }

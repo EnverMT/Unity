@@ -12348,7 +12348,6 @@ GameObject:
   m_Component:
   - component: {fileID: 351336516}
   - component: {fileID: 351336517}
-  - component: {fileID: 351336518}
   m_Layer: 5
   m_Name: HealthIndicator
   m_TagString: Untagged
@@ -12385,21 +12384,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 351336515}
   m_CullTransparentMesh: 1
---- !u!114 &351336518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 351336515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce727af6eb623f446bd7de7ac0a50e98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _health: {fileID: 1570214865}
-  _healthText: {fileID: 506999594}
-  _healthSlider: {fileID: 1113183789}
 --- !u!1 &372489346
 GameObject:
   m_ObjectHideFlags: 0
@@ -12515,6 +12499,8 @@ GameObject:
   - component: {fileID: 506999593}
   - component: {fileID: 506999595}
   - component: {fileID: 506999594}
+  - component: {fileID: 506999596}
+  - component: {fileID: 506999597}
   m_Layer: 5
   m_Name: Heallth Text
   m_TagString: Untagged
@@ -12640,6 +12626,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 506999592}
   m_CullTransparentMesh: 1
+--- !u!114 &506999596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506999592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78e32b7c75527d044b8456363ec47770, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Attribute: {fileID: 1570214865}
+  _textPro: {fileID: 506999594}
+--- !u!114 &506999597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506999592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0ada83ac897f9c4db012b6553e9bb0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _value: 0
+  _maxValue: 0
 --- !u!1 &627195904
 GameObject:
   m_ObjectHideFlags: 0
@@ -13207,6 +13221,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1113183788}
   - component: {fileID: 1113183789}
+  - component: {fileID: 1113183790}
   m_Layer: 5
   m_Name: Health Slider
   m_TagString: Untagged
@@ -13287,6 +13302,20 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1113183790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1113183787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9d06d5f71462ae4881e109a10076e60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Attribute: {fileID: 1570214865}
+  slider: {fileID: 1113183789}
 --- !u!1 &1172383200
 GameObject:
   m_ObjectHideFlags: 0
@@ -13302,7 +13331,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1172383201
 Transform:
   m_ObjectHideFlags: 0

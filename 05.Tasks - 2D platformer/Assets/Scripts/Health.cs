@@ -1,20 +1,20 @@
 using System;
 using UnityEngine;
 
-public class Health : MonoBehaviour, IAtribute
+public class Health : BaseAttribut
 {
     [SerializeField] public bool _isImmortal;
     [SerializeField] private uint _currentHP;
     [SerializeField] private uint _maxHP = 100;
 
-    public event Action<IAtribute> ValueChanged;
-    public event Action<IAtribute> Died;
+    public override event Action<IAttribute> ValueChanged;
+    public event Action<IAttribute> Died;
 
-    public uint Value
+    public override uint Value
     {
         get => _currentHP;
 
-        private set
+        protected set
         {
             _currentHP = (uint)Mathf.Clamp(value, 0, (int)MaxValue);
             ValueChanged?.Invoke(this);
@@ -26,7 +26,7 @@ public class Health : MonoBehaviour, IAtribute
         }
     }
 
-    public uint MaxValue
+    public override uint MaxValue
     {
         get => _maxHP;
 
