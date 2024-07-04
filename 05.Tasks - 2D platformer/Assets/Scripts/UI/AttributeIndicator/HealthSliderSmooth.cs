@@ -18,12 +18,12 @@ public class HealthSliderSmooth : BaseAtributeUI
         _slider.value = _visibleValue;
     }
 
-    protected override void OnValueChanged(IAttribute attribute)
+    protected override void OnValueChanged(IAttribute<float> attribute)
     {
         if (_coroutine != null)
             StopCoroutine(_coroutine);
 
-        float target = (float)attribute.Value / (float)attribute.MaxValue;
+        float target = attribute.Value / attribute.MaxValue;
         _coroutine = StartCoroutine(SmoothChange(target));
     }
 

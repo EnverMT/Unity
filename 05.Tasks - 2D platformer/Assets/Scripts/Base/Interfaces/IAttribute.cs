@@ -1,10 +1,10 @@
 using System;
 
-public interface IAttribute
+public interface IAttribute<T>
 {
-    public event Action<IAttribute> ValueChanged;
+    public event Action<IAttribute<T>> ValueChanged;
 
-    public uint Value { get; }
-    public uint MaxValue { get; }
+    public T Value { get; }
+    public T MaxValue { get; }
 
 }

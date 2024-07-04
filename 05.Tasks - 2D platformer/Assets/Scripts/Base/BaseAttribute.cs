@@ -2,10 +2,10 @@
 using UnityEngine;
 
 
-public abstract class BaseAttribute : MonoBehaviour, IAttribute
+public abstract class BaseAttribute : MonoBehaviour, IAttribute<float>
 {
-    public abstract uint Value { get; protected set; }
-    public abstract uint MaxValue { get; set; }
+    public abstract float Value { get; protected set; }
+    public abstract float MaxValue { get; set; }
 
-    public abstract event Action<IAttribute> ValueChanged;
+    public abstract event Action<IAttribute<float>> ValueChanged;
 }

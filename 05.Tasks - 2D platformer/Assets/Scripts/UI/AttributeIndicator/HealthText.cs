@@ -5,7 +5,7 @@ public class HealthText : BaseAtributeUI
 {
     [SerializeField] private TextMeshProUGUI _textPro;
 
-    protected override void OnValueChanged(IAttribute attribute)
+    protected override void OnValueChanged(IAttribute<float> attribute)
     {
         _textPro.text = $"Health = {Attribute.Value} / {Attribute.MaxValue}";
     }

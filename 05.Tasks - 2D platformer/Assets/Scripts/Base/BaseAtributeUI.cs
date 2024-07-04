@@ -14,5 +14,5 @@ public abstract class BaseAtributeUI : MonoBehaviour
         Attribute.ValueChanged -= OnValueChanged;
     }
 
-    protected abstract void OnValueChanged(IAttribute attribute);
+    protected abstract void OnValueChanged(IAttribute<float> attribute);
 }

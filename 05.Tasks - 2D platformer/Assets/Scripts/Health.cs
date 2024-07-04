@@ -4,13 +4,13 @@ using UnityEngine;
 public class Health : BaseAttribute
 {
     [SerializeField] public bool _isImmortal;
-    [SerializeField] private uint _currentHP;
-    [SerializeField] private uint _maxHP = 100;
+    [SerializeField] private float _currentHP;
+    [SerializeField] private float _maxHP = 100f;
 
-    public override event Action<IAttribute> ValueChanged;
-    public event Action<IAttribute> Died;
+    public override event Action<IAttribute<float>> ValueChanged;
+    public event Action<IAttribute<float>> Died;
 
-    public override uint Value
+    public override float Value
     {
         get => _currentHP;
 
@@ -26,7 +26,7 @@ public class Health : BaseAttribute
         }
     }
 
-    public override uint MaxValue
+    public override float MaxValue
     {
         get => _maxHP;
 
