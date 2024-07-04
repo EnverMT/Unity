@@ -2,21 +2,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Mover))]
-[RequireComponent(typeof(Animator))]
 public class Player : BaseUnit
 {
     [SerializeField] private int _attackMouseButton = 0;
 
     private bool _attackInput = false;
     private Mover _mover;
-    private Animator _animator;
 
     protected override void Awake()
     {
         base.Awake();
 
         _mover = GetComponent<Mover>();
-        _animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -28,7 +25,6 @@ public class Player : BaseUnit
     {
         if (_attackInput)
         {
-            _animator.SetTrigger(Params.Attack.Attacking);
             Enemy[] enemies = GetEnemies();
 
             if (enemies.Length > 0 && Attack.CanAttack)

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Attack))]
 public class SkeletBT : AbstractTree
 {
@@ -13,13 +12,11 @@ public class SkeletBT : AbstractTree
 
     private Attack _attack;
     private Rigidbody2D _rb;
-    private Animator _animator;
 
     private void Awake()
     {
         _attack = GetComponent<Attack>();
         _rb = GetComponent<Rigidbody2D>();
-        _animator = GetComponent<Animator>();
     }
 
     protected override Node SetupTree()
@@ -29,7 +26,7 @@ public class SkeletBT : AbstractTree
                 new Sequence(new List<Node>
                     {
                         new CheckTargetInAttackRange(_rb, _attack.Range),
-                        new TaskAttack(_rb, _animator, _attack)
+                        new TaskAttack(_rb, _attack)
                     }),
                 new Sequence(new List<Node>
                     {

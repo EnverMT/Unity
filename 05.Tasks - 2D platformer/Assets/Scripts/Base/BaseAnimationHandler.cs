@@ -1,26 +1,40 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Attack))]
 [RequireComponent(typeof(BaseUnit))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class BaseAnimationHandler : MonoBehaviour
 {
     [SerializeField] protected bool _isFacingRight = true;
 
-    protected Rigidbody2D _body;
     protected Animator _animator;
-    protected BaseUnit _unit;
+    protected Attack _attack;
+    protected BaseUnit _baseUnit;
+    protected Rigidbody2D _rbody;
 
     protected virtual void Awake()
     {
-        _body = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-        _unit = GetComponent<BaseUnit>();
+        _attack = GetComponent<Attack>();
+        _baseUnit = GetComponent<BaseUnit>();
+        _rbody = GetComponent<Rigidbody2D>();
     }
+
+    private void OnEnable()
+    {
+        _attack.Attacked += AttackAnimation;
+    }
+
+    private void OnDisable()
+    {
+        _attack.Attacked -= AttackAnimation;
+    }
+
 
     protected virtual void Update()
     {
-        _animator.SetFloat(Params.Movement.HorizontalSpeed, Mathf.Abs(_body.velocity.x));
+        _animator.SetFloat(Params.Movement.HorizontalSpeed, Mathf.Abs(_rbody.velocity.x));
     }
 
     protected virtual void FixedUpdate()
@@ -29,9 +43,14 @@ public class BaseAnimationHandler : MonoBehaviour
             FlipHorizontally();
     }
 
+    protected virtual void AttackAnimation(Attack attack)
+    {
+        _animator.SetTrigger(Params.Attack.Attacking);
+    }
+
     protected virtual float GetAxis()
     {
-        return _body.velocity.x;
+        return _rbody.velocity.x;
     }
 
     protected virtual void FlipHorizontally()

@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class TaskAttack : Node
 {
-    private readonly Animator _animator;
     private readonly Attack _attack;
     private readonly Rigidbody2D _rb;
 
     private CapsuleCollider2D _lastTarget;
     private Player _targetPlayer;
 
-    public TaskAttack(Rigidbody2D rigidbody2D, Animator animator, Attack attack)
+    public TaskAttack(Rigidbody2D rigidbody2D, Attack attack)
     {
         _rb = rigidbody2D;
-        _animator = animator;
         _attack = attack;
     }
 
@@ -42,7 +40,6 @@ public class TaskAttack : Node
         if (_attack.CanAttack)
         {
             _attack.AttackTarget(_targetPlayer);
-            _animator.SetTrigger(Params.Attack.Attacking);
 
             if (!_targetPlayer.Health.IsAlive)
                 ClearData(Data.TARGET);
