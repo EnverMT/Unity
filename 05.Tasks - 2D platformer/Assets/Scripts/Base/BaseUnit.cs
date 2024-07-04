@@ -22,11 +22,13 @@ public abstract class BaseUnit : MonoBehaviour
 
     protected virtual void OnDisable()
     {
-        Health.Died -= OnDie;
+        if (Health != null)
+            Health.Died -= OnDie;
     }
 
     protected virtual void OnDie(IAttribute health)
     {
-        Destroy(gameObject);
+        Health.Died -= OnDie;
+        Destroy(Health.gameObject);
     }
 }
