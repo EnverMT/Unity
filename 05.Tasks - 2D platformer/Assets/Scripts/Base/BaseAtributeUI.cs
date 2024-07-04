@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public abstract class BaseAtributeUI : MonoBehaviour
+public abstract class BaseAtributeUI<T> : MonoBehaviour
 {
-    [SerializeField] protected BaseAttribute Attribute;
+    [SerializeField] protected BaseAttribute<T> Attribute;
 
     protected virtual void OnEnable()
     {
@@ -14,5 +14,5 @@ public abstract class BaseAtributeUI : MonoBehaviour
         Attribute.ValueChanged -= OnValueChanged;
     }
 
-    protected abstract void OnValueChanged(IAttribute<float> attribute);
+    protected abstract void OnValueChanged(IAttribute<T> attribute);
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthSliderSmooth : BaseAtributeUI
+public class HealthSliderSmooth : BaseAtributeUI<float>
 {
     [SerializeField] private Slider _slider;
     [SerializeField] private float _speed;

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthSlider : BaseAtributeUI
+public class HealthSlider : BaseAtributeUI<float>
 {
     [SerializeField] private Slider _slider;
     protected override void OnValueChanged(IAttribute<float> attribute)
