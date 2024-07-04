@@ -4,18 +4,18 @@ using UnityEngine.UI;
 
 public class HealthSliderSmooth : BaseAtributeUI
 {
-    [SerializeField] private Slider slider;
-    [SerializeField] private float speed;
+    [SerializeField] private Slider _slider;
+    [SerializeField] private float _speed;
 
     private Coroutine _coroutine;
-    private float visibleValue;
+    private float _visibleValue;
 
     protected override void OnEnable()
     {
         base.OnEnable();
 
-        visibleValue = Attribute.Value / Attribute.MaxValue;
-        slider.value = visibleValue;
+        _visibleValue = Attribute.Value / Attribute.MaxValue;
+        _slider.value = _visibleValue;
     }
 
     protected override void OnValueChanged(IAttribute attribute)
@@ -29,14 +29,14 @@ public class HealthSliderSmooth : BaseAtributeUI
 
     private IEnumerator SmoothChange(float target)
     {
-        while (Mathf.Approximately(visibleValue, target) == false)
+        while (Mathf.Approximately(_visibleValue, target) == false)
         {
-            visibleValue = Mathf.MoveTowards(visibleValue, target, speed * Time.deltaTime);
-            slider.value = visibleValue;
+            _visibleValue = Mathf.MoveTowards(_visibleValue, target, _speed * Time.deltaTime);
+            _slider.value = _visibleValue;
 
             yield return null;
         }
 
-        visibleValue = target;
+        _visibleValue = target;
     }
 }
