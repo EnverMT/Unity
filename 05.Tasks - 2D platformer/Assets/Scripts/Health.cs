@@ -1,32 +1,32 @@
 using System;
 using UnityEngine;
 
-public class Health : MonoBehaviour
+public class Health : MonoBehaviour, IAtribute
 {
     [SerializeField] public bool _isImmortal;
     [SerializeField] private uint _currentHP;
     [SerializeField] private uint _maxHP = 100;
 
-    public event Action<Health> HealthChanged;
-    public event Action<Health> Died;
+    public event Action<IAtribute> ValueChanged;
+    public event Action<IAtribute> Died;
 
-    public uint CurrentHP
+    public uint Value
     {
         get => _currentHP;
 
         private set
         {
-            _currentHP = (uint)Mathf.Clamp(value, 0, (int)MaxHP);
-            HealthChanged?.Invoke(this);
+            _currentHP = (uint)Mathf.Clamp(value, 0, (int)MaxValue);
+            ValueChanged?.Invoke(this);
 
             if (_currentHP == 0)
                 Died?.Invoke(this);
 
-            Debug.Log($"CurrentHP={CurrentHP}");
+            Debug.Log($"CurrentHP={Value}");
         }
     }
 
-    public uint MaxHP
+    public uint MaxValue
     {
         get => _maxHP;
 
@@ -34,19 +34,19 @@ public class Health : MonoBehaviour
         {
             _maxHP = (uint)Mathf.Clamp(value, 0, int.MaxValue); ;
 
-            if (CurrentHP > _maxHP)
-                CurrentHP = _maxHP;
+            if (Value > _maxHP)
+                Value = _maxHP;
 
-            HealthChanged?.Invoke(this);
+            ValueChanged?.Invoke(this);
         }
     }
 
-    public bool IsAlive => CurrentHP > 0;
+    public bool IsAlive => Value > 0;
 
 
     private void OnEnable()
     {
-        CurrentHP = MaxHP;
+        Value = MaxValue;
     }
 
     public void TakeDamage(uint amount)
@@ -54,11 +54,11 @@ public class Health : MonoBehaviour
         if (_isImmortal)
             return;
 
-        CurrentHP -= amount;
+        Value -= amount;
     }
 
     public void Heal(uint amount)
     {
-        CurrentHP += amount;
+        Value += amount;
     }
 }

@@ -278,8 +278,6 @@ MonoBehaviour:
   Health: {fileID: 0}
   Attack: {fileID: 0}
   _attackMouseButton: 0
-  _attackRange: 1
-  _attackDamage: 10
 --- !u!50 &309386332244924103
 Rigidbody2D:
   serializedVersion: 4
@@ -385,7 +383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isImmortal: 0
-  _currentHP: 0
+  _currentHP: 100
   _maxHP: 100
 --- !u!114 &2454523933987094330
 MonoBehaviour:
