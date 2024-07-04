@@ -2,7 +2,22 @@ using UnityEngine;
 
 public abstract class BaseAtributUI : MonoBehaviour
 {
-    [SerializeField] protected BaseAttribut Attribute;
+    [SerializeField] private MonoBehaviour _monoBeh;
+
+    protected IAttribute Attribute { get; private set; }
+
+    private void Awake()
+    {
+        Attribute = (IAttribute)_monoBeh;
+    }
+
+    private void OnValidate()
+    {
+        if (_monoBeh == null || _monoBeh is IAttribute)
+            return;
+
+        throw new UnityException($"{nameof(_monoBeh)} is not implement Interface: {nameof(Attribute)}");
+    }
 
     protected virtual void OnEnable()
     {

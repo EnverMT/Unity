@@ -745,7 +745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe927d1966988f240a3aa8ac22568729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Attribute: {fileID: 1570214865}
+  _monoBeh: {fileID: 1570214865}
   slider: {fileID: 238839309}
   speed: 0.1
 --- !u!114 &238839309
@@ -12744,7 +12744,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78e32b7c75527d044b8456363ec47770, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Attribute: {fileID: 1570214865}
+  _monoBeh: {fileID: 1570214865}
   _textPro: {fileID: 506999594}
 --- !u!1 &627195904
 GameObject:
@@ -13406,7 +13406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9d06d5f71462ae4881e109a10076e60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Attribute: {fileID: 1570214865}
+  _monoBeh: {fileID: 1570214865}
   slider: {fileID: 1113183789}
 --- !u!1 &1167539448
 GameObject:
