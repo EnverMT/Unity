@@ -6,10 +6,8 @@ using UnityEngine;
 public class Player : BaseUnit
 {
     [SerializeField] private int _attackMouseButton = 0;
-    [SerializeField] private float _attackRange = 1f;
-    [SerializeField] private uint _attackDamage = 10;
 
-    private bool _attack = false;
+    private bool _attackInput = false;
     private Mover _mover;
     private Animator _animator;
 
@@ -21,29 +19,27 @@ public class Player : BaseUnit
         _animator = GetComponent<Animator>();
     }
 
-    protected override void Update()
+    private void Update()
     {
-        base.Update();
-
-        _attack = Input.GetMouseButtonDown(_attackMouseButton);
+        _attackInput = Input.GetMouseButtonDown(_attackMouseButton);
     }
 
     private void FixedUpdate()
     {
-        if (_attack)
+        if (_attackInput)
         {
             _animator.SetTrigger(Params.Attack.Attacking);
             Enemy[] enemies = GetEnemies();
 
-            if (enemies.Length > 0)
-                Attack(enemies);
+            if (enemies.Length > 0 && Attack.CanAttack)
+                AttackEnemy(enemies);
         }
     }
 
     private Enemy[] GetEnemies()
     {
         List<Enemy> enemies = new List<Enemy>();
-        RaycastHit2D[] hits = Physics2D.RaycastAll(gameObject.transform.position, _mover.Direction * _attackRange);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(gameObject.transform.position, _mover.Direction * Attack.Range);
 
         foreach (RaycastHit2D hit in hits)
             if (hit.collider.gameObject.TryGetComponent(out Enemy enemy))
@@ -52,9 +48,9 @@ public class Player : BaseUnit
         return enemies.ToArray();
     }
 
-    private void Attack(Enemy[] enemies)
+    private void AttackEnemy(Enemy[] enemies)
     {
         foreach (Enemy enemy in enemies)
-            enemy.Health.TakeDamage(_attackDamage);
+            Attack.AttackTarget(enemy);
     }
 }

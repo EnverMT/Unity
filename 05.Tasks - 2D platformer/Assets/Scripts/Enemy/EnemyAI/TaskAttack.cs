@@ -5,21 +5,17 @@ using UnityEngine;
 public class TaskAttack : Node
 {
     private readonly Animator _animator;
+    private readonly Attack _attack;
+    private readonly Rigidbody2D _rb;
 
-    private Rigidbody2D _rb;
     private CapsuleCollider2D _lastTarget;
-    private Health _targetUnitHealth;
+    private Player _targetPlayer;
 
-    private float _attackTime;
-    private float _attackCounter = 0f;
-    private uint _attackDamage;
-
-    public TaskAttack(Rigidbody2D rigidbody2D, Animator animator, float attackTime, uint attackDamage)
+    public TaskAttack(Rigidbody2D rigidbody2D, Animator animator, Attack attack)
     {
         _rb = rigidbody2D;
         _animator = animator;
-        _attackTime = attackTime;
-        _attackDamage = attackDamage;
+        _attack = attack;
     }
 
     public override NodeState Evaluate()
@@ -29,21 +25,27 @@ public class TaskAttack : Node
         if (target != _lastTarget)
         {
             _lastTarget = target;
-            _targetUnitHealth = target.GetComponent<Health>();
+
+            if (target.TryGetComponent(out Player player))
+            {
+                _targetPlayer = player;
+            }
+            else
+            {
+                state = NodeState.FAILURE;
+                return state;
+            }
         }
 
-        _attackCounter += Time.deltaTime;
         _rb.velocity = Vector3.zero;
 
-        if (_attackCounter > _attackTime)
+        if (_attack.CanAttack)
         {
-            _targetUnitHealth.TakeDamage(_attackDamage);
+            _attack.AttackTarget(_targetPlayer);
             _animator.SetTrigger(Params.Attack.Attacking);
 
-            if (!_targetUnitHealth.IsAlive)
+            if (!_targetPlayer.Health.IsAlive)
                 ClearData(Data.TARGET);
-            else
-                _attackCounter = 0f;
         }
 
         state = NodeState.RUNNING;

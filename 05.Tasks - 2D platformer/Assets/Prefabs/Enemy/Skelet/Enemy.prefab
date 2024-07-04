@@ -435,6 +435,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 312320201983474571, guid: af8372814d3915847a2d6b83ba8b3dfe, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8431790754203831118}
+    - targetCorrespondingSourceObject: {fileID: 312320201983474571, guid: af8372814d3915847a2d6b83ba8b3dfe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4131264361290206938}
+    - targetCorrespondingSourceObject: {fileID: 312320201983474571, guid: af8372814d3915847a2d6b83ba8b3dfe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3836405238991909609}
   m_SourcePrefab: {fileID: 100100000, guid: af8372814d3915847a2d6b83ba8b3dfe, type: 3}
 --- !u!1 &4280652496734690866 stripped
 GameObject:
@@ -453,7 +459,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd36a9a0a9786cc42a883acf47ac14cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 100
+  Health: {fileID: 0}
+  Attack: {fileID: 0}
 --- !u!50 &2359345354256340857
 Rigidbody2D:
   serializedVersion: 4
@@ -548,8 +555,36 @@ MonoBehaviour:
   - {fileID: 2776746470072949209}
   _speed: 1
   _enemySearchRadius: 10
-  _attackRange: 2
-  _attackTime: 1
+--- !u!114 &4131264361290206938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4280652496734690866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05a1f00da7349c04b99730de0b4d9ca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isImmortal: 0
+  _currentHP: 0
+  _maxHP: 100
+--- !u!114 &3836405238991909609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4280652496734690866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bb346ffc46301844ab7f5b9f8026f3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 10
+  Range: 2
+  AttackDelay: 1
 --- !u!4 &4280652496734690867 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 312320201983474570, guid: af8372814d3915847a2d6b83ba8b3dfe, type: 3}

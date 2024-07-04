@@ -2,19 +2,31 @@
 
 
 [RequireComponent(typeof(Health))]
+[RequireComponent(typeof(Attack))]
 public abstract class BaseUnit : MonoBehaviour
 {
     public Health Health;
+    public Attack Attack;
 
 
     protected virtual void Awake()
     {
         Health = GetComponent<Health>();
+        Attack = GetComponent<Attack>();
     }
 
-    protected virtual void Update()
+    protected virtual void OnEnable()
     {
-        if (!Health.IsAlive)
-            Destroy(gameObject);
+        Health.Died += OnDie;
+    }
+
+    protected virtual void OnDisable()
+    {
+        Health.Died -= OnDie;
+    }
+
+    protected virtual void OnDie(Health health)
+    {
+        Destroy(gameObject);
     }
 }
