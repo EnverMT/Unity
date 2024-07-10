@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 
 public abstract class BaseAttribute<T> : MonoBehaviour, IAttribute<T>
@@ -24,12 +25,19 @@ public abstract class BaseAttribute<T> : MonoBehaviour, IAttribute<T>
     {
         get => _maxValue;
 
-        set
+        protected set
         {
             _maxValue = value;
+            
+            if (Comparer<T>.Default.Compare(Value, MaxValue) > 0)
+            {
+                Value = value;
+                return;
+            }                
+
             ValueChanged?.Invoke(this);
         }
     }
 
-    public abstract void ChangeValue(T value);
+    public abstract IAttribute<T> ChangeValue(T value);
 }
