@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class HealthAttributeUI : MonoBehaviour
+public abstract class BaseHealthUI : MonoBehaviour
 {
     [SerializeField] protected HealthAttribute _healthAttribute;
 

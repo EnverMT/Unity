@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(TextMeshProUGUI))]
-public class HealthText : HealthAttributeUI
+public class HealthTextUI : BaseHealthUI
 {
     private TextMeshProUGUI _textPro;
 
