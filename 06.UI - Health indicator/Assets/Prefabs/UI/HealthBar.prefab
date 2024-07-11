@@ -401,3 +401,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthAttribute: {fileID: 0}
+  _smoothSpeed: 0
+  _speed: 0.2
