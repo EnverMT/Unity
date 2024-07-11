@@ -3,6 +3,7 @@ using UnityEngine;
 public abstract class HealthAttributeUI : MonoBehaviour
 {
     [SerializeField] protected HealthAttribute _healthAttribute;
+
     private bool _isAttributeObserving;
 
     protected virtual void OnEnable()
@@ -26,7 +27,7 @@ public abstract class HealthAttributeUI : MonoBehaviour
         _isAttributeObserving = false;
     }
 
-    private void OnDied(HealthAttribute obj)
+    private void OnDied(HealthAttribute _)
     {
         OnDisable();
     }

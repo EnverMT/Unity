@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class DamageButton : BaseButton
 {
-    [SerializeField] private HealthAttribute healthAttribute;
+    [SerializeField] private HealthAttribute _healthAttribute;
     [SerializeField] private float _damage;
 
 
     protected override void OnClicked()
     {
-        healthAttribute.ChangeValue(-_damage);
+        _healthAttribute.ChangeValue(-_damage);
     }
 }
