@@ -2,9 +2,7 @@ using UnityEngine;
 
 public class DamageButton : BaseButton
 {
-    [SerializeField] private HealthAttribute _healthAttribute;
-    [SerializeField] private float _damage;
-
+    [SerializeField, Range(0, 100f)] private float _damage;
 
     protected override void OnClicked()
     {

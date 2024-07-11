@@ -1,10 +1,18 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
 public abstract class BaseButton : MonoBehaviour
 {
+    [SerializeField] protected HealthAttribute _healthAttribute;
+
     private Button _button;
+
+    private void OnValidate()
+    {
+        Assert.IsNotNull(_healthAttribute);
+    }
 
     protected virtual void Awake()
     {
