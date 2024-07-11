@@ -19,10 +19,10 @@ public class HealthBarUI : BaseHealthUI
 
     protected override void OnEnable()
     {
-        base.OnEnable();
-
         if (_isSmoothChange)
             _currentValue = _healthAttribute.Value / _healthAttribute.MaxValue;
+
+        base.OnEnable();
     }
 
     protected override void OnValueChanged(IAttribute<float> attribute)

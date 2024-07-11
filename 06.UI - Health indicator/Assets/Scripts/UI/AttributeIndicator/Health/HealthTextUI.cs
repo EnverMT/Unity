@@ -15,4 +15,11 @@ public class HealthTextUI : BaseHealthUI
     {
         _textPro.text = $"Health = {attribute.Value} / {attribute.MaxValue}";
     }
+
+    protected override void OnDied(HealthAttribute _)
+    {
+        _textPro.text = $"Player died";
+
+        base.OnDied(_);
+    }
 }

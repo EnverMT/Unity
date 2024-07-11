@@ -236,6 +236,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1093339892524001492, guid: f327822436c45804ba1e990e493c4425, type: 3}
+      propertyPath: _isSmoothChange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1093339892524001492, guid: f327822436c45804ba1e990e493c4425, type: 3}
       propertyPath: _healthAttribute
       value: 
       objectReference: {fileID: 1350378690901306586}

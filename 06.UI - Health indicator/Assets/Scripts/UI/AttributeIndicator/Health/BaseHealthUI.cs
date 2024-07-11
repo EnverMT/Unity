@@ -27,7 +27,7 @@ public abstract class BaseHealthUI : MonoBehaviour
         _isAttributeObserving = false;
     }
 
-    private void OnDied(HealthAttribute _)
+    protected virtual void OnDied(HealthAttribute attribute)
     {
         OnDisable();
     }
