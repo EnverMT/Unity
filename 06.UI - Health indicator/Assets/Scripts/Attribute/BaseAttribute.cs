@@ -1,11 +1,11 @@
 using System;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 
 public abstract class BaseAttribute<T> : MonoBehaviour, IAttribute<T>
 {
-    public virtual event Action<IAttribute<T>> ValueChanged;    
+    public virtual event Action<IAttribute<T>> ValueChanged;
 
     [SerializeField] protected T _value;
     [SerializeField] protected T _maxValue;
@@ -28,12 +28,12 @@ public abstract class BaseAttribute<T> : MonoBehaviour, IAttribute<T>
         protected set
         {
             _maxValue = value;
-            
+
             if (Comparer<T>.Default.Compare(Value, MaxValue) > 0)
             {
                 Value = value;
                 return;
-            }                
+            }
 
             ValueChanged?.Invoke(this);
         }

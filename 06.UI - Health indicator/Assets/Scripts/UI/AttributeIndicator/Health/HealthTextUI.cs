@@ -1,12 +1,18 @@
 using TMPro;
 using UnityEngine;
 
-public class HealthText : BaseAtributeUI<float>
+[RequireComponent(typeof(TextMeshProUGUI))]
+public class HealthText : HealthAttributeUI
 {
-    [SerializeField] private TextMeshProUGUI _textPro;
+    private TextMeshProUGUI _textPro;
+
+    private void Awake()
+    {
+        _textPro = GetComponent<TextMeshProUGUI>();
+    }
 
     protected override void OnValueChanged(IAttribute<float> attribute)
     {
-        _textPro.text = $"Health = {Attribute.Value} / {Attribute.MaxValue}";        
+        _textPro.text = $"Health = {attribute.Value} / {attribute.MaxValue}";
     }
 }
