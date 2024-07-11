@@ -5,7 +5,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Slider))]
 public class HealthBarUI : BaseHealthUI
 {
-    [SerializeField] private bool _smoothSpeed;
+    [SerializeField] private bool _isSmoothChange;
     [SerializeField, Range(0, 1f)] private float _speed;
 
     private Slider _slider;
@@ -17,12 +17,20 @@ public class HealthBarUI : BaseHealthUI
         _slider = GetComponent<Slider>();
     }
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        if (_isSmoothChange)
+            _currentValue = _healthAttribute.Value / _healthAttribute.MaxValue;
+    }
+
     protected override void OnValueChanged(IAttribute<float> attribute)
     {
         if (_coroutine != null)
             StopCoroutine(_coroutine);
 
-        if (_smoothSpeed)
+        if (_isSmoothChange)
         {
             float target = attribute.Value / attribute.MaxValue;
             _coroutine = StartCoroutine(SmoothChange(target));
@@ -45,5 +53,4 @@ public class HealthBarUI : BaseHealthUI
 
         _currentValue = target;
     }
-
 }
