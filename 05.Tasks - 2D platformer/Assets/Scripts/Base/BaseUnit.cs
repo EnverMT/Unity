@@ -1,21 +1,22 @@
 ﻿using UnityEngine;
 
 
+[RequireComponent(typeof(BaseAttack))]
+[RequireComponent(typeof(BaseMovement))]
 [RequireComponent(typeof(HealthAttribute))]
-[RequireComponent(typeof(PlayerAttack))]
 [RequireComponent(typeof(Rigidbody2D))]
 public abstract class BaseUnit : MonoBehaviour
 {
+    public BaseAttack Attack;
+    public BaseMovement BaseMovement;
     public HealthAttribute Health;
-    public PlayerAttack Attack;
     public Rigidbody2D Rigidbody2D;
-
-    public Vector2 Direction { get; private set; }
 
     protected virtual void Awake()
     {
+        Attack = GetComponent<BaseAttack>();
         Health = GetComponent<HealthAttribute>();
-        Attack = GetComponent<PlayerAttack>();
+        BaseMovement = GetComponent<BaseMovement>();
         Rigidbody2D = GetComponent<Rigidbody2D>();
     }
 

@@ -1,16 +1,43 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class BaseMovement : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
+    [Header("Movement")]
+    [SerializeField, Range(0, 10f)] protected float _speed;
 
+    protected Rigidbody2D _rigidbody;
+
+    public bool OnGround { get; protected set; }
+    public float Speed => _speed;
+    public Vector2 Direction { get; private set; }
+
+    protected virtual void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected virtual void OnCollisionStay2D(Collision2D collision)
     {
+        if (collision.gameObject.TryGetComponent(out TilemapCollider2D _))
+            OnGround = true;
+    }
 
+    protected virtual void SetDirection(Vector2 direction)
+    {
+        Direction = direction;
+    }
+
+    public virtual void Stop()
+    {
+        _rigidbody.velocity = Vector2.zero;
+    }
+
+    public virtual void HeadTo(Vector2 position)
+    {
+        Vector2 direction = (position - (Vector2)_rigidbody.transform.position).normalized;
+
+        _rigidbody.velocity = direction * Speed;
     }
 }

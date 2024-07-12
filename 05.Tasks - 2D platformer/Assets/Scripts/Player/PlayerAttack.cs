@@ -7,11 +7,11 @@ public class PlayerAttack : BaseAttack
     private readonly int _attackMouseButton = 0;
     private bool _attackInput = false;
 
-    private PlayerMover _mover;
+    private PlayerMover _playerMover;
 
     private void Awake()
     {
-        _mover = GetComponent<PlayerMover>();
+        _playerMover = GetComponent<PlayerMover>();
     }
 
     private void Update()
@@ -30,10 +30,10 @@ public class PlayerAttack : BaseAttack
         }
     }
 
-    public T[] GetUnitsInAttackRange<T>()
+    public override T[] GetUnitsInAttackRange<T>()
     {
         List<T> units = new();
-        RaycastHit2D[] hits = Physics2D.RaycastAll(gameObject.transform.position, _mover.Direction * Range);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(gameObject.transform.position, _playerMover.Direction * Range);
 
         foreach (RaycastHit2D hit in hits)
             if (hit.collider.gameObject.TryGetComponent(out T enemy))

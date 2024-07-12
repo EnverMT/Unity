@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(PlayerAttack))]
+[RequireComponent(typeof(BaseAttack))]
 [RequireComponent(typeof(BaseUnit))]
 [RequireComponent(typeof(Rigidbody2D))]
 public class BaseAnimationHandler : MonoBehaviour
@@ -9,14 +9,14 @@ public class BaseAnimationHandler : MonoBehaviour
     [SerializeField] protected bool _isFacingRight = true;
 
     protected Animator _animator;
-    protected PlayerAttack _attack;
+    protected BaseAttack _attack;
     protected BaseUnit _baseUnit;
     protected Rigidbody2D _rbody;
 
     protected virtual void Awake()
     {
         _animator = GetComponent<Animator>();
-        _attack = GetComponent<PlayerAttack>();
+        _attack = GetComponent<BaseAttack>();
         _baseUnit = GetComponent<BaseUnit>();
         _rbody = GetComponent<Rigidbody2D>();
     }

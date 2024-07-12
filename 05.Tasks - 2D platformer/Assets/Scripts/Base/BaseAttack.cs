@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BaseAttack : MonoBehaviour
@@ -35,5 +36,17 @@ public class BaseAttack : MonoBehaviour
             return true;
 
         return false;
+    }
+
+    public virtual T[] GetUnitsInAttackRange<T>()
+    {
+        List<T> units = new();
+        RaycastHit2D[] hits = Physics2D.RaycastAll(gameObject.transform.position, _mover.Direction * Range);
+
+        foreach (RaycastHit2D hit in hits)
+            if (hit.collider.gameObject.TryGetComponent(out T enemy))
+                units.Add(enemy);
+
+        return units.ToArray();
     }
 }

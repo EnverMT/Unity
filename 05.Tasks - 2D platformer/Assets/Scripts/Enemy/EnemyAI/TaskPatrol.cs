@@ -10,9 +10,11 @@ public class TaskPatrol : Node
     private readonly float _speed;
     private int _currentWaypointIndex = 0;
 
-    public TaskPatrol(Rigidbody2D rigidbody2D, Transform[] waypoints, float speed)
+    private BaseUnit _unit;
+
+    public TaskPatrol(BaseUnit baseUnit)
     {
-        _body = rigidbody2D;
+        _body = _unit.Rigidbody2D;
         _waypoints = waypoints;
         _speed = speed;
     }
