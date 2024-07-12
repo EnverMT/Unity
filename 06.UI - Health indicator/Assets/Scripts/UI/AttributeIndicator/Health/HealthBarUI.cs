@@ -33,7 +33,7 @@ public class HealthBarUI : BaseHealthUI
         float target = attribute.Value / attribute.MaxValue;
 
         if (_isSmoothChange)
-        {            
+        {
             _coroutine = StartCoroutine(SmoothChangeTo(target));
         }
         else

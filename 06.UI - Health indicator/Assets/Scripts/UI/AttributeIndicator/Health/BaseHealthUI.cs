@@ -1,16 +1,10 @@
 using UnityEngine;
-using UnityEngine.Assertions;
 
 public abstract class BaseHealthUI : MonoBehaviour
 {
     [SerializeField] protected HealthAttribute _healthAttribute;
 
     private bool _isAttributeObserving;
-
-    private void OnValidate()
-    {
-        Assert.IsNotNull(_healthAttribute);
-    }
 
     protected virtual void OnEnable()
     {
