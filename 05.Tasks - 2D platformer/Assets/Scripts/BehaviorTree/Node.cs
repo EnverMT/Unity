@@ -1,3 +1,4 @@
+using Assets.Scripts.BehaviorTree;
 using System.Collections.Generic;
 
 namespace BehaviorTree
@@ -9,19 +10,13 @@ namespace BehaviorTree
         FAILURE
     }
 
-    public enum Data
-    {
-        TARGET
-    }
-
     public class Node
     {
         public Node Parent;
 
         protected NodeState state;
         protected List<Node> children = new();
-
-        private readonly Dictionary<Data, object> _dataContext = new();
+        protected Context context;
 
         public Node()
         {
@@ -31,62 +26,20 @@ namespace BehaviorTree
         public Node(List<Node> children)
         {
             foreach (Node child in children)
-                Attach(child);
+            {
+                child.Parent = this;
+                children.Add(child);
+            }
+        }
+
+        public virtual void SetContext(Context context)
+        {
+            this.context = context;
+
+            foreach (Node node in children)
+                node.SetContext(context);
         }
 
         public virtual NodeState Evaluate() => NodeState.FAILURE;
-
-        public void SetData(Data key, object value)
-        {
-            _dataContext[key] = value;
-        }
-
-        public object GetData(Data key)
-        {
-            if (_dataContext.TryGetValue(key, out object value))
-                return value;
-
-            Node node = Parent;
-
-            while (node != null)
-            {
-                value = node.GetData(key);
-
-                if (value != null)
-                    return value;
-
-                node = node.Parent;
-            }
-
-            return value;
-        }
-
-        public bool ClearData(Data key)
-        {
-            if (_dataContext.ContainsKey(key))
-            {
-                _dataContext.Remove(key);
-                return true;
-            }
-
-            Node node = Parent;
-
-            while (node != null)
-            {
-                if (node.ClearData(key))
-                    return true;
-
-                node = node.Parent;
-            }
-
-            return false;
-        }
-
-        private void Attach(Node node)
-        {
-            node.Parent = this;
-            children.Add(node);
-        }
     }
 }
-

@@ -1,4 +1,5 @@
-﻿using BehaviorTree;
+﻿using Assets.Scripts.BehaviorTree;
+using BehaviorTree;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ using UnityEngine;
 public class SkeletBT : AbstractTree
 {
     private Enemy _unit;
+    private Context _treeContext;
 
     private void Awake()
     {
@@ -28,6 +30,8 @@ public class SkeletBT : AbstractTree
                     }),
                 new TaskPatrol(_unit)
             });
+
+        node.SetContext(_treeContext);
 
         return node;
     }

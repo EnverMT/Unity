@@ -13,15 +13,13 @@ public class CheckTargetinFOVRange : Node
 
     public override NodeState Evaluate()
     {
-        Player target = GetData(Data.TARGET) as Player;
-
-        if (target == null)
+        if (context.target == null)
         {
             Player player = _unit.Patrol.GetUnitsInFOV<Player>().FirstOrDefault();
 
             if (player != null)
             {
-                Parent.Parent.SetData(Data.TARGET, player);
+                context.target = player;
 
                 state = NodeState.SUCCESS;
                 return state;
@@ -31,11 +29,11 @@ public class CheckTargetinFOVRange : Node
             return state;
         }
 
-        float distance = Vector2.Distance(_unit.gameObject.transform.position, target.gameObject.transform.position);
+        float distance = Vector2.Distance(_unit.gameObject.transform.position, context.target.gameObject.transform.position);
 
-        if (!_unit.Patrol.IsUnitInFOV(target))
+        if (!_unit.Patrol.IsUnitInFOV(context.target))
         {
-            ClearData(Data.TARGET);
+            context.target = null;
 
             state = NodeState.FAILURE;
             return state;

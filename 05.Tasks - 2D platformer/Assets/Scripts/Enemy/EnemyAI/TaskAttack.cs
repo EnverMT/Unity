@@ -12,19 +12,17 @@ public class TaskAttack : Node
 
     public override NodeState Evaluate()
     {
-        Player target = GetData(Data.TARGET) as Player;
-
-        if (target == null)
+        if (context.target == null)
         {
             state = NodeState.FAILURE;
             return state;
         }
 
         _unit.Rigidbody2D.velocity = UnityEngine.Vector2.zero;
-        _unit.Attack.DealDamage(target);
+        _unit.Attack.DealDamage(context.target);
 
-        if (!target.Health.IsAlive)
-            ClearData(Data.TARGET);
+        if (!context.target.Health.IsAlive)
+            context.target = null;
 
         state = NodeState.RUNNING;
         return state;

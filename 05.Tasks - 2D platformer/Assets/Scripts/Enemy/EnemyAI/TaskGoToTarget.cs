@@ -11,15 +11,13 @@ public class TaskGoToTarget : Node
 
     public override NodeState Evaluate()
     {
-        Player target = GetData(Data.TARGET) as Player;
-
-        if (target == null)
+        if (context.target == null)
         {
             state = NodeState.FAILURE;
             return state;
         }
 
-        _unit.BaseMovement.HeadTo(target.transform.position);
+        _unit.BaseMovement.HeadTo(context.target.transform.position);
 
         state = NodeState.RUNNING;
         return state;
