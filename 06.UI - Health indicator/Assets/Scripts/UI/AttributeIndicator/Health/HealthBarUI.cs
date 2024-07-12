@@ -30,18 +30,19 @@ public class HealthBarUI : BaseHealthUI
         if (_coroutine != null)
             StopCoroutine(_coroutine);
 
+        float target = attribute.Value / attribute.MaxValue;
+
         if (_isSmoothChange)
-        {
-            float target = attribute.Value / attribute.MaxValue;
-            _coroutine = StartCoroutine(SmoothChange(target));
+        {            
+            _coroutine = StartCoroutine(SmoothChangeTo(target));
         }
         else
         {
-            _slider.value = attribute.Value / attribute.MaxValue;
+            _slider.value = target;
         }
     }
 
-    private IEnumerator SmoothChange(float target)
+    private IEnumerator SmoothChangeTo(float target)
     {
         while (Mathf.Approximately(_currentValue, target) == false)
         {
