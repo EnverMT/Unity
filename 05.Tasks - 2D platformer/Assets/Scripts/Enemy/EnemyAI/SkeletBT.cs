@@ -1,9 +1,8 @@
 ﻿using Assets.Scripts.BehaviorTree;
 using BehaviorTree;
 using System.Collections.Generic;
-using UnityEngine;
 
-[RequireComponent(typeof(Enemy))]
+//[RequireComponent(typeof(Enemy))]
 public class SkeletBT : AbstractTree
 {
     private Context _treeContext;

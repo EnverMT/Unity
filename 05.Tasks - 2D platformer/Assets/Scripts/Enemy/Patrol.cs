@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(BaseUnit))]
+//[RequireComponent(typeof(BaseUnit))]
 public class Patrol : MonoBehaviour
 {
     [SerializeField, Range(1f, 100f)] private float _enemySearchDistance;
@@ -43,12 +43,12 @@ public class Patrol : MonoBehaviour
 
     public bool IsUnitInFOV(BaseUnit target)
     {
-        return Vector3.Distance(_unit.gameObject.transform.position, target.gameObject.transform.position) < _enemySearchDistance;
+        return Vector3.Distance(gameObject.transform.position, target.gameObject.transform.position) < _enemySearchDistance;
     }
 
     public T[] GetUnitsInFOV<T>() where T : BaseUnit
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(_unit.gameObject.transform.position, _enemySearchDistance);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(gameObject.transform.position, _enemySearchDistance);
 
         List<T> units = new();
 

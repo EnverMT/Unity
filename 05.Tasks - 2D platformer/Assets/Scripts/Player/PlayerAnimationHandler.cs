@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerMover))]
+//[RequireComponent(typeof(PlayerMover))]
 public class PlayerAnimationHandler : BaseAnimationHandler
 {
     private PlayerMover _mover;

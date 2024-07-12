@@ -7,10 +7,10 @@
 [RequireComponent(typeof(Rigidbody2D))]
 public abstract class BaseUnit : MonoBehaviour
 {
-    public BaseAttack Attack;
-    public BaseMovement BaseMovement;
-    public HealthAttribute Health;
-    public Rigidbody2D Rigidbody2D;
+    [HideInInspector] public BaseAttack Attack;
+    [HideInInspector] public BaseMovement BaseMovement;
+    [HideInInspector] public HealthAttribute Health;
+    [HideInInspector] public Rigidbody2D Rigidbody2D;
 
     protected virtual void Awake()
     {

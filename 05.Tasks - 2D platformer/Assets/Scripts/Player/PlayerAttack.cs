@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerMover))]
+//[RequireComponent(typeof(PlayerMover))]
 public class PlayerAttack : BaseAttack
 {
     private readonly int _attackMouseButton = 0;
