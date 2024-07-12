@@ -3,13 +3,13 @@
 [RequireComponent(typeof(BoxCollider2D))]
 public class MedKit : BaseCollectable
 {
-    [SerializeField] public uint Value { get; private set; } = 100;
+    [SerializeField, Range(0, 1000f)] private float _value;
 
     protected override void Collected(BaseUnit unit)
     {
         if (unit is Player)
         {
-            unit.Health.Heal(Value);
+            unit.Health.ChangeValue(_value);
             Destroy(gameObject);
         }
     }

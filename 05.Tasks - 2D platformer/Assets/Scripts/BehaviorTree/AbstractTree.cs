@@ -4,7 +4,7 @@ namespace BehaviorTree
 {
     public abstract class AbstractTree : MonoBehaviour
     {
-        private Node _root = null;
+        private Node _root;
 
         protected void Start()
         {
@@ -13,8 +13,7 @@ namespace BehaviorTree
 
         private void Update()
         {
-            if (_root != null)
-                _root.Evaluate();
+            _root?.Evaluate();
         }
 
         protected abstract Node SetupTree();

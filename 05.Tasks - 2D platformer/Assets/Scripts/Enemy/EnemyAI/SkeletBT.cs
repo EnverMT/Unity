@@ -2,20 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerAttack))]
+[RequireComponent(typeof(BaseUnit))]
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(Attack))]
 public class SkeletBT : AbstractTree
 {
     [SerializeField] private Transform[] _waypoints;
     [SerializeField] private float _speed = 2f;
     [SerializeField] private float _enemySearchRadius = 10f;
 
-    private Attack _attack;
+    private PlayerAttack _attack;
+    private BaseUnit _baseUnit;
     private Rigidbody2D _rb;
 
     private void Awake()
     {
-        _attack = GetComponent<Attack>();
+        _attack = GetComponent<PlayerAttack>();
+        _baseUnit = GetComponent<BaseUnit>();
         _rb = GetComponent<Rigidbody2D>();
     }
 
@@ -25,8 +28,8 @@ public class SkeletBT : AbstractTree
             {
                 new Sequence(new List<Node>
                     {
-                        new CheckTargetInAttackRange(_rb, _attack.Range),
-                        new TaskAttack(_rb, _attack)
+                        new CheckTargetInAttackRange(_baseUnit),
+                        new TaskAttack(_baseUnit)
                     }),
                 new Sequence(new List<Node>
                     {

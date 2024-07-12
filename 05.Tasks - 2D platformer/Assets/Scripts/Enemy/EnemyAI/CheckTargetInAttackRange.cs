@@ -1,20 +1,17 @@
 using BehaviorTree;
-using UnityEngine;
 
 public class CheckTargetInAttackRange : Node
 {
-    private readonly Rigidbody2D _rb;
-    private readonly float _attackRadius;
+    private readonly BaseUnit _baseUnit;
 
-    public CheckTargetInAttackRange(Rigidbody2D rigidbody2D, float attackRadius)
+    public CheckTargetInAttackRange(BaseUnit baseUnit)
     {
-        _rb = rigidbody2D;
-        _attackRadius = attackRadius;
+        _baseUnit = baseUnit;
     }
 
     public override NodeState Evaluate()
     {
-        CapsuleCollider2D target = GetData(Data.TARGET) as CapsuleCollider2D;
+        BaseUnit target = GetData(Data.TARGET) as BaseUnit;
 
         if (target == null)
         {
@@ -22,9 +19,7 @@ public class CheckTargetInAttackRange : Node
             return state;
         }
 
-        float distance = Vector2.Distance(_rb.gameObject.transform.position, target.gameObject.transform.position);
-
-        if (distance <= _attackRadius)
+        if (_baseUnit.Attack.IsInAttackRange(target))
         {
             state = NodeState.SUCCESS;
             return state;

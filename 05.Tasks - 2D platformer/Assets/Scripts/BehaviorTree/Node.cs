@@ -21,7 +21,7 @@ namespace BehaviorTree
         protected NodeState state;
         protected List<Node> children = new();
 
-        private Dictionary<Data, object> _dataContext = new();
+        private readonly Dictionary<Data, object> _dataContext = new();
 
         public Node()
         {
@@ -43,9 +43,7 @@ namespace BehaviorTree
 
         public object GetData(Data key)
         {
-            object value = null;
-
-            if (_dataContext.TryGetValue(key, out value))
+            if (_dataContext.TryGetValue(key, out object value))
                 return value;
 
             Node node = Parent;

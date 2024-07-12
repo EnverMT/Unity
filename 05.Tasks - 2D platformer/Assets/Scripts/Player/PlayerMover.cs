@@ -3,8 +3,7 @@ using UnityEngine.Tilemaps;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
-[RequireComponent(typeof(BaseUnit))]
-public class Mover : MonoBehaviour
+public class PlayerMover : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField, Range(0, 10f)] private float _speed;
@@ -16,7 +15,6 @@ public class Mover : MonoBehaviour
     private Rigidbody2D _body;
     private float _axisInput;
     private bool _jumpInput;
-    private Player _unit;
 
     public Vector2 Direction { get; private set; }
 
@@ -27,7 +25,6 @@ public class Mover : MonoBehaviour
     private void Awake()
     {
         _body = GetComponent<Rigidbody2D>();
-        _unit = GetComponent<Player>();
     }
 
     private void Update()

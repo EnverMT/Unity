@@ -1,49 +1,30 @@
 using BehaviorTree;
-using UnityEngine;
 
 
 public class TaskAttack : Node
 {
-    private readonly Attack _attack;
-    private readonly Rigidbody2D _rb;
+    private readonly BaseUnit _unit;
 
-    private CapsuleCollider2D _lastTarget;
-    private Player _targetPlayer;
-
-    public TaskAttack(Rigidbody2D rigidbody2D, Attack attack)
+    public TaskAttack(BaseUnit unit)
     {
-        _rb = rigidbody2D;
-        _attack = attack;
+        _unit = unit;
     }
 
     public override NodeState Evaluate()
     {
-        CapsuleCollider2D target = GetData(Data.TARGET) as CapsuleCollider2D;
+        BaseUnit target = GetData(Data.TARGET) as BaseUnit;
 
-        if (target != _lastTarget)
+        if (target == null)
         {
-            _lastTarget = target;
-
-            if (target.TryGetComponent(out Player player))
-            {
-                _targetPlayer = player;
-            }
-            else
-            {
-                state = NodeState.FAILURE;
-                return state;
-            }
+            state = NodeState.FAILURE;
+            return state;
         }
 
-        _rb.velocity = Vector3.zero;
+        _unit.Rigidbody2D.velocity = UnityEngine.Vector2.zero;
+        _unit.Attack.DealDamage(target);
 
-        if (_attack.CanAttack)
-        {
-            _attack.AttackTarget(_targetPlayer);
-
-            if (!_targetPlayer.Health.IsAlive)
-                ClearData(Data.TARGET);
-        }
+        if (!target.Health.IsAlive)
+            ClearData(Data.TARGET);
 
         state = NodeState.RUNNING;
         return state;

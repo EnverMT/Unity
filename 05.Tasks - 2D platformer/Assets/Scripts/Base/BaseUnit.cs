@@ -1,18 +1,22 @@
 ﻿using UnityEngine;
 
 
-[RequireComponent(typeof(Health))]
-[RequireComponent(typeof(Attack))]
+[RequireComponent(typeof(HealthAttribute))]
+[RequireComponent(typeof(PlayerAttack))]
+[RequireComponent(typeof(Rigidbody2D))]
 public abstract class BaseUnit : MonoBehaviour
 {
-    [HideInInspector] public Health Health;
-    [HideInInspector] public Attack Attack;
+    public HealthAttribute Health;
+    public PlayerAttack Attack;
+    public Rigidbody2D Rigidbody2D;
 
+    public Vector2 Direction { get; private set; }
 
     protected virtual void Awake()
     {
-        Health = GetComponent<Health>();
-        Attack = GetComponent<Attack>();
+        Health = GetComponent<HealthAttribute>();
+        Attack = GetComponent<PlayerAttack>();
+        Rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
     protected virtual void OnEnable()
@@ -22,13 +26,11 @@ public abstract class BaseUnit : MonoBehaviour
 
     protected virtual void OnDisable()
     {
-        if (Health != null)
-            Health.Died -= OnDie;
+        Health.Died -= OnDie;
     }
 
-    protected virtual void OnDie(IAttr<float> health)
+    protected virtual void OnDie(IAttribute<float> _)
     {
-        Health.Died -= OnDie;
-        Destroy(Health.gameObject);
+        Destroy(gameObject);
     }
 }

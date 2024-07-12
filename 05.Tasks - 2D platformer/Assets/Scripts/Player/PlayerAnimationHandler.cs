@@ -1,15 +1,15 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Mover))]
+[RequireComponent(typeof(PlayerMover))]
 public class PlayerAnimationHandler : BaseAnimationHandler
 {
-    private Mover _mover;
+    private PlayerMover _mover;
 
     protected override void Awake()
     {
         base.Awake();
 
-        _mover = GetComponent<Mover>();
+        _mover = GetComponent<PlayerMover>();
     }
 
     protected override void Update()

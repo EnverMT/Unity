@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(Attack))]
+[RequireComponent(typeof(PlayerAttack))]
 [RequireComponent(typeof(BaseUnit))]
 [RequireComponent(typeof(Rigidbody2D))]
 public class BaseAnimationHandler : MonoBehaviour
@@ -9,14 +9,14 @@ public class BaseAnimationHandler : MonoBehaviour
     [SerializeField] protected bool _isFacingRight = true;
 
     protected Animator _animator;
-    protected Attack _attack;
+    protected PlayerAttack _attack;
     protected BaseUnit _baseUnit;
     protected Rigidbody2D _rbody;
 
     protected virtual void Awake()
     {
         _animator = GetComponent<Animator>();
-        _attack = GetComponent<Attack>();
+        _attack = GetComponent<PlayerAttack>();
         _baseUnit = GetComponent<BaseUnit>();
         _rbody = GetComponent<Rigidbody2D>();
     }
@@ -43,7 +43,7 @@ public class BaseAnimationHandler : MonoBehaviour
             FlipHorizontally();
     }
 
-    protected virtual void AttackAnimation(Attack attack)
+    protected virtual void AttackAnimation(BaseAttack attack, BaseUnit target)
     {
         _animator.SetTrigger(Params.Attack.Attacking);
     }
