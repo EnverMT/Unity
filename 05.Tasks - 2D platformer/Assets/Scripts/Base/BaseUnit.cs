@@ -26,7 +26,7 @@ public abstract class BaseUnit : MonoBehaviour
             Health.Died -= OnDie;
     }
 
-    protected virtual void OnDie(IAttribute<float> health)
+    protected virtual void OnDie(IAttr<float> health)
     {
         Health.Died -= OnDie;
         Destroy(Health.gameObject);

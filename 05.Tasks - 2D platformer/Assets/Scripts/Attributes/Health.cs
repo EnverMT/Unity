@@ -1,14 +1,14 @@
 using System;
 using UnityEngine;
 
-public class Health : BaseAttribute<float>
+public class Health : BaseAttr<float>
 {
     [SerializeField] public bool _isImmortal;
     [SerializeField] private float _currentHP;
     [SerializeField] private float _maxHP = 100f;
 
-    public override event Action<IAttribute<float>> ValueChanged;
-    public event Action<IAttribute<float>> Died;
+    public override event Action<IAttr<float>> ValueChanged;
+    public event Action<IAttr<float>> Died;
 
     public override float Value
     {
