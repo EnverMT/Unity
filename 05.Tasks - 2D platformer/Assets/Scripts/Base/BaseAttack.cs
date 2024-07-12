@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(BaseMovement))]
 public class BaseAttack : MonoBehaviour
 {
     public float AttackCooldown;
@@ -9,10 +10,16 @@ public class BaseAttack : MonoBehaviour
     public float Range;
 
     protected float _lastAttackedTime;
+    protected BaseMovement _baseMovement;
 
     public bool CanAttack => Time.time - _lastAttackedTime > AttackCooldown;
 
     public event Action<BaseAttack, BaseUnit> Attacked;
+
+    private void Awake()
+    {
+        _baseMovement = GetComponent<BaseMovement>();
+    }
 
     public virtual void DealDamage(BaseUnit target)
     {
@@ -41,11 +48,13 @@ public class BaseAttack : MonoBehaviour
     public virtual T[] GetUnitsInAttackRange<T>()
     {
         List<T> units = new();
-        RaycastHit2D[] hits = Physics2D.RaycastAll(gameObject.transform.position, _mover.Direction * Range);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(gameObject.transform.position, _baseMovement.Direction * Range);
 
         foreach (RaycastHit2D hit in hits)
+        {
             if (hit.collider.gameObject.TryGetComponent(out T enemy))
                 units.Add(enemy);
+        }
 
         return units.ToArray();
     }

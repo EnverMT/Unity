@@ -12,7 +12,7 @@ public class TaskAttack : Node
 
     public override NodeState Evaluate()
     {
-        BaseUnit target = GetData(Data.TARGET) as BaseUnit;
+        Player target = GetData(Data.TARGET) as Player;
 
         if (target == null)
         {

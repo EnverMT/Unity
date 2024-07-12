@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(BaseUnit))]
@@ -8,6 +10,7 @@ public class Patrol : MonoBehaviour
 
     private BaseUnit _unit;
     private int _waypointIndex = 0;
+    private bool _isPatroling;
 
     public Waypoint TargetWaypoint => _waypoints[_waypointIndex];
 
@@ -18,7 +21,8 @@ public class Patrol : MonoBehaviour
 
     private void Update()
     {
-        _unit.BaseMovement.HeadTo(TargetWaypoint.transform.position);
+        if (_isPatroling)
+            _unit.BaseMovement.HeadTo(TargetWaypoint.transform.position);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -27,9 +31,34 @@ public class Patrol : MonoBehaviour
             ChangeWaypoint();
     }
 
+    public void StartPatrol()
+    {
+        _isPatroling = true;
+    }
+
+    public void StopPatrol()
+    {
+        _isPatroling = false;
+    }
+
     public bool IsUnitInFOV(BaseUnit target)
     {
         return Vector3.Distance(_unit.gameObject.transform.position, target.gameObject.transform.position) < _enemySearchDistance;
+    }
+
+    public T[] GetUnitsInFOV<T>() where T : BaseUnit
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(_unit.gameObject.transform.position, _enemySearchDistance);
+
+        List<T> units = new();
+
+        foreach (Collider2D c in colliders)
+        {
+            if (c.gameObject.TryGetComponent(out T unit))
+                units.Add(unit);
+        }
+
+        return units.OfType<T>().ToArray();
     }
 
     private void ChangeWaypoint()

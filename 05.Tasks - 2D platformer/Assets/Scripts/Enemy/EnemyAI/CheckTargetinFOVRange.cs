@@ -1,30 +1,27 @@
 ﻿using BehaviorTree;
+using System.Linq;
 using UnityEngine;
 
 public class CheckTargetinFOVRange : Node
 {
-    private const int TargetLayer = 1 << 7;
+    private readonly Enemy _unit;
 
-    private readonly Rigidbody2D _rb;
-    private readonly float _radius;
-
-    public CheckTargetinFOVRange(Rigidbody2D rigidbody2D, float radius)
+    public CheckTargetinFOVRange(Enemy unit)
     {
-        _rb = rigidbody2D;
-        _radius = radius;
+        _unit = unit;
     }
 
     public override NodeState Evaluate()
     {
-        BaseUnit target = GetData(Data.TARGET) as BaseUnit;
+        Player target = GetData(Data.TARGET) as Player;
 
         if (target == null)
         {
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(_rb.gameObject.transform.position, _radius, TargetLayer);
+            Player player = _unit.Patrol.GetUnitsInFOV<Player>().FirstOrDefault();
 
-            if (colliders.Length > 0)
+            if (player != null)
             {
-                Parent.Parent.SetData(Data.TARGET, colliders[0]);
+                Parent.Parent.SetData(Data.TARGET, player);
 
                 state = NodeState.SUCCESS;
                 return state;
@@ -34,9 +31,9 @@ public class CheckTargetinFOVRange : Node
             return state;
         }
 
-        float distance = Vector2.Distance(_rb.gameObject.transform.position, target.gameObject.transform.position);
+        float distance = Vector2.Distance(_unit.gameObject.transform.position, target.gameObject.transform.position);
 
-        if (distance > _radius)
+        if (!_unit.Patrol.IsUnitInFOV(target))
         {
             ClearData(Data.TARGET);
 
