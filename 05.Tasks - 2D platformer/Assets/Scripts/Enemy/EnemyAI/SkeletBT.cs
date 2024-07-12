@@ -6,12 +6,11 @@ using UnityEngine;
 [RequireComponent(typeof(Enemy))]
 public class SkeletBT : AbstractTree
 {
-    private Enemy _unit;
     private Context _treeContext;
 
     private void Awake()
     {
-        _unit = GetComponent<Enemy>();
+        _treeContext.unit = GetComponent<Enemy>();
     }
 
     protected override Node SetupTree()
@@ -20,15 +19,15 @@ public class SkeletBT : AbstractTree
             {
                 new Sequence(new List<Node>
                     {
-                        new CheckTargetInAttackRange(_unit),
-                        new TaskAttack(_unit)
+                        new CheckTargetInAttackRange(),
+                        new TaskAttack()
                     }),
                 new Sequence(new List<Node>
                     {
-                        new CheckTargetinFOVRange(_unit),
-                        new TaskGoToTarget(_unit)
+                        new CheckTargetinFOVRange(),
+                        new TaskGoToTarget()
                     }),
-                new TaskPatrol(_unit)
+                new TaskPatrol()
             });
 
         node.SetContext(_treeContext);

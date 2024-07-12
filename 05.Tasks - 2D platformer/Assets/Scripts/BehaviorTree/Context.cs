@@ -2,6 +2,7 @@
 {
     public class Context
     {
-        public BaseUnit target;
+        public Player target;
+        public Enemy unit;
     }
 }

@@ -4,18 +4,11 @@ using UnityEngine;
 
 public class CheckTargetinFOVRange : Node
 {
-    private readonly Enemy _unit;
-
-    public CheckTargetinFOVRange(Enemy unit)
-    {
-        _unit = unit;
-    }
-
     public override NodeState Evaluate()
     {
         if (context.target == null)
         {
-            Player player = _unit.Patrol.GetUnitsInFOV<Player>().FirstOrDefault();
+            Player player = context.unit.Patrol.GetUnitsInFOV<Player>().FirstOrDefault();
 
             if (player != null)
             {
@@ -29,9 +22,9 @@ public class CheckTargetinFOVRange : Node
             return state;
         }
 
-        float distance = Vector2.Distance(_unit.gameObject.transform.position, context.target.gameObject.transform.position);
+        float distance = Vector2.Distance(context.unit.gameObject.transform.position, context.target.gameObject.transform.position);
 
-        if (!_unit.Patrol.IsUnitInFOV(context.target))
+        if (!context.unit.Patrol.IsUnitInFOV(context.target))
         {
             context.target = null;
 
