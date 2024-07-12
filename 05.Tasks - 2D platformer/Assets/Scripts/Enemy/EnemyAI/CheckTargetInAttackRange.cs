@@ -4,13 +4,13 @@ public class CheckTargetInAttackRange : Node
 {
     public override NodeState Evaluate()
     {
-        if (context.target == null)
+        if (Context.target == null)
         {
             state = NodeState.FAILURE;
             return state;
         }
 
-        if (context.unit.Attack.IsInAttackRange(context.target))
+        if (Context.unit.Attack.IsInAttackRange(Context.target))
         {
             state = NodeState.SUCCESS;
             return state;

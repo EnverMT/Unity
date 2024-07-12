@@ -1,4 +1,6 @@
-//[RequireComponent(typeof(Patrol))]
+using UnityEngine;
+
+[RequireComponent(typeof(Patrol))]
 public class Enemy : BaseUnit
 {
     public Patrol Patrol;

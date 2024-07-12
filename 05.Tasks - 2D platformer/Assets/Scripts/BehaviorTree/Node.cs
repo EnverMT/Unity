@@ -14,30 +14,38 @@ namespace BehaviorTree
     {
         public Node Parent;
 
+        private Context _context;
+
+        public Context Context
+        {
+            get
+            {
+                if (Parent == null)
+                    return _context;
+
+                return Parent.Context;
+            }
+            set
+            {
+                _context = value;
+            }
+        }
+
         protected NodeState state;
         protected List<Node> children = new();
-        protected Context context;
 
         public Node()
         {
             Parent = null;
         }
 
-        public Node(List<Node> children)
+        public Node(List<Node> nodes)
         {
-            foreach (Node child in children)
+            foreach (Node node in nodes)
             {
-                child.Parent = this;
-                children.Add(child);
+                node.Parent = this;
+                children.Add(node);
             }
-        }
-
-        public virtual void SetContext(Context context)
-        {
-            this.context = context;
-
-            foreach (Node node in children)
-                node.SetContext(context);
         }
 
         public virtual NodeState Evaluate() => NodeState.FAILURE;

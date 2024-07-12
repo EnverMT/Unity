@@ -5,17 +5,17 @@ public class TaskAttack : Node
 {
     public override NodeState Evaluate()
     {
-        if (context.target == null)
+        if (Context.target == null)
         {
             state = NodeState.FAILURE;
             return state;
         }
 
-        context.unit.BaseMovement.Stop();
-        context.unit.Attack.DealDamage(context.target);
+        Context.unit.BaseMovement.Stop();
+        Context.unit.Attack.DealDamage(Context.target);
 
-        if (!context.target.Health.IsAlive)
-            context.target = null;
+        if (!Context.target.Health.IsAlive)
+            Context.target = null;
 
         state = NodeState.RUNNING;
         return state;

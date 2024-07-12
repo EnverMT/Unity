@@ -6,13 +6,13 @@ public class CheckTargetinFOVRange : Node
 {
     public override NodeState Evaluate()
     {
-        if (context.target == null)
+        if (Context.target == null)
         {
-            Player player = context.unit.Patrol.GetUnitsInFOV<Player>().FirstOrDefault();
+            Player player = Context.unit.Patrol.GetUnitsInFOV<Player>().FirstOrDefault();
 
             if (player != null)
             {
-                context.target = player;
+                Context.target = player;
 
                 state = NodeState.SUCCESS;
                 return state;
@@ -22,11 +22,11 @@ public class CheckTargetinFOVRange : Node
             return state;
         }
 
-        float distance = Vector2.Distance(context.unit.gameObject.transform.position, context.target.gameObject.transform.position);
+        float distance = Vector2.Distance(Context.unit.gameObject.transform.position, Context.target.gameObject.transform.position);
 
-        if (!context.unit.Patrol.IsUnitInFOV(context.target))
+        if (!Context.unit.Patrol.IsUnitInFOV(Context.target))
         {
-            context.target = null;
+            Context.target = null;
 
             state = NodeState.FAILURE;
             return state;

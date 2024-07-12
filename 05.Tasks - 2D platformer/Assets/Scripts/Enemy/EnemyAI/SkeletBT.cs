@@ -1,15 +1,16 @@
 ﻿using Assets.Scripts.BehaviorTree;
 using BehaviorTree;
 using System.Collections.Generic;
+using UnityEngine;
 
-//[RequireComponent(typeof(Enemy))]
+[RequireComponent(typeof(Enemy))]
 public class SkeletBT : AbstractTree
 {
-    private Context _treeContext;
+    private readonly Context _context = new();
 
     private void Awake()
     {
-        _treeContext.unit = GetComponent<Enemy>();
+        _context.unit = GetComponent<Enemy>();
     }
 
     protected override Node SetupTree()
@@ -29,7 +30,7 @@ public class SkeletBT : AbstractTree
                 new TaskPatrol()
             });
 
-        node.SetContext(_treeContext);
+        node.Context = _context;
 
         return node;
     }

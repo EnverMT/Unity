@@ -23,6 +23,9 @@ public class BaseAttack : MonoBehaviour
 
     public virtual void DealDamage(BaseUnit target)
     {
+        if (!CanAttack)
+            return;
+
         _lastAttackedTime = Time.time;
         target.Health.ChangeValue(-Damage);
 
