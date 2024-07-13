@@ -2,15 +2,16 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-//[RequireComponent(typeof(BaseUnit))]
+[RequireComponent(typeof(BaseUnit))]
 public class Patrol : MonoBehaviour
 {
     [SerializeField, Range(1f, 100f)] private float _enemySearchDistance;
     [SerializeField] private Waypoint[] _waypoints;
 
     private BaseUnit _unit;
-    private int _waypointIndex = 0;
-    private bool _isPatroling;
+    [SerializeField] private int _waypointIndex = 0;
+    [SerializeField] private bool _isPatroling;
+    [SerializeField] private float _distanceToWP;
 
     public Waypoint TargetWaypoint => _waypoints[_waypointIndex];
 
@@ -22,12 +23,14 @@ public class Patrol : MonoBehaviour
     private void Update()
     {
         if (_isPatroling)
-            _unit.BaseMovement.HeadTo(TargetWaypoint.transform.position);
+            _unit.BaseMovement.HeadToHorizontal(TargetWaypoint.transform.position);
+
+        _distanceToWP = (TargetWaypoint.transform.position - gameObject.transform.position).magnitude;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out Waypoint waypoint) && TargetWaypoint == waypoint)
+        if (collision.gameObject.TryGetComponent(out Waypoint wp) && wp == TargetWaypoint)
             ChangeWaypoint();
     }
 
@@ -64,5 +67,6 @@ public class Patrol : MonoBehaviour
     private void ChangeWaypoint()
     {
         _waypointIndex = (_waypointIndex + 1) % _waypoints.Length;
+        Debug.Log($"change wp={_waypointIndex}");
     }
 }

@@ -9,8 +9,10 @@ public class BaseAttack : MonoBehaviour
     public float Damage;
     public float Range;
 
+    [SerializeField] protected float _remainingCooldown;
     protected float _lastAttackedTime;
     protected BaseMovement _baseMovement;
+
 
     public bool CanAttack => Time.time - _lastAttackedTime > AttackCooldown;
 
@@ -21,10 +23,19 @@ public class BaseAttack : MonoBehaviour
         _baseMovement = GetComponent<BaseMovement>();
     }
 
-    public virtual void DealDamage(BaseUnit target)
+    protected virtual void Update()
     {
         if (!CanAttack)
+            _remainingCooldown = AttackCooldown - (Time.time - _lastAttackedTime);
+    }
+
+    public virtual void DealDamage(BaseUnit target)
+    {
+        Debug.Log($"Deal damage");
+        if (!CanAttack)
             return;
+
+        Debug.Log($"Deal damage - Can attack");
 
         _lastAttackedTime = Time.time;
         target.Health.ChangeValue(-Damage);

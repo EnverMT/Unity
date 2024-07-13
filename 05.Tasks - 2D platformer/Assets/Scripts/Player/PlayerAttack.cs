@@ -1,14 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//[RequireComponent(typeof(PlayerMover))]
+[RequireComponent(typeof(PlayerMover))]
 public class PlayerAttack : BaseAttack
 {
     private readonly int _attackMouseButton = 0;
     private bool _attackInput = false;
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
+
         _attackInput = Input.GetMouseButtonDown(_attackMouseButton);
     }
 
@@ -16,6 +18,7 @@ public class PlayerAttack : BaseAttack
     {
         if (_attackInput)
         {
+            Debug.Log($"_attackInput");
             Enemy[] enemies = GetUnitsInAttackRange<Enemy>();
 
             if (enemies.Length > 0 && CanAttack)

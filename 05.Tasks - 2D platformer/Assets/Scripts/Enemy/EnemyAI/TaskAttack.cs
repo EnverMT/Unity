@@ -12,7 +12,9 @@ public class TaskAttack : Node
         }
 
         Context.unit.BaseMovement.Stop();
-        Context.unit.Attack.DealDamage(Context.target);
+
+        if (Context.unit.Attack.CanAttack)
+            Context.unit.Attack.DealDamage(Context.target);
 
         if (!Context.target.Health.IsAlive)
             Context.target = null;

@@ -11,7 +11,7 @@ public class TaskGoToTarget : Node
         }
 
         Context.unit.Patrol.StopPatrol();
-        Context.unit.BaseMovement.HeadTo(Context.target.transform.position);
+        Context.unit.BaseMovement.HeadToHorizontal(Context.target.transform.position);
 
         state = NodeState.RUNNING;
         return state;

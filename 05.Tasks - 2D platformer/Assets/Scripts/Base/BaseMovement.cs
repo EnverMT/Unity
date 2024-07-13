@@ -35,17 +35,9 @@ public class BaseMovement : MonoBehaviour
         _rigidbody.velocity = Vector2.zero;
     }
 
-    public virtual void HeadTo(Vector2 position)
+    public virtual void HeadToHorizontal(Vector2 position)
     {
         Vector2 direction = (position - (Vector2)_rigidbody.transform.position).normalized;
-
-        _rigidbody.velocity = direction * Speed;
-    }
-
-    public virtual void HeadTo(Transform transform)
-    {
-        Vector2 direction = ((Vector2)transform.position - (Vector2)transform.position).normalized;
-
-        _rigidbody.velocity = direction * Speed;
+        _rigidbody.velocity = new Vector2(Mathf.Sign(direction.x) * Speed, _rigidbody.velocity.y);
     }
 }

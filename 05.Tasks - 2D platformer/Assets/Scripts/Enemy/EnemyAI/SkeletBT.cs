@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Enemy))]
+[RequireComponent(typeof(Patrol))]
 public class SkeletBT : AbstractTree
 {
     private readonly Context _context = new();
