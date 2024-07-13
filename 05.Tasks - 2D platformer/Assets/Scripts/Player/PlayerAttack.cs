@@ -18,7 +18,7 @@ public class PlayerAttack : BaseAttack
     {
         if (_attackInput)
         {
-            Debug.Log($"_attackInput");
+            Debug.Log($"Player _attackInput");
             Enemy[] enemies = GetUnitsInAttackRange<Enemy>();
 
             if (enemies.Length > 0 && CanAttack)

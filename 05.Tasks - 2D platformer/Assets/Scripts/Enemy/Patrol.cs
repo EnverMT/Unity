@@ -67,6 +67,5 @@ public class Patrol : MonoBehaviour
     private void ChangeWaypoint()
     {
         _waypointIndex = (_waypointIndex + 1) % _waypoints.Length;
-        Debug.Log($"change wp={_waypointIndex}");
     }
 }

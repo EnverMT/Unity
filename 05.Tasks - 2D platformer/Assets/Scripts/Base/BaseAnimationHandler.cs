@@ -7,6 +7,7 @@ using UnityEngine;
 public class BaseAnimationHandler : MonoBehaviour
 {
     [SerializeField] protected bool _isFacingRight = true;
+    [SerializeField] private GameObject _flipableObject;
 
     protected Animator _animator;
     protected BaseAttack _attack;
@@ -40,7 +41,13 @@ public class BaseAnimationHandler : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         if (ShouldFlip())
-            FlipHorizontally();
+        {
+            if (_flipableObject != null)
+                FlipHorizontally(_flipableObject);
+            else
+                FlipHorizontally(gameObject);
+        }
+
     }
 
     protected virtual void AttackAnimation(BaseAttack attack, BaseUnit target)
@@ -53,13 +60,13 @@ public class BaseAnimationHandler : MonoBehaviour
         return _rbody.velocity.x;
     }
 
-    protected virtual void FlipHorizontally()
+    protected virtual void FlipHorizontally(GameObject _object)
     {
         _isFacingRight = !_isFacingRight;
 
-        Vector2 scale = transform.localScale;
+        Vector2 scale = _object.transform.localScale;
         scale.x *= -1;
-        transform.localScale = scale;
+        _object.transform.localScale = scale;
     }
 
     protected virtual bool ShouldFlip()

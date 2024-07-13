@@ -16,7 +16,7 @@ public class BaseAttack : MonoBehaviour
 
     public bool CanAttack => Time.time - _lastAttackedTime > AttackCooldown;
 
-    public event Action<BaseAttack, BaseUnit> Attacked;
+    public event Action<BaseAttack, BaseUnit> Attacked; // Damage source, Damage receiver
 
     private void Awake()
     {
@@ -29,22 +29,13 @@ public class BaseAttack : MonoBehaviour
             _remainingCooldown = AttackCooldown - (Time.time - _lastAttackedTime);
     }
 
-    public virtual void DealDamage(BaseUnit target)
+    public virtual void DealDamage(BaseUnit[] targets)
     {
-        Debug.Log($"Deal damage");
         if (!CanAttack)
             return;
 
-        Debug.Log($"Deal damage - Can attack");
-
         _lastAttackedTime = Time.time;
-        target.Health.ChangeValue(-Damage);
 
-        Attacked?.Invoke(this, target);
-    }
-
-    public virtual void DealDamage(BaseUnit[] targets)
-    {
         foreach (BaseUnit unit in targets)
             DealDamage(unit);
     }
@@ -71,5 +62,11 @@ public class BaseAttack : MonoBehaviour
         }
 
         return units.ToArray();
+    }
+
+    private void DealDamage(BaseUnit target)
+    {
+        target.Health.ChangeValue(-Damage);
+        Attacked?.Invoke(this, target);
     }
 }
