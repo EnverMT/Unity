@@ -35,6 +35,7 @@ public class Vampirism : BaseAbility
         {
             _spriteRenderer.color = Color.red;
             _spriteRenderer.enabled = true;
+            _spriteRenderer.transform.localScale = Vector3.one * _radius;
         }
         else
         {
