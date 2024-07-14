@@ -13,7 +13,6 @@ public class Vampirism : BaseAbility
     [SerializeField] private float _cooldown;
 
     [SerializeField] private BaseUnit _unit;
-
     [SerializeField] private SpriteRenderer _spriteRenderer;
 
     private float _lastCastStartTime;
@@ -42,7 +41,6 @@ public class Vampirism : BaseAbility
             _spriteRenderer.color = Color.white;
             _spriteRenderer.enabled = false;
         }
-
     }
 
     private void Update()
@@ -56,12 +54,10 @@ public class Vampirism : BaseAbility
         if (!CanBeCasted)
             return;
 
-        Debug.Log($"Vampirism execute");
-
         if (_useAbilityCoroutine != null)
-            player.StopCoroutine(_useAbilityCoroutine);
+            StopCoroutine(_useAbilityCoroutine);
 
-        _useAbilityCoroutine = player.StartCoroutine(UseAbility(player));
+        _useAbilityCoroutine = StartCoroutine(UseAbility(player));
     }
 
     private IEnumerator UseAbility(BaseUnit player)
