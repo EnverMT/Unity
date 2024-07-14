@@ -3,7 +3,6 @@ using System.Linq;
 using UnityEngine;
 
 
-[RequireComponent(typeof(SpriteRenderer))]
 public class Vampirism : BaseAbility
 {
     [SerializeField] private float _damage;
@@ -15,13 +14,13 @@ public class Vampirism : BaseAbility
 
     [SerializeField] private BaseUnit _unit;
 
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+
     private float _lastCastStartTime;
     private float _lastCastFinishTime;
 
     private Coroutine _useAbilityCoroutine;
     private bool _isChanneling = false;
-
-    private SpriteRenderer _spriteRenderer;
 
     public override KeyCode ActivateKey => KeyCode.E;
     public override bool CanBeCasted => RemainingCooldown == 0f && IsChanneling == false;
@@ -30,28 +29,25 @@ public class Vampirism : BaseAbility
     public override float RemainingCooldown => Mathf.Clamp(_lastCastFinishTime + _cooldown - Time.realtimeSinceStartup, 0f, float.MaxValue);
 
 
-    private void Awake()
+    private void OnGUI()
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        if (_isChanneling)
+        {
+            _spriteRenderer.color = Color.red;
+            _spriteRenderer.enabled = true;
+        }
+        else
+        {
+            _spriteRenderer.color = Color.white;
+            _spriteRenderer.enabled = false;
+        }
+
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(ActivateKey))
             Execute(_unit);
-    }
-
-    private void OnGUI()
-    {
-        if (IsChanneling)
-        {
-            _spriteRenderer.transform.localScale = Vector3.one * _radius;
-        }
-        else
-        {
-            _spriteRenderer.transform.localEulerAngles = Vector3.zero;
-        }
-
     }
 
     public override void Execute(BaseUnit player)
@@ -64,7 +60,6 @@ public class Vampirism : BaseAbility
         if (_useAbilityCoroutine != null)
             player.StopCoroutine(_useAbilityCoroutine);
 
-        _spriteRenderer.transform.localScale = Vector3.one * _radius;
         _useAbilityCoroutine = player.StartCoroutine(UseAbility(player));
     }
 
