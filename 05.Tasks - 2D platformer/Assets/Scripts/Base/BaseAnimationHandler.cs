@@ -9,14 +9,14 @@ public class BaseAnimationHandler : MonoBehaviour
     [SerializeField] protected bool _isFacingRight = true;
     [SerializeField] private GameObject _flipableObject;
 
-    protected Animator _animator;
+    [SerializeField] protected Animator _animator;
     protected BaseAttack _attack;
     protected BaseUnit _baseUnit;
     protected Rigidbody2D _rbody;
 
     protected virtual void Awake()
     {
-        _animator = GetComponent<Animator>();
+        //_animator = GetComponent<Animator>();
         _attack = GetComponent<BaseAttack>();
         _baseUnit = GetComponent<BaseUnit>();
         _rbody = GetComponent<Rigidbody2D>();
@@ -50,7 +50,7 @@ public class BaseAnimationHandler : MonoBehaviour
 
     }
 
-    protected virtual void AttackAnimation(BaseAttack attack, BaseUnit target)
+    protected virtual void AttackAnimation(BaseAttack attack)
     {
         _animator.SetTrigger(Params.Attack.Attacking);
     }
@@ -60,13 +60,20 @@ public class BaseAnimationHandler : MonoBehaviour
         return _rbody.velocity.x;
     }
 
+    //protected virtual void FlipHorizontally(GameObject _object)
+    //{
+    //    _isFacingRight = !_isFacingRight;
+
+    //    Vector2 scale = _object.transform.localScale;
+    //    scale.x *= -1;
+    //    _object.transform.localScale = scale;
+    //}
+
     protected virtual void FlipHorizontally(GameObject _object)
     {
         _isFacingRight = !_isFacingRight;
 
-        Vector2 scale = _object.transform.localScale;
-        scale.x *= -1;
-        _object.transform.localScale = scale;
+        _object.transform.localRotation *= Quaternion.Euler(0, 180, 0);
     }
 
     protected virtual bool ShouldFlip()

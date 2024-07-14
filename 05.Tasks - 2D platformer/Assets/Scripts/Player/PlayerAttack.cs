@@ -1,40 +1,23 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerMover))]
 public class PlayerAttack : BaseAttack
 {
+    [SerializeField] protected float _remainingCooldown;
+
     private readonly int _attackMouseButton = 0;
-    private bool _attackInput = false;
 
-    protected override void Update()
+    private void Update()
     {
-        base.Update();
+        _remainingCooldown = Mathf.Clamp(AttackCooldown - (Time.realtimeSinceStartup - _lastAttackedTime), 0, float.MaxValue);
 
-        _attackInput = Input.GetMouseButtonDown(_attackMouseButton);
-    }
-
-    private void FixedUpdate()
-    {
-        if (_attackInput)
+        if (Input.GetMouseButtonDown(_attackMouseButton))
         {
-            Debug.Log($"Player _attackInput");
             Enemy[] enemies = GetUnitsInAttackRange<Enemy>();
 
-            if (enemies.Length > 0 && CanAttack)
-                DealDamage(enemies);
+            Debug.Log($"enemies count = {enemies.Length}");
+
+            ApplyAttack(enemies);
         }
-    }
-
-    public override T[] GetUnitsInAttackRange<T>()
-    {
-        List<T> units = new();
-        RaycastHit2D[] hits = Physics2D.RaycastAll(gameObject.transform.position, _baseMovement.Direction * Range);
-
-        foreach (RaycastHit2D hit in hits)
-            if (hit.collider.gameObject.TryGetComponent(out T enemy))
-                units.Add(enemy);
-
-        return units.ToArray();
     }
 }

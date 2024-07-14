@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(BaseMovement))]
@@ -9,35 +10,40 @@ public class BaseAttack : MonoBehaviour
     public float Damage;
     public float Range;
 
-    [SerializeField] protected float _remainingCooldown;
     protected float _lastAttackedTime;
     protected BaseMovement _baseMovement;
 
+    public bool CanAttack => Time.realtimeSinceStartup - _lastAttackedTime >= AttackCooldown;
 
-    public bool CanAttack => Time.time - _lastAttackedTime > AttackCooldown;
-
-    public event Action<BaseAttack, BaseUnit> Attacked; // Damage source, Damage receiver
+    public event Action<BaseAttack> Attacked;
 
     private void Awake()
     {
         _baseMovement = GetComponent<BaseMovement>();
     }
 
-    protected virtual void Update()
-    {
-        if (!CanAttack)
-            _remainingCooldown = AttackCooldown - (Time.time - _lastAttackedTime);
-    }
-
-    public virtual void DealDamage(BaseUnit[] targets)
+    public virtual void ApplyAttack(BaseUnit[] units)
     {
         if (!CanAttack)
             return;
 
-        _lastAttackedTime = Time.time;
+        _lastAttackedTime = Time.realtimeSinceStartup;
+        Attacked?.Invoke(this);
 
-        foreach (BaseUnit unit in targets)
+        foreach (BaseUnit unit in units)
+        {
             DealDamage(unit);
+        }
+    }
+
+    public virtual void ApplyAttack(BaseUnit units)
+    {
+        if (!CanAttack)
+            return;
+
+        _lastAttackedTime = Time.realtimeSinceStartup;
+        Attacked?.Invoke(this);
+        DealDamage(units);
     }
 
     public virtual bool IsInAttackRange(BaseUnit target)
@@ -50,23 +56,22 @@ public class BaseAttack : MonoBehaviour
         return false;
     }
 
-    public virtual T[] GetUnitsInAttackRange<T>()
+    public virtual T[] GetUnitsInAttackRange<T>() where T : BaseUnit
     {
-        List<T> units = new();
-        RaycastHit2D[] hits = Physics2D.RaycastAll(gameObject.transform.position, _baseMovement.Direction * Range);
+        List<BaseUnit> units = new();
+        RaycastHit2D[] hits = Physics2D.RaycastAll(gameObject.transform.position, _baseMovement.Direction.normalized * Range);
 
         foreach (RaycastHit2D hit in hits)
         {
-            if (hit.collider.gameObject.TryGetComponent(out T enemy))
+            if (hit.collider.gameObject.TryGetComponent(out BaseUnit enemy))
                 units.Add(enemy);
         }
 
-        return units.ToArray();
+        return units.OfType<T>().ToArray();
     }
 
     private void DealDamage(BaseUnit target)
     {
         target.Health.ChangeValue(-Damage);
-        Attacked?.Invoke(this, target);
     }
 }

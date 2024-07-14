@@ -14,7 +14,7 @@ public class TaskAttack : Node
         Context.unit.BaseMovement.Stop();
 
         if (Context.unit.Attack.CanAttack)
-            Context.unit.Attack.DealDamage(new BaseUnit[1]);
+            Context.unit.Attack.ApplyAttack(Context.target);
 
         if (!Context.target.Health.IsAlive)
             Context.target = null;
