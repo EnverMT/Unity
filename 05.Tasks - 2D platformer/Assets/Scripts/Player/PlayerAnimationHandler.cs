@@ -16,8 +16,8 @@ public class PlayerAnimationHandler : BaseAnimationHandler
     {
         base.Update();
 
-        _animator.SetFloat(Params.Jump.VerticalSpeed, _rbody.velocity.y);
-        _animator.SetBool(Params.Jump.OnGround, _mover.OnGround);
+        Animator.SetFloat(Params.Jump.VerticalSpeed, Rbody.velocity.y);
+        Animator.SetBool(Params.Jump.OnGround, _mover.OnGround);
     }
 
     protected override float GetAxis()

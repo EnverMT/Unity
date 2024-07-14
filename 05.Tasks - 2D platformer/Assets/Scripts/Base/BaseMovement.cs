@@ -4,19 +4,21 @@ using UnityEngine.Tilemaps;
 [RequireComponent(typeof(Rigidbody2D))]
 public class BaseMovement : MonoBehaviour
 {
-    [Header("Movement")]
-    [SerializeField, Range(0, 10f)] protected float _speed;
+    protected Rigidbody2D Rigidbody;
 
-    protected Rigidbody2D _rigidbody;
+    [Header("Movement")]
+    [SerializeField, Range(0, 10f)] private float _speed;
     private Transform _pursueTarget;
 
     public bool OnGround { get; protected set; }
+
     public float Speed => _speed;
+
     public Vector2 Direction { get; private set; }
 
     protected virtual void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody2D>();
+        Rigidbody = GetComponent<Rigidbody2D>();
     }
 
     protected virtual void OnCollisionStay2D(Collision2D collision)
@@ -32,12 +34,12 @@ public class BaseMovement : MonoBehaviour
 
     public virtual void Stop()
     {
-        _rigidbody.velocity = Vector2.zero;
+        Rigidbody.velocity = Vector2.zero;
     }
 
     public virtual void HeadToHorizontal(Vector2 position)
     {
-        Vector2 direction = (position - (Vector2)_rigidbody.transform.position).normalized;
-        _rigidbody.velocity = new Vector2(Mathf.Sign(direction.x) * Speed, _rigidbody.velocity.y);
+        Vector2 direction = (position - (Vector2)Rigidbody.transform.position).normalized;
+        Rigidbody.velocity = new Vector2(Mathf.Sign(direction.x) * Speed, Rigidbody.velocity.y);
     }
 }

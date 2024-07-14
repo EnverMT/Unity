@@ -475,8 +475,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 337a2db5ee9cc8941847a3960f1f979b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isFacingRight: 1
-  _flipableObject: {fileID: 0}
+  IsFacingRight: 1
+  Animator: {fileID: 4618519496316372683}
+  _flipableObject: {fileID: 7838474639768994095}
 --- !u!114 &2454523933987094330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -492,7 +493,7 @@ MonoBehaviour:
   AttackCooldown: 1
   Damage: 10
   Range: 1
-  _remainingCooldown: 0
+  RemainingCooldown: 0
 --- !u!114 &1017215212875747604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -505,9 +506,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41ac78e48e8a59b4dbed71f2ca560170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _value: 100000
-  _maxValue: 100000
+  _value: 100
+  _maxValue: 100
   _isImmortal: 0
+--- !u!95 &4618519496316372683 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4822398208353430945, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
+  m_PrefabInstance: {fileID: 213039851510279018}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7838474639768994095 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7940696866085366341, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
+  m_PrefabInstance: {fileID: 213039851510279018}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8795678499759400422 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8711184764569554572, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}

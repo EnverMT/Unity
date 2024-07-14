@@ -12259,11 +12259,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &630281258 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7838474639768994095, guid: 69b12550b5df583468f9d10afec3bb36, type: 3}
-  m_PrefabInstance: {fileID: 218197445419791369}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -12731,11 +12726,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8795678499759400422, guid: 69b12550b5df583468f9d10afec3bb36, type: 3}
   m_PrefabInstance: {fileID: 218197445419791369}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &1570214865 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 4618519496316372683, guid: 69b12550b5df583468f9d10afec3bb36, type: 3}
-  m_PrefabInstance: {fileID: 218197445419791369}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1729887124
 GameObject:
   m_ObjectHideFlags: 0
@@ -13178,26 +13168,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1017215212875747604, guid: 69b12550b5df583468f9d10afec3bb36, type: 3}
-      propertyPath: _value
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017215212875747604, guid: 69b12550b5df583468f9d10afec3bb36, type: 3}
-      propertyPath: _maxValue
-      value: 100
-      objectReference: {fileID: 0}
     - target: {fileID: 1768022795488952443, guid: 69b12550b5df583468f9d10afec3bb36, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 2043353427869623319, guid: 69b12550b5df583468f9d10afec3bb36, type: 3}
-      propertyPath: _animator
-      value: 
-      objectReference: {fileID: 1570214865}
-    - target: {fileID: 2043353427869623319, guid: 69b12550b5df583468f9d10afec3bb36, type: 3}
-      propertyPath: _flipableObject
-      value: 
-      objectReference: {fileID: 630281258}
     - target: {fileID: 2395663701769660971, guid: 69b12550b5df583468f9d10afec3bb36, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -13259,14 +13233,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1172383201}
     m_Modifications:
-    - target: {fileID: 2067662311864378111, guid: 10b5bae094b25254daf2e9aee2913913, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2067662311864378111, guid: 10b5bae094b25254daf2e9aee2913913, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4826188169963481013, guid: 10b5bae094b25254daf2e9aee2913913, type: 3}
       propertyPath: m_Name
       value: Enemy-1
@@ -13309,6 +13275,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7855494297102762896, guid: 10b5bae094b25254daf2e9aee2913913, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9177546147555032981, guid: 10b5bae094b25254daf2e9aee2913913, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9177546147555032981, guid: 10b5bae094b25254daf2e9aee2913913, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -10,16 +10,16 @@ public class BaseAttack : MonoBehaviour
     public float Damage;
     public float Range;
 
-    protected float _lastAttackedTime;
-    protected BaseMovement _baseMovement;
+    protected float LastAttackedTime;
+    protected BaseMovement BaseMovement;
 
-    public bool CanAttack => Time.realtimeSinceStartup - _lastAttackedTime >= AttackCooldown;
+    public bool CanAttack => Time.realtimeSinceStartup - LastAttackedTime >= AttackCooldown;
 
     public event Action<BaseAttack> Attacked;
 
     private void Awake()
     {
-        _baseMovement = GetComponent<BaseMovement>();
+        BaseMovement = GetComponent<BaseMovement>();
     }
 
     public virtual void ApplyAttack(BaseUnit[] units)
@@ -27,7 +27,7 @@ public class BaseAttack : MonoBehaviour
         if (!CanAttack)
             return;
 
-        _lastAttackedTime = Time.realtimeSinceStartup;
+        LastAttackedTime = Time.realtimeSinceStartup;
         Attacked?.Invoke(this);
 
         foreach (BaseUnit unit in units)
@@ -41,7 +41,7 @@ public class BaseAttack : MonoBehaviour
         if (!CanAttack)
             return;
 
-        _lastAttackedTime = Time.realtimeSinceStartup;
+        LastAttackedTime = Time.realtimeSinceStartup;
         Attacked?.Invoke(this);
         DealDamage(units);
     }
@@ -59,7 +59,7 @@ public class BaseAttack : MonoBehaviour
     public virtual T[] GetUnitsInAttackRange<T>() where T : BaseUnit
     {
         List<BaseUnit> units = new();
-        RaycastHit2D[] hits = Physics2D.RaycastAll(gameObject.transform.position, _baseMovement.Direction.normalized * Range);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(gameObject.transform.position, BaseMovement.Direction.normalized * Range);
 
         foreach (RaycastHit2D hit in hits)
         {

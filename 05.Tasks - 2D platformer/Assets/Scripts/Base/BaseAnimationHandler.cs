@@ -1,41 +1,40 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(BaseAttack))]
 [RequireComponent(typeof(BaseUnit))]
 [RequireComponent(typeof(Rigidbody2D))]
 public class BaseAnimationHandler : MonoBehaviour
 {
-    [SerializeField] protected bool _isFacingRight = true;
-    [SerializeField] private GameObject _flipableObject;
+    [SerializeField] protected bool IsFacingRight = true;
+    [SerializeField] protected Animator Animator;
+    protected BaseAttack BaseAttack;
+    protected BaseUnit BaseUnit;
+    protected Rigidbody2D Rbody;
 
-    [SerializeField] protected Animator _animator;
-    protected BaseAttack _attack;
-    protected BaseUnit _baseUnit;
-    protected Rigidbody2D _rbody;
+    [SerializeField] private GameObject _flipableObject;
 
     protected virtual void Awake()
     {
         //_animator = GetComponent<Animator>();
-        _attack = GetComponent<BaseAttack>();
-        _baseUnit = GetComponent<BaseUnit>();
-        _rbody = GetComponent<Rigidbody2D>();
+        BaseAttack = GetComponent<BaseAttack>();
+        BaseUnit = GetComponent<BaseUnit>();
+        Rbody = GetComponent<Rigidbody2D>();
     }
 
     private void OnEnable()
     {
-        _attack.Attacked += AttackAnimation;
+        BaseAttack.Attacked += AttackAnimation;
     }
 
     private void OnDisable()
     {
-        _attack.Attacked -= AttackAnimation;
+        BaseAttack.Attacked -= AttackAnimation;
     }
 
 
     protected virtual void Update()
     {
-        _animator.SetFloat(Params.Movement.HorizontalSpeed, Mathf.Abs(_rbody.velocity.x));
+        Animator.SetFloat(Params.Movement.HorizontalSpeed, Mathf.Abs(Rbody.velocity.x));
     }
 
     protected virtual void FixedUpdate()
@@ -52,12 +51,12 @@ public class BaseAnimationHandler : MonoBehaviour
 
     protected virtual void AttackAnimation(BaseAttack attack)
     {
-        _animator.SetTrigger(Params.Attack.Attacking);
+        Animator.SetTrigger(Params.Attack.Attacking);
     }
 
     protected virtual float GetAxis()
     {
-        return _rbody.velocity.x;
+        return Rbody.velocity.x;
     }
 
     //protected virtual void FlipHorizontally(GameObject _object)
@@ -71,7 +70,7 @@ public class BaseAnimationHandler : MonoBehaviour
 
     protected virtual void FlipHorizontally(GameObject _object)
     {
-        _isFacingRight = !_isFacingRight;
+        IsFacingRight = !IsFacingRight;
 
         _object.transform.localRotation *= Quaternion.Euler(0, 180, 0);
     }
@@ -80,10 +79,10 @@ public class BaseAnimationHandler : MonoBehaviour
     {
         float axis = GetAxis();
 
-        if (_isFacingRight && axis < -0.1f)
+        if (IsFacingRight && axis < -0.1f)
             return true;
 
-        if (!_isFacingRight && axis > 0.1f)
+        if (!IsFacingRight && axis > 0.1f)
             return true;
 
         return false;
