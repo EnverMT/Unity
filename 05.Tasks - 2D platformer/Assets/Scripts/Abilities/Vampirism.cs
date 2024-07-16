@@ -29,12 +29,14 @@ public class Vampirism : BaseAbility, IChanneling
 
     public override KeyCode ActivateKey => KeyCode.E;
     public override bool CanBeCasted => RemainingCooldown == 0f && IsChanneling == false;
-    public float ChannelTime => _duration;
     public override float Cooldown => _cooldown;
-    public bool IsChanneling => _isChanneling;
     public override bool IsCooldowning => _isCooldowning;
-    public float RemainingChannelTime => IsChanneling ? Mathf.Clamp(_castStartTime + _duration - Time.realtimeSinceStartup, 0f, float.MaxValue) : 0f;
     public override float RemainingCooldown => Mathf.Clamp(_castFinishTime + _cooldown - Time.realtimeSinceStartup, 0f, float.MaxValue);
+
+    public float ChannelTime => _duration;
+    public bool IsChanneling => _isChanneling;
+    public float RemainingChannelTime => IsChanneling ? Mathf.Clamp(_castStartTime + _duration - Time.realtimeSinceStartup, 0f, float.MaxValue) : 0f;
+
 
     private void OnEnable()
     {

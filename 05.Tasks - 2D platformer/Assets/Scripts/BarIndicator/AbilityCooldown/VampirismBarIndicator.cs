@@ -14,13 +14,13 @@ public class VampirismBarIndicator : BaseAbiilityIndicator<Vampirism>
 
     public override void OnValueChanged()
     {
-        if (_ability.IsChanneling)
+        if (Ability.IsChanneling)
         {
-            _slider.value = _ability.RemainingChannelTime / _ability.ChannelTime;
+            _slider.value = Ability.RemainingChannelTime / Ability.ChannelTime;
             return;
         }
 
-        if (_ability.IsCooldowning)
-            _slider.value = (_ability.Cooldown - _ability.RemainingCooldown) / _ability.Cooldown;
+        if (Ability.IsCooldowning)
+            _slider.value = (Ability.Cooldown - Ability.RemainingCooldown) / Ability.Cooldown;
     }
 }
