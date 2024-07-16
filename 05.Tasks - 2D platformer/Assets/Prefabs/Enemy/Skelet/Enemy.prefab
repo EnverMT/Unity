@@ -300,6 +300,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SkeletonWarrior
       objectReference: {fileID: 0}
+    - target: {fileID: 538172467514246585, guid: af8372814d3915847a2d6b83ba8b3dfe, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 1653045316738103472, guid: af8372814d3915847a2d6b83ba8b3dfe, type: 3}
       propertyPath: '_waypoints.Array.data[0]'
       value: 
@@ -308,16 +312,12 @@ PrefabInstance:
       propertyPath: '_waypoints.Array.data[1]'
       value: 
       objectReference: {fileID: 4021663594826151118}
-    - target: {fileID: 4643011985294760492, guid: af8372814d3915847a2d6b83ba8b3dfe, type: 3}
+    - target: {fileID: 5837264693038493938, guid: af8372814d3915847a2d6b83ba8b3dfe, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4643011985294760492, guid: af8372814d3915847a2d6b83ba8b3dfe, type: 3}
+    - target: {fileID: 5837264693038493938, guid: af8372814d3915847a2d6b83ba8b3dfe, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5771267585178059712, guid: af8372814d3915847a2d6b83ba8b3dfe, type: 3}
-      propertyPath: IsFacingRight
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
