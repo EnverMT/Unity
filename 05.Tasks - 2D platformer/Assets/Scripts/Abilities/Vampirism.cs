@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
 
 
-public class Vampirism : BaseAbility
+public class Vampirism : BaseAbility, IChanneling
 {
     [Header("Unit")]
     [SerializeField] private BaseUnit _unit;
@@ -11,7 +12,6 @@ public class Vampirism : BaseAbility
 
     [Header("AbilityData")]
     [SerializeField] private float _damage;
-    [SerializeField] private float _tickRate;
     [SerializeField] private float _vampirismPercent;
     [SerializeField] private float _radius;
     [SerializeField] private float _duration;
@@ -21,18 +21,25 @@ public class Vampirism : BaseAbility
     private float _castFinishTime;
 
     private Coroutine _useAbilityCoroutine;
+    private Coroutine _cooldownAbilityCoroutine;
     private bool _isChanneling = false;
+    private bool _isCooldowning = false;
+
+    public override event Action ValueChanged;
 
     public override KeyCode ActivateKey => KeyCode.E;
-
     public override bool CanBeCasted => RemainingCooldown == 0f && IsChanneling == false;
-
-    public override bool IsChanneling => _isChanneling;
-
-    public override float RemainingChannelTime => IsChanneling ? Mathf.Clamp(_castStartTime + _duration - Time.realtimeSinceStartup, 0f, float.MaxValue) : 0f;
-
+    public float ChannelTime => _duration;
+    public override float Cooldown => _cooldown;
+    public bool IsChanneling => _isChanneling;
+    public override bool IsCooldowning => _isCooldowning;
+    public float RemainingChannelTime => IsChanneling ? Mathf.Clamp(_castStartTime + _duration - Time.realtimeSinceStartup, 0f, float.MaxValue) : 0f;
     public override float RemainingCooldown => Mathf.Clamp(_castFinishTime + _cooldown - Time.realtimeSinceStartup, 0f, float.MaxValue);
 
+    private void OnEnable()
+    {
+        _castFinishTime = Time.realtimeSinceStartup - _cooldown;
+    }
 
     private void OnGUI()
     {
@@ -61,7 +68,6 @@ public class Vampirism : BaseAbility
 
     private IEnumerator UseAbility(BaseUnit player)
     {
-        WaitForSeconds wait = new WaitForSeconds(_tickRate);
         _castStartTime = Time.realtimeSinceStartup;
         _isChanneling = true;
 
@@ -69,22 +75,38 @@ public class Vampirism : BaseAbility
         {
             BaseUnit[] enemies = Physics2D.OverlapCircleAll(player.gameObject.transform.position, _radius)
                 .Select(collider => { collider.TryGetComponent(out BaseUnit unit); return unit; })
-                .Where(unit => unit != null)
+                .Where(unit => unit != null && unit != player)
                 .ToArray();
 
             if (enemies.Length == 0)
-                yield return wait;
+                yield return null;
 
-            StealHealth(player, enemies);
-
-            yield return wait;
+            StealHealth(player, enemies, _damage * Time.deltaTime);
+            ValueChanged?.Invoke();
+            yield return null;
         }
 
         _isChanneling = false;
         _castFinishTime = Time.realtimeSinceStartup;
+
+        _cooldownAbilityCoroutine = StartCoroutine(CooldownAbility(player));
     }
 
-    private void StealHealth(BaseUnit player, BaseUnit[] enemies)
+    private IEnumerator CooldownAbility(BaseUnit player)
+    {
+        _isCooldowning = true;
+
+        while (RemainingCooldown > 0)
+        {
+            ValueChanged?.Invoke();
+            yield return null;
+        }
+
+        _isCooldowning = false;
+        ValueChanged?.Invoke();
+    }
+
+    private void StealHealth(BaseUnit player, BaseUnit[] enemies, float damage)
     {
         float totalDamage = 0;
         float startHP, finishHP;
@@ -92,12 +114,12 @@ public class Vampirism : BaseAbility
         foreach (BaseUnit unit in enemies)
         {
             startHP = unit.Health.Value;
-            unit.Health.ChangeValue(-_damage);
+            unit.Health.ChangeValue(-damage);
             finishHP = unit.Health.Value;
 
             totalDamage += startHP - finishHP;
         }
 
-        player.Health.ChangeValue(_vampirismPercent * totalDamage);
+        player.Health.ChangeValue(_vampirismPercent / 100 * totalDamage);
     }
 }
