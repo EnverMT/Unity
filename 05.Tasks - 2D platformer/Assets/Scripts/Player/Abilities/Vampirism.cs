@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class Vampirism : BaseAbility
 {
+    [Header("Unit")]
+    [SerializeField] private BaseUnit _unit;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+
+    [Header("AbilityData")]
     [SerializeField] private float _damage;
     [SerializeField] private float _tickRate;
     [SerializeField] private float _vampirismPercent;
@@ -12,35 +17,29 @@ public class Vampirism : BaseAbility
     [SerializeField] private float _duration;
     [SerializeField] private float _cooldown;
 
-    [SerializeField] private BaseUnit _unit;
-    [SerializeField] private SpriteRenderer _spriteRenderer;
-
-    private float _lastCastStartTime;
-    private float _lastCastFinishTime;
+    private float _castStartTime;
+    private float _castFinishTime;
 
     private Coroutine _useAbilityCoroutine;
     private bool _isChanneling = false;
 
     public override KeyCode ActivateKey => KeyCode.E;
+
     public override bool CanBeCasted => RemainingCooldown == 0f && IsChanneling == false;
+
     public override bool IsChanneling => _isChanneling;
-    public override float RemainingChannelTime => IsChanneling ? Mathf.Clamp(_lastCastStartTime + _duration - Time.realtimeSinceStartup, 0f, float.MaxValue) : 0f;
-    public override float RemainingCooldown => Mathf.Clamp(_lastCastFinishTime + _cooldown - Time.realtimeSinceStartup, 0f, float.MaxValue);
+
+    public override float RemainingChannelTime => IsChanneling ? Mathf.Clamp(_castStartTime + _duration - Time.realtimeSinceStartup, 0f, float.MaxValue) : 0f;
+
+    public override float RemainingCooldown => Mathf.Clamp(_castFinishTime + _cooldown - Time.realtimeSinceStartup, 0f, float.MaxValue);
 
 
     private void OnGUI()
     {
         if (_isChanneling)
-        {
-            _spriteRenderer.color = Color.red;
-            _spriteRenderer.enabled = true;
             _spriteRenderer.transform.localScale = Vector3.one * _radius;
-        }
-        else
-        {
-            _spriteRenderer.color = Color.white;
-            _spriteRenderer.enabled = false;
-        }
+
+        _spriteRenderer.enabled = IsChanneling;
     }
 
     private void Update()
@@ -63,7 +62,7 @@ public class Vampirism : BaseAbility
     private IEnumerator UseAbility(BaseUnit player)
     {
         WaitForSeconds wait = new WaitForSeconds(_tickRate);
-        _lastCastStartTime = Time.realtimeSinceStartup;
+        _castStartTime = Time.realtimeSinceStartup;
         _isChanneling = true;
 
         while (RemainingChannelTime > 0)
@@ -82,7 +81,7 @@ public class Vampirism : BaseAbility
         }
 
         _isChanneling = false;
-        _lastCastFinishTime = Time.realtimeSinceStartup;
+        _castFinishTime = Time.realtimeSinceStartup;
     }
 
     private void StealHealth(BaseUnit player, BaseUnit[] enemies)
