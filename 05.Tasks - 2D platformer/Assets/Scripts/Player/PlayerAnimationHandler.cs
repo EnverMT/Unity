@@ -16,7 +16,7 @@ public class PlayerAnimationHandler : BaseAnimationHandler
     {
         base.Update();
 
-        Animator.SetFloat(Params.Jump.VerticalSpeed, Rbody.velocity.y);
+        Animator.SetFloat(Params.Jump.VerticalSpeed, Rbody.linearVelocity.y);
         Animator.SetBool(Params.Jump.OnGround, _mover.OnGround);
     }
 

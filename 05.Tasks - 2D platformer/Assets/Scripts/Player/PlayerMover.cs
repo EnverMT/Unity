@@ -25,18 +25,18 @@ public class PlayerMover : BaseMovement
         if (_axisInput != 0f)
         {
             SetHorizontalVelocity(_axisInput);
-            SetDirection((new Vector2(Rigidbody.velocity.x, 0)).normalized);
+            SetDirection((new Vector2(Rigidbody.linearVelocity.x, 0)).normalized);
         }
     }
 
     private void Jump()
     {
-        Rigidbody.velocity = new Vector2(Rigidbody.velocity.x, _jumpSpeed);
+        Rigidbody.linearVelocity = new Vector2(Rigidbody.linearVelocity.x, _jumpSpeed);
         OnGround = false;
     }
 
     private void SetHorizontalVelocity(float axisInput)
     {
-        Rigidbody.velocity = new Vector2(axisInput * Speed, Rigidbody.velocity.y);
+        Rigidbody.linearVelocity = new Vector2(axisInput * Speed, Rigidbody.linearVelocity.y);
     }
 }

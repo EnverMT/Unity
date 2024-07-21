@@ -34,7 +34,7 @@ public class BaseAnimationHandler : MonoBehaviour
 
     protected virtual void Update()
     {
-        Animator.SetFloat(Params.Movement.HorizontalSpeed, Mathf.Abs(Rbody.velocity.x));
+        Animator.SetFloat(Params.Movement.HorizontalSpeed, Mathf.Abs(Rbody.linearVelocity.x));
     }
 
     protected virtual void FixedUpdate()
@@ -56,7 +56,7 @@ public class BaseAnimationHandler : MonoBehaviour
 
     protected virtual float GetAxis()
     {
-        return Rbody.velocity.x;
+        return Rbody.linearVelocity.x;
     }
 
     //protected virtual void FlipHorizontally(GameObject _object)
