@@ -1,6 +1,6 @@
 ﻿public interface IChanneling
 {
-    public float ChannelTime { get; }
+    public float Duration { get; }
     public bool IsChanneling { get; }
     public float RemainingChannelTime { get; }
 }

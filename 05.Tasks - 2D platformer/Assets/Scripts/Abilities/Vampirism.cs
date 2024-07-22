@@ -15,37 +15,34 @@ public class Vampirism : BaseAbility, IChanneling
     [SerializeField] private float _vampirismPercent;
     [SerializeField] private float _radius;
     [SerializeField] private float _duration;
-    [SerializeField] private float _cooldown;
 
     private float _castStartTime;
     private float _castFinishTime;
 
     private Coroutine _useAbilityCoroutine;
     private Coroutine _cooldownAbilityCoroutine;
-    private bool _isChanneling = false;
-    private bool _isCooldowning = false;
+
 
     public override event Action ValueChanged;
 
     public override KeyCode ActivateKey => KeyCode.E;
     public override bool CanBeCasted => RemainingCooldown == 0f && IsChanneling == false;
-    public override float Cooldown => _cooldown;
-    public override bool IsCooldowning => _isCooldowning;
-    public override float RemainingCooldown => Mathf.Clamp(_castFinishTime + _cooldown - Time.realtimeSinceStartup, 0f, float.MaxValue);
+    public override float Cooldown { get; protected set; }
+    public override bool IsCooldowning { get; protected set; } = false;
+    public override float RemainingCooldown => Mathf.Clamp(_castFinishTime + Cooldown - Time.realtimeSinceStartup, 0f, float.MaxValue);
 
-    public float ChannelTime => _duration;
-    public bool IsChanneling => _isChanneling;
+    public float Duration => _duration;
+    public bool IsChanneling { get; private set; }
     public float RemainingChannelTime => IsChanneling ? Mathf.Clamp(_castStartTime + _duration - Time.realtimeSinceStartup, 0f, float.MaxValue) : 0f;
-
 
     private void OnEnable()
     {
-        _castFinishTime = Time.realtimeSinceStartup - _cooldown;
+        _castFinishTime = Time.realtimeSinceStartup - Cooldown;
     }
 
     private void OnGUI()
     {
-        if (_isChanneling)
+        if (IsChanneling)
             _spriteRenderer.transform.localScale = Vector3.one * _radius;
 
         _spriteRenderer.enabled = IsChanneling;
@@ -71,24 +68,22 @@ public class Vampirism : BaseAbility, IChanneling
     private IEnumerator UseAbility(BaseUnit player)
     {
         _castStartTime = Time.realtimeSinceStartup;
-        _isChanneling = true;
+        IsChanneling = true;
 
         while (RemainingChannelTime > 0)
         {
-            BaseUnit[] enemies = Physics2D.OverlapCircleAll(player.gameObject.transform.position, _radius)
+            BaseUnit closestEnemy = Physics2D.OverlapCircleAll(player.gameObject.transform.position, _radius)
                 .Select(collider => { collider.TryGetComponent(out BaseUnit unit); return unit; })
+                .OrderBy(unit => Vector2.Distance(unit.gameObject.transform.position, player.gameObject.transform.position))
                 .Where(unit => unit != null && unit != player)
-                .ToArray();
+                .FirstOrDefault();
 
-            if (enemies.Length == 0)
-                yield return null;
-
-            StealHealth(player, enemies, _damage * Time.deltaTime);
+            StealHealth(player, closestEnemy, _damage * Time.deltaTime);
             ValueChanged?.Invoke();
             yield return null;
         }
 
-        _isChanneling = false;
+        IsChanneling = false;
         _castFinishTime = Time.realtimeSinceStartup;
 
         _cooldownAbilityCoroutine = StartCoroutine(CooldownAbility(player));
@@ -96,7 +91,7 @@ public class Vampirism : BaseAbility, IChanneling
 
     private IEnumerator CooldownAbility(BaseUnit player)
     {
-        _isCooldowning = true;
+        IsCooldowning = true;
 
         while (RemainingCooldown > 0)
         {
@@ -104,24 +99,22 @@ public class Vampirism : BaseAbility, IChanneling
             yield return null;
         }
 
-        _isCooldowning = false;
+        IsCooldowning = false;
         ValueChanged?.Invoke();
     }
 
-    private void StealHealth(BaseUnit player, BaseUnit[] enemies, float damage)
+    private void StealHealth(BaseUnit player, BaseUnit enemy, float damage)
     {
         float totalDamage = 0;
-        float startHP, finishHP;
+        float startHP;
+        float finishHP;
 
-        foreach (BaseUnit unit in enemies)
-        {
-            startHP = unit.Health.Value;
-            unit.Health.ChangeValue(-damage);
-            finishHP = unit.Health.Value;
+        startHP = enemy.Health.Value;
+        enemy.Health.Decrease(damage);
+        finishHP = enemy.Health.Value;
 
-            totalDamage += startHP - finishHP;
-        }
+        totalDamage += startHP - finishHP;
 
-        player.Health.ChangeValue(_vampirismPercent / 100 * totalDamage);
+        player.Health.Increase(_vampirismPercent / 100 * totalDamage);
     }
 }

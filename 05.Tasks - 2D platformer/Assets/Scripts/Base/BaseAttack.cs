@@ -72,6 +72,6 @@ public class BaseAttack : MonoBehaviour
 
     private void DealDamage(BaseUnit target)
     {
-        target.Health.ChangeValue(-Damage);
+        target.Health.Decrease(Damage);
     }
 }

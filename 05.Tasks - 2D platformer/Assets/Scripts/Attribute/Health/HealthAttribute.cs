@@ -9,15 +9,27 @@ public class HealthAttribute : BaseAttribute<float>
 
     public bool IsAlive => Value > 0;
 
-    public override IAttribute<float> ChangeValue(float value)
+    public override IAttribute<float> Increase(float value)
     {
-        if (_isImmortal && value < 0)
-            return this;
+        if (value < 0f)
+            throw new ArgumentOutOfRangeException("Value cannot be negative");
 
         Value = Mathf.Clamp(Value + value, 0f, MaxValue);
+        return this;
+    }
+
+    public override IAttribute<float> Decrease(float value)
+    {
+        if (value < 0f)
+            throw new ArgumentOutOfRangeException("Value cannot be negative");
+
+        if (_isImmortal)
+            return this;
 
         if (!IsAlive)
             Died?.Invoke(this);
+
+        Value = Mathf.Clamp(Value - value, 0f, MaxValue);
 
         return this;
     }

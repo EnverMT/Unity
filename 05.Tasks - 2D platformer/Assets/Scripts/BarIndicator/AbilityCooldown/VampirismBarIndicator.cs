@@ -16,7 +16,7 @@ public class VampirismBarIndicator : BaseAbiilityIndicator<Vampirism>
     {
         if (Ability.IsChanneling)
         {
-            _slider.value = Ability.RemainingChannelTime / Ability.ChannelTime;
+            _slider.value = Ability.RemainingChannelTime / Ability.Duration;
             return;
         }
 

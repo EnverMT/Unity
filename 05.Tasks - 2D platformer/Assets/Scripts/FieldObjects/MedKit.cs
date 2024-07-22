@@ -9,7 +9,7 @@ public class MedKit : BaseCollectable
     {
         if (unit is Player)
         {
-            unit.Health.ChangeValue(_value);
+            unit.Health.Increase(_value);
             Destroy(gameObject);
         }
     }
