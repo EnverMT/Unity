@@ -40,5 +40,5 @@ public abstract class BaseAttribute<T> : MonoBehaviour, IAttribute<T>
     }
 
     public abstract IAttribute<T> Increase(T value);
-    public abstract IAttribute<T> Decrease(T value);    
+    public abstract IAttribute<T> Decrease(T value);
 }

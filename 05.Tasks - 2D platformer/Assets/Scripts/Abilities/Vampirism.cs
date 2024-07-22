@@ -48,12 +48,6 @@ public class Vampirism : BaseAbility, IChanneling
         _spriteRenderer.enabled = IsChanneling;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(ActivateKey))
-            Execute(_unit);
-    }
-
     public override void Execute(BaseUnit player)
     {
         if (!CanBeCasted)
