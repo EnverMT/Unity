@@ -7,10 +7,7 @@ using UnityEngine.Assertions;
 public class AbilityManager : MonoBehaviour
 {
     [SerializeField] private BaseUnit _player;
-    [SerializeField] private List<BaseAbility> _abilities;
-
     private Dictionary<KeyCode, BaseAbility> _abilityKeys = new();
-
 
     private void OnValidate()
     {
@@ -19,7 +16,7 @@ public class AbilityManager : MonoBehaviour
 
     private void OnEnable()
     {
-        foreach (BaseAbility ability in _abilities)
+        foreach (BaseAbility ability in GetComponentsInChildren<BaseAbility>())
         {
             _abilityKeys.Add(ability.ActivateKey, ability);
         }

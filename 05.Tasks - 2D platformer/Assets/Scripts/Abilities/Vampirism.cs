@@ -72,7 +72,7 @@ public class Vampirism : BaseAbility, IChanneling
                 .OrderBy(unit => Vector2.Distance(unit.gameObject.transform.position, player.gameObject.transform.position))
                 .FirstOrDefault();
 
-            if (closestEnemy != null && closestEnemy.Health.IsAlive)
+            if (closestEnemy != null)
                 StealHealth(player, closestEnemy, _damage * Time.deltaTime);
 
             ValueChanged?.Invoke();
