@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 public class AbilityManager : MonoBehaviour
 {
     [SerializeField] private BaseUnit _player;
-    [SerializeField] private List<BaseAbility> _abilities = new();
+    [SerializeField] private List<BaseAbility> _abilities;
 
     private Dictionary<KeyCode, BaseAbility> _abilityKeys = new();
 

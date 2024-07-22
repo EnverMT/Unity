@@ -27,7 +27,7 @@ public class Vampirism : BaseAbility, IChanneling
 
     public override KeyCode ActivateKey => KeyCode.E;
     public override bool CanBeCasted => RemainingCooldown == 0f && IsChanneling == false;
-    public override float Cooldown { get; protected set; }
+    public override float Cooldown { get; protected set; } = 10f;
     public override bool IsCooldowning { get; protected set; } = false;
     public override float RemainingCooldown => Mathf.Clamp(_castFinishTime + Cooldown - Time.realtimeSinceStartup, 0f, float.MaxValue);
 
@@ -68,12 +68,15 @@ public class Vampirism : BaseAbility, IChanneling
         {
             BaseUnit closestEnemy = Physics2D.OverlapCircleAll(player.gameObject.transform.position, _radius)
                 .Select(collider => { collider.TryGetComponent(out BaseUnit unit); return unit; })
-                .OrderBy(unit => Vector2.Distance(unit.gameObject.transform.position, player.gameObject.transform.position))
                 .Where(unit => unit != null && unit != player)
+                .OrderBy(unit => Vector2.Distance(unit.gameObject.transform.position, player.gameObject.transform.position))
                 .FirstOrDefault();
 
-            StealHealth(player, closestEnemy, _damage * Time.deltaTime);
+            if (closestEnemy != null && closestEnemy.Health.IsAlive)
+                StealHealth(player, closestEnemy, _damage * Time.deltaTime);
+
             ValueChanged?.Invoke();
+
             yield return null;
         }
 
