@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 
-public class InputKeyboard : MonoBehaviour
+public class AbilityManager : MonoBehaviour
 {
     [SerializeField] private BaseUnit _player;
     [SerializeField] private List<BaseAbility> _abilities = new();

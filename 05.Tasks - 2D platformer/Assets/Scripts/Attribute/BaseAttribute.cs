@@ -30,10 +30,7 @@ public abstract class BaseAttribute<T> : MonoBehaviour, IAttribute<T>
             _maxValue = value;
 
             if (Comparer<T>.Default.Compare(Value, MaxValue) > 0)
-            {
                 Value = value;
-                return;
-            }
 
             ValueChanged?.Invoke(this);
         }
