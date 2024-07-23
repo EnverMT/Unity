@@ -24,6 +24,11 @@ namespace Platformer.Player
             _abilitiesCode.Clear();
         }
 
+        public KeyCode[] GetKeys()
+        {
+            return _abilitiesCode.Keys.ToArray();
+        }
+
         public bool TryGetAbility(KeyCode key, out BaseAbility ability)
         {
             ability = null;
