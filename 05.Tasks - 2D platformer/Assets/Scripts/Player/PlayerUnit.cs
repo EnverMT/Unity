@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Platformer.Player
 {
     [RequireComponent(typeof(PlayerInputReader))]
+    [RequireComponent(typeof(PlayerAbilities))]
     public class PlayerUnit : BaseUnit
     {
         [HideInInspector] public PlayerAbilities Abilities;
@@ -20,10 +21,10 @@ namespace Platformer.Player
 
         private void FixedUpdate()
         {
-            if (Abilities.TryGetAbility<Vampirism>(out var ability))
-            {
-                ability.Execute(this);
-            }
+            //if (Abilities.TryGetAbility<Vampirism>(out var ability))
+            //{
+            //    ability.Execute(this);
+            //}
         }
     }
 }
