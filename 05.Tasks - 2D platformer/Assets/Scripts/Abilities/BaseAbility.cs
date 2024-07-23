@@ -1,8 +1,10 @@
+using Platformer.Base;
 using UnityEngine;
 
-
-public abstract class BaseAbility : MonoBehaviour
+namespace Platformer.Ability
 {
-    public abstract KeyCode ActivateKey { get; }
-    public abstract void Execute(BaseUnit player);
+    public abstract class BaseAbility : MonoBehaviour
+    {
+        public abstract void Execute(BaseUnit player);
+    }
 }

@@ -1,13 +1,20 @@
+using Platformer.Base;
+using Platformer.Player;
 using UnityEngine;
 
-[RequireComponent(typeof(CircleCollider2D))]
-public class Coin : BaseCollectable
+
+namespace Platformer.FieldObjects
 {
-    protected override void Collected(BaseUnit unit)
+    [RequireComponent(typeof(CircleCollider2D))]
+    public class Coin : BaseCollectable
     {
-        if (unit is Player)
+        protected override void Collected(BaseUnit unit)
         {
-            Destroy(gameObject);
+            if (unit is PlayerUnit)
+            {
+                Destroy(gameObject);
+            }
         }
     }
+
 }

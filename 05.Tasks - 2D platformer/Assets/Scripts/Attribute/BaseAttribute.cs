@@ -2,40 +2,42 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public abstract class BaseAttribute<T> : MonoBehaviour, IAttribute<T>
+namespace Platformer.Attribute
 {
-    public virtual event Action<IAttribute<T>> ValueChanged;
-
-    [SerializeField] protected T _value;
-    [SerializeField] protected T _maxValue;
-
-    public virtual T Value
+    public abstract class BaseAttribute<T> : MonoBehaviour, IAttribute<T>
     {
-        get => _value;
+        public virtual event Action<IAttribute<T>> ValueChanged;
 
-        protected set
+        [SerializeField] protected T _value;
+        [SerializeField] protected T _maxValue;
+
+        public virtual T Value
         {
-            _value = value;
-            ValueChanged?.Invoke(this);
+            get => _value;
+
+            protected set
+            {
+                _value = value;
+                ValueChanged?.Invoke(this);
+            }
         }
-    }
 
-    public virtual T MaxValue
-    {
-        get => _maxValue;
-
-        protected set
+        public virtual T MaxValue
         {
-            _maxValue = value;
+            get => _maxValue;
 
-            if (Comparer<T>.Default.Compare(Value, MaxValue) > 0)
-                Value = value;
+            protected set
+            {
+                _maxValue = value;
 
-            ValueChanged?.Invoke(this);
+                if (Comparer<T>.Default.Compare(Value, MaxValue) > 0)
+                    Value = value;
+
+                ValueChanged?.Invoke(this);
+            }
         }
-    }
 
-    public abstract IAttribute<T> Increase(T value);
-    public abstract IAttribute<T> Decrease(T value);
+        public abstract IAttribute<T> Increase(T value);
+        public abstract IAttribute<T> Decrease(T value);
+    }
 }

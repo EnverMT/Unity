@@ -1,8 +1,12 @@
-﻿namespace Assets.Scripts.BehaviorTree
+﻿using Platformer.Enemy;
+using Platformer.Player;
+
+
+namespace BehaviorTree
 {
     public class Context
     {
-        public Player target;
-        public Enemy unit;
+        public PlayerUnit target;
+        public EnemyUnit unit;
     }
 }

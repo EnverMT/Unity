@@ -1,12 +1,15 @@
 ﻿using System;
 
-public interface IAttribute<T>
+namespace Platformer.Attribute
 {
-    public event Action<IAttribute<T>> ValueChanged;
+    public interface IAttribute<T>
+    {
+        public event Action<IAttribute<T>> ValueChanged;
 
-    public T Value { get; }
-    public T MaxValue { get; }
+        public T Value { get; }
+        public T MaxValue { get; }
 
-    public IAttribute<T> Increase(T value);
-    public IAttribute<T> Decrease(T value);
+        public IAttribute<T> Increase(T value);
+        public IAttribute<T> Decrease(T value);
+    }
 }

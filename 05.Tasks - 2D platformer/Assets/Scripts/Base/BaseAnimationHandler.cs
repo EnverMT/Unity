@@ -1,90 +1,94 @@
 using UnityEngine;
 
-[RequireComponent(typeof(BaseAttack))]
-[RequireComponent(typeof(BaseUnit))]
-[RequireComponent(typeof(Rigidbody2D))]
-public class BaseAnimationHandler : MonoBehaviour
+
+namespace Platformer.Base
 {
-    [SerializeField] protected bool IsFacingRight = true;
-    [SerializeField] protected Animator Animator;
-    protected BaseAttack BaseAttack;
-    protected BaseUnit BaseUnit;
-    protected Rigidbody2D Rbody;
-
-    [SerializeField] private GameObject _flipableObject;
-
-    protected virtual void Awake()
+    [RequireComponent(typeof(BaseAttack))]
+    [RequireComponent(typeof(BaseUnit))]
+    [RequireComponent(typeof(Rigidbody2D))]
+    public class BaseAnimationHandler : MonoBehaviour
     {
-        //_animator = GetComponent<Animator>();
-        BaseAttack = GetComponent<BaseAttack>();
-        BaseUnit = GetComponent<BaseUnit>();
-        Rbody = GetComponent<Rigidbody2D>();
-    }
+        [SerializeField] protected bool IsFacingRight = true;
+        [SerializeField] protected Animator Animator;
+        protected BaseAttack BaseAttack;
+        protected BaseUnit BaseUnit;
+        protected Rigidbody2D Rbody;
 
-    private void OnEnable()
-    {
-        BaseAttack.Attacked += AttackAnimation;
-    }
+        [SerializeField] private GameObject _flipableObject;
 
-    private void OnDisable()
-    {
-        BaseAttack.Attacked -= AttackAnimation;
-    }
-
-
-    protected virtual void Update()
-    {
-        Animator.SetFloat(Params.Movement.HorizontalSpeed, Mathf.Abs(Rbody.linearVelocity.x));
-    }
-
-    protected virtual void FixedUpdate()
-    {
-        if (ShouldFlip())
+        protected virtual void Awake()
         {
-            if (_flipableObject != null)
-                FlipHorizontally(_flipableObject);
-            else
-                FlipHorizontally(gameObject);
+            //_animator = GetComponent<Animator>();
+            BaseAttack = GetComponent<BaseAttack>();
+            BaseUnit = GetComponent<BaseUnit>();
+            Rbody = GetComponent<Rigidbody2D>();
         }
 
-    }
+        private void OnEnable()
+        {
+            BaseAttack.Attacked += AttackAnimation;
+        }
 
-    protected virtual void AttackAnimation(BaseAttack attack)
-    {
-        Animator.SetTrigger(Params.Attack.Attacking);
-    }
+        private void OnDisable()
+        {
+            BaseAttack.Attacked -= AttackAnimation;
+        }
 
-    protected virtual float GetAxis()
-    {
-        return Rbody.linearVelocity.x;
-    }
 
-    //protected virtual void FlipHorizontally(GameObject _object)
-    //{
-    //    _isFacingRight = !_isFacingRight;
+        protected virtual void Update()
+        {
+            Animator.SetFloat(Params.Movement.HorizontalSpeed, Mathf.Abs(Rbody.linearVelocity.x));
+        }
 
-    //    Vector2 scale = _object.transform.localScale;
-    //    scale.x *= -1;
-    //    _object.transform.localScale = scale;
-    //}
+        protected virtual void FixedUpdate()
+        {
+            if (ShouldFlip())
+            {
+                if (_flipableObject != null)
+                    FlipHorizontally(_flipableObject);
+                else
+                    FlipHorizontally(gameObject);
+            }
 
-    protected virtual void FlipHorizontally(GameObject _object)
-    {
-        IsFacingRight = !IsFacingRight;
+        }
 
-        _object.transform.localRotation *= Quaternion.Euler(0, 180, 0);
-    }
+        protected virtual void AttackAnimation(BaseAttack attack)
+        {
+            Animator.SetTrigger(Params.Attack.Attacking);
+        }
 
-    protected virtual bool ShouldFlip()
-    {
-        float axis = GetAxis();
+        protected virtual float GetAxis()
+        {
+            return Rbody.linearVelocity.x;
+        }
 
-        if (IsFacingRight && axis < -0.1f)
-            return true;
+        //protected virtual void FlipHorizontally(GameObject _object)
+        //{
+        //    _isFacingRight = !_isFacingRight;
 
-        if (!IsFacingRight && axis > 0.1f)
-            return true;
+        //    Vector2 scale = _object.transform.localScale;
+        //    scale.x *= -1;
+        //    _object.transform.localScale = scale;
+        //}
 
-        return false;
+        protected virtual void FlipHorizontally(GameObject _object)
+        {
+            IsFacingRight = !IsFacingRight;
+
+            _object.transform.localRotation *= Quaternion.Euler(0, 180, 0);
+        }
+
+        protected virtual bool ShouldFlip()
+        {
+            float axis = GetAxis();
+
+            if (IsFacingRight && axis < -0.1f)
+                return true;
+
+            if (!IsFacingRight && axis > 0.1f)
+                return true;
+
+            return false;
+        }
     }
 }

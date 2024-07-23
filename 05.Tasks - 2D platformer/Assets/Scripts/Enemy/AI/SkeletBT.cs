@@ -1,22 +1,23 @@
-﻿using Assets.Scripts.BehaviorTree;
-using BehaviorTree;
+﻿using BehaviorTree;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Enemy))]
-[RequireComponent(typeof(Patrol))]
-public class SkeletBT : AbstractTree
+namespace Platformer.Enemy.AI
 {
-    private readonly Context _context = new();
-
-    private void Awake()
+    [RequireComponent(typeof(EnemyUnit))]
+    [RequireComponent(typeof(Patrol))]
+    public class SkeletBT : AbstractTree
     {
-        _context.unit = GetComponent<Enemy>();
-    }
+        private readonly Context _context = new();
 
-    protected override Node SetupTree()
-    {
-        Node node = new Selector(new List<Node>
+        private void Awake()
+        {
+            _context.unit = GetComponent<EnemyUnit>();
+        }
+
+        protected override Node SetupTree()
+        {
+            Node node = new Selector(new List<Node>
             {
                 new Sequence(new List<Node>
                     {
@@ -31,8 +32,9 @@ public class SkeletBT : AbstractTree
                 new TaskPatrol()
             });
 
-        node.Context = _context;
+            node.Context = _context;
 
-        return node;
+            return node;
+        }
     }
 }

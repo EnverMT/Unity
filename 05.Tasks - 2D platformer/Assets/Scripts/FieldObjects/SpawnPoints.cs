@@ -1,5 +1,8 @@
 using UnityEngine;
 
-public class SpawnPoints : MonoBehaviour
+namespace Platformer.FieldObjects
 {
+    public class SpawnPoints : MonoBehaviour
+    {
+    }
 }

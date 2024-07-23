@@ -1,42 +1,46 @@
+using Platformer.UI.Indicator;
 using System;
 using UnityEngine;
 
-public class HealthAttribute : BaseAttribute<float>, IBarIndicator
+namespace Platformer.Attribute
 {
-    [SerializeField] private bool _isImmortal;
-
-    public event Action<HealthAttribute> Died;
-    public event Action<float> IndicatorValueChanged;
-
-    public bool IsAlive => Value > 0;
-
-    public float InitIndicatorValue => 1f;
-
-    public override IAttribute<float> Increase(float value)
+    public class HealthAttribute : BaseAttribute<float>, IBarIndicator
     {
-        if (value < 0f)
-            throw new ArgumentOutOfRangeException("Value cannot be negative");
+        [SerializeField] private bool _isImmortal;
 
-        Value = Mathf.Clamp(Value + value, 0f, MaxValue);
-        IndicatorValueChanged?.Invoke(Value / MaxValue);
+        public event Action<HealthAttribute> Died;
+        public event Action<float> IndicatorValueChanged;
 
-        return this;
-    }
+        public bool IsAlive => Value > 0;
 
-    public override IAttribute<float> Decrease(float value)
-    {
-        if (value < 0f)
-            throw new ArgumentOutOfRangeException("Value cannot be negative");
+        public float InitIndicatorValue => 1f;
 
-        if (_isImmortal)
+        public override IAttribute<float> Increase(float value)
+        {
+            if (value < 0f)
+                throw new ArgumentOutOfRangeException("Value cannot be negative");
+
+            Value = Mathf.Clamp(Value + value, 0f, MaxValue);
+            IndicatorValueChanged?.Invoke(Value / MaxValue);
+
             return this;
+        }
 
-        if (!IsAlive)
-            Died?.Invoke(this);
+        public override IAttribute<float> Decrease(float value)
+        {
+            if (value < 0f)
+                throw new ArgumentOutOfRangeException("Value cannot be negative");
 
-        Value = Mathf.Clamp(Value - value, 0f, MaxValue);
-        IndicatorValueChanged?.Invoke(Value / MaxValue);
+            if (_isImmortal)
+                return this;
 
-        return this;
+            if (!IsAlive)
+                Died?.Invoke(this);
+
+            Value = Mathf.Clamp(Value - value, 0f, MaxValue);
+            IndicatorValueChanged?.Invoke(Value / MaxValue);
+
+            return this;
+        }
     }
 }

@@ -1,12 +1,16 @@
+using Platformer.Base;
 using UnityEngine;
 
-public class SpawnPoint : MonoBehaviour
+namespace Platformer.FieldObjects
 {
-    [SerializeField] private BaseCollectable _item;
-
-    public void Spawn()
+    public class SpawnPoint : MonoBehaviour
     {
-        BaseCollectable coin = Instantiate(_item, gameObject.transform);
-        coin.transform.position = gameObject.transform.position;
+        [SerializeField] private BaseCollectable _item;
+
+        public void Spawn()
+        {
+            BaseCollectable coin = Instantiate(_item, gameObject.transform);
+            coin.transform.position = gameObject.transform.position;
+        }
     }
 }

@@ -1,5 +1,8 @@
 using UnityEngine;
 
-public class Waypoint : MonoBehaviour
+namespace Platformer.Enemy
 {
+    public class Waypoint : MonoBehaviour
+    {
+    }
 }

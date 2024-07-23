@@ -1,21 +1,26 @@
+using Platformer.Base;
+using Platformer.Enemy;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerMover))]
-public class PlayerAttack : BaseAttack
+namespace Platformer.Player
 {
-    [SerializeField] protected float RemainingCooldown;
-
-    private readonly int _attackMouseButton = 0;
-
-    private void Update()
+    [RequireComponent(typeof(PlayerMover))]
+    public class PlayerAttack : BaseAttack
     {
-        RemainingCooldown = Mathf.Clamp(AttackCooldown - (Time.realtimeSinceStartup - LastAttackedTime), 0, float.MaxValue);
+        [SerializeField] protected float RemainingCooldown;
 
-        if (Input.GetMouseButtonDown(_attackMouseButton))
+        private readonly int _attackMouseButton = 0;
+
+        private void Update()
         {
-            Enemy[] enemies = GetUnitsInAttackRange<Enemy>();
+            RemainingCooldown = Mathf.Clamp(AttackCooldown - (Time.realtimeSinceStartup - LastAttackedTime), 0, float.MaxValue);
 
-            ApplyAttack(enemies);
+            if (Input.GetMouseButtonDown(_attackMouseButton))
+            {
+                EnemyUnit[] enemies = GetUnitsInAttackRange<EnemyUnit>();
+
+                ApplyAttack(enemies);
+            }
         }
     }
 }

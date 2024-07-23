@@ -1,16 +1,22 @@
-﻿using UnityEngine;
+﻿using Platformer.Base;
+using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D))]
-public class MedKit : BaseCollectable
+namespace Platformer.FieldObjects
 {
-    [SerializeField, Range(0, 1000f)] private float _value;
 
-    protected override void Collected(BaseUnit unit)
+
+    [RequireComponent(typeof(BoxCollider2D))]
+    public class MedKit : BaseCollectable
     {
-        if (unit is Player)
+        [SerializeField, Range(0, 1000f)] private float _value;
+
+        protected override void Collected(BaseUnit unit)
         {
-            unit.Health.Increase(_value);
-            Destroy(gameObject);
+            if (unit is Player.PlayerUnit)
+            {
+                unit.Health.Increase(_value);
+                Destroy(gameObject);
+            }
         }
     }
 }

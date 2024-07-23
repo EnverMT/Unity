@@ -1,4 +1,3 @@
-using Assets.Scripts.BehaviorTree;
 using System.Collections.Generic;
 
 namespace BehaviorTree

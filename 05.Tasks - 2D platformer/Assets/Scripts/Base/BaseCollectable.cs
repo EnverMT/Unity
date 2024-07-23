@@ -1,12 +1,17 @@
 using UnityEngine;
 
-public abstract class BaseCollectable : MonoBehaviour
+
+namespace Platformer.Base
 {
-    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    public abstract class BaseCollectable : MonoBehaviour
     {
-        if (collision.TryGetComponent(out BaseUnit unit))
-            Collected(unit);
+        protected virtual void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.TryGetComponent(out BaseUnit unit))
+                Collected(unit);
+        }
+
+        protected abstract void Collected(BaseUnit unit);
     }
 
-    protected abstract void Collected(BaseUnit unit);
 }

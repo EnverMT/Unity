@@ -1,37 +1,42 @@
-﻿using UnityEngine;
+﻿using Platformer.Attribute;
+using UnityEngine;
 
 
-[RequireComponent(typeof(BaseAttack))]
-[RequireComponent(typeof(BaseMovement))]
-[RequireComponent(typeof(HealthAttribute))]
-[RequireComponent(typeof(Rigidbody2D))]
-public abstract class BaseUnit : MonoBehaviour
+
+namespace Platformer.Base
 {
-    [HideInInspector] public BaseAttack Attack;
-    [HideInInspector] public BaseMovement BaseMovement;
-    [HideInInspector] public HealthAttribute Health;
-    [HideInInspector] public Rigidbody2D Rigidbody2D;
-
-    protected virtual void Awake()
+    [RequireComponent(typeof(BaseAttack))]
+    [RequireComponent(typeof(BaseMovement))]
+    [RequireComponent(typeof(HealthAttribute))]
+    [RequireComponent(typeof(Rigidbody2D))]
+    public abstract class BaseUnit : MonoBehaviour
     {
-        Attack = GetComponent<BaseAttack>();
-        Health = GetComponent<HealthAttribute>();
-        BaseMovement = GetComponent<BaseMovement>();
-        Rigidbody2D = GetComponent<Rigidbody2D>();
-    }
+        [HideInInspector] public BaseAttack Attack;
+        [HideInInspector] public BaseMovement BaseMovement;
+        [HideInInspector] public HealthAttribute Health;
+        [HideInInspector] public Rigidbody2D Rigidbody2D;
 
-    protected virtual void OnEnable()
-    {
-        Health.Died += OnDie;
-    }
+        protected virtual void Awake()
+        {
+            Attack = GetComponent<BaseAttack>();
+            Health = GetComponent<HealthAttribute>();
+            BaseMovement = GetComponent<BaseMovement>();
+            Rigidbody2D = GetComponent<Rigidbody2D>();
+        }
 
-    protected virtual void OnDisable()
-    {
-        Health.Died -= OnDie;
-    }
+        protected virtual void OnEnable()
+        {
+            Health.Died += OnDie;
+        }
 
-    protected virtual void OnDie(IAttribute<float> _)
-    {
-        Destroy(gameObject);
+        protected virtual void OnDisable()
+        {
+            Health.Died -= OnDie;
+        }
+
+        protected virtual void OnDie(IAttribute<float> _)
+        {
+            Destroy(gameObject);
+        }
     }
 }

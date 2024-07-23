@@ -1,27 +1,30 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Spawner : MonoBehaviour
+namespace Platformer.FieldObjects
 {
-    [SerializeField] private SpawnPoints _spawnPointsCollectionParent;
-
-    private SpawnPoint[] _spawnPoints;
-
-    private void OnValidate()
+    public class Spawner : MonoBehaviour
     {
-        Assert.IsNotNull(_spawnPointsCollectionParent);
-    }
+        [SerializeField] private SpawnPoints _spawnPointsCollectionParent;
 
-    private void Awake()
-    {
-        _spawnPoints = _spawnPointsCollectionParent.GetComponentsInChildren<SpawnPoint>();
-    }
+        private SpawnPoint[] _spawnPoints;
 
-    private void OnEnable()
-    {
-        foreach (SpawnPoint spawnPoint in _spawnPoints)
+        private void OnValidate()
         {
-            spawnPoint.Spawn();
+            Assert.IsNotNull(_spawnPointsCollectionParent);
+        }
+
+        private void Awake()
+        {
+            _spawnPoints = _spawnPointsCollectionParent.GetComponentsInChildren<SpawnPoint>();
+        }
+
+        private void OnEnable()
+        {
+            foreach (SpawnPoint spawnPoint in _spawnPoints)
+            {
+                spawnPoint.Spawn();
+            }
         }
     }
 }
