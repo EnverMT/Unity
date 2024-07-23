@@ -1,4 +1,6 @@
+using Platformer.Ability;
 using Platformer.Base;
+
 using UnityEngine;
 
 namespace Platformer.Player
@@ -18,12 +20,20 @@ namespace Platformer.Player
             InputReader = GetComponent<PlayerInputReader>();
         }
 
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
+            InputReader.InitAbilityKeys(Abilities.GetKeys());
+        }
+
         private void FixedUpdate()
         {
-            //if (Abilities.TryGetAbility<Vampirism>(out var ability))
-            //{
-            //    ability.Execute(this);
-            //}
+            foreach (KeyCode key in Abilities.GetKeys())
+            {
+                if (InputReader.IsGetAbilityKey(key) && Abilities.TryGetAbility(key, out BaseAbility ability))
+                    ability.Execute(this);
+            }
         }
     }
 }

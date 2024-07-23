@@ -1,42 +1,47 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Platformer.Player
 {
     public class PlayerInputReader : MonoBehaviour
     {
-        private Dictionary<KeyCode, bool> _abilities = new();
+        [SerializeField] private KeyCode _jumpKeyCode;
+
+        private bool _isJump = false;
+
+        private Dictionary<KeyCode, bool> _abilities;
 
         public float Direction { get; private set; }
+        public bool GetIsJump() => GetBoolAsTrigger(ref _isJump);
+
 
         private void Update()
         {
             Direction = Input.GetAxis(Params.Axis.Horizontal);
 
-            foreach (KeyCode key in _abilities.Keys)
-            {
-                if (Input.GetKeyDown(key))
-                    _abilities[key] = true;
-            }
+            if (Input.GetKeyDown(_jumpKeyCode))
+                _isJump = true;
+
+            _abilities.Where(item => Input.GetKeyDown(item.Key))
+                .Select(item => _abilities[item.Key] = true);
         }
 
         public void InitAbilityKeys(KeyCode[] keys)
         {
-            foreach (KeyCode key in keys)
-            {
-                _abilities.Add(key, false);
-            }
+            _abilities = keys.ToDictionary(key => key, key => false);
         }
 
         public bool IsGetAbilityKey(KeyCode key)
         {
-            if (_abilities.ContainsKey(key) && _abilities[key] == true)
-            {
-                _abilities[key] = false;
-                return true;
-            }
+            return _abilities.ContainsKey(key) && _abilities[key] && (_abilities[key] = false);
+        }
 
-            return false;
+        private bool GetBoolAsTrigger(ref bool value)
+        {
+            bool localValue = value;
+            value = false;
+            return localValue;
         }
     }
 }

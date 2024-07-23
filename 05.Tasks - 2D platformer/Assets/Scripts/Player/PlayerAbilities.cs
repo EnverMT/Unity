@@ -31,24 +31,20 @@ namespace Platformer.Player
 
         public bool TryGetAbility(KeyCode key, out BaseAbility ability)
         {
-            ability = null;
-
-            if (_abilitiesCode.ContainsKey(key))
-            {
-                ability = _abilitiesCode[key];
-                return true;
-            }
-
-            return false;
+            return _abilitiesCode.TryGetValue(key, out ability);
         }
 
         public bool TryGetAbility<T>(out BaseAbility ability) where T : BaseAbility
         {
-            ability = null;
+            var result = _abilitiesCode.FirstOrDefault(item => item.Value is T);
 
-            if (_abilitiesCode.Any(item => item.Value is T ability))
+            if (result.Value != null)
+            {
+                ability = result.Value;
                 return true;
+            }
 
+            ability = null;
             return false;
         }
     }
