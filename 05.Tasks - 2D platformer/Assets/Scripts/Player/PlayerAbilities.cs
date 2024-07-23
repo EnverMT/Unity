@@ -10,13 +10,15 @@ namespace Platformer.Player
 {
     public class PlayerAbilities : MonoBehaviour
     {
+        [Header("Vampirism")]
         [SerializeField] private Vampirism _vampirism;
+        [SerializeField] private KeyCode _vampirismKey;
 
         private readonly Dictionary<KeyCode, BaseAbility> _abilitiesCode = new();
 
         private void OnEnable()
         {
-            _abilitiesCode.Add(KeyCode.E, _vampirism);
+            _abilitiesCode.Add(_vampirismKey, _vampirism);
         }
 
         private void OnDisable()
