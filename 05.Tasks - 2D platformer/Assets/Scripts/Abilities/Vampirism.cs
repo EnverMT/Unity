@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 
-public class Vampirism : BaseAbility, IChanneling
+public class Vampirism : BaseAbility, IBarIndicator
 {
     [Header("Unit")]
     [SerializeField] private BaseUnit _unit;
@@ -14,43 +14,55 @@ public class Vampirism : BaseAbility, IChanneling
     [SerializeField] private float _damage;
     [SerializeField] private float _vampirismPercent;
     [SerializeField] private float _radius;
-    [SerializeField] private float _duration;
+    [SerializeField] private float _castDuration;
+    [SerializeField] private float _cooldownDuration;
 
-    private float _castStartTime;
     private float _castFinishTime;
+    private float _cooldownFinishTime;
 
     private Coroutine _useAbilityCoroutine;
     private Coroutine _cooldownAbilityCoroutine;
 
-
-    public override event Action ValueChanged;
+    public event Action<float> IndicatorValueChanged;
 
     public override KeyCode ActivateKey => KeyCode.E;
-    public override bool CanBeCasted => RemainingCooldown == 0f && IsChanneling == false;
-    public override float Cooldown { get; protected set; } = 10f;
-    public override bool IsCooldowning { get; protected set; } = false;
-    public override float RemainingCooldown => Mathf.Clamp(_castFinishTime + Cooldown - Time.realtimeSinceStartup, 0f, float.MaxValue);
+    private bool _canBeCasted => !_isCasting && !_isCooldowning;
+    private bool _isCasting => _castFinishTime > Time.realtimeSinceStartup;
+    private bool _isCooldowning => _cooldownFinishTime > Time.realtimeSinceStartup;
 
-    public float Duration => _duration;
-    public bool IsChanneling { get; private set; }
-    public float RemainingChannelTime => IsChanneling ? Mathf.Clamp(_castStartTime + _duration - Time.realtimeSinceStartup, 0f, float.MaxValue) : 0f;
+    private float IndicatorValue
+    {
+        get
+        {
+            if (_isCasting)
+                return (_castFinishTime - Time.realtimeSinceStartup) / _castDuration;
+
+            if (_isCooldowning)
+                return 1 - (_cooldownFinishTime - Time.realtimeSinceStartup) / _cooldownDuration;
+
+            return _canBeCasted ? 1f : 0f;
+        }
+    }
+
+    public float InitIndicatorValue => 1f;
 
     private void OnEnable()
     {
-        _castFinishTime = Time.realtimeSinceStartup - Cooldown;
+        _castFinishTime = Time.realtimeSinceStartup;
+        _cooldownFinishTime = Time.realtimeSinceStartup;
     }
 
     private void OnGUI()
     {
-        if (IsChanneling)
+        if (_isCasting)
             _spriteRenderer.transform.localScale = Vector3.one * _radius;
 
-        _spriteRenderer.enabled = IsChanneling;
+        _spriteRenderer.enabled = _isCasting;
     }
 
     public override void Execute(BaseUnit player)
     {
-        if (!CanBeCasted)
+        if (!_canBeCasted)
             return;
 
         if (_useAbilityCoroutine != null)
@@ -61,43 +73,34 @@ public class Vampirism : BaseAbility, IChanneling
 
     private IEnumerator UseAbility(BaseUnit player)
     {
-        _castStartTime = Time.realtimeSinceStartup;
-        IsChanneling = true;
+        _castFinishTime = Time.realtimeSinceStartup + _castDuration;
 
-        while (RemainingChannelTime > 0)
+        while (_isCasting)
         {
-            BaseUnit closestEnemy = Physics2D.OverlapCircleAll(player.gameObject.transform.position, _radius)
-                .Select(collider => { collider.TryGetComponent(out BaseUnit unit); return unit; })
-                .Where(unit => unit != null && unit != player)
-                .OrderBy(unit => Vector2.Distance(unit.gameObject.transform.position, player.gameObject.transform.position))
-                .FirstOrDefault();
+            BaseUnit closestEnemy = GetClosestUnit(player);
 
             if (closestEnemy != null)
                 StealHealth(player, closestEnemy, _damage * Time.deltaTime);
 
-            ValueChanged?.Invoke();
+            IndicatorValueChanged?.Invoke(IndicatorValue);
 
             yield return null;
         }
-
-        IsChanneling = false;
-        _castFinishTime = Time.realtimeSinceStartup;
 
         _cooldownAbilityCoroutine = StartCoroutine(CooldownAbility(player));
     }
 
     private IEnumerator CooldownAbility(BaseUnit player)
     {
-        IsCooldowning = true;
+        _cooldownFinishTime = Time.realtimeSinceStartup + _cooldownDuration;
 
-        while (RemainingCooldown > 0)
+        while (_isCooldowning)
         {
-            ValueChanged?.Invoke();
+            IndicatorValueChanged?.Invoke(IndicatorValue);
             yield return null;
         }
 
-        IsCooldowning = false;
-        ValueChanged?.Invoke();
+        IndicatorValueChanged?.Invoke(IndicatorValue);
     }
 
     private void StealHealth(BaseUnit player, BaseUnit enemy, float damage)
@@ -113,5 +116,14 @@ public class Vampirism : BaseAbility, IChanneling
         totalDamage += startHP - finishHP;
 
         player.Health.Increase(_vampirismPercent / 100 * totalDamage);
+    }
+
+    private BaseUnit GetClosestUnit(BaseUnit player)
+    {
+        return Physics2D.OverlapCircleAll(player.gameObject.transform.position, _radius)
+                .Select(collider => { collider.TryGetComponent(out BaseUnit unit); return unit; })
+                .Where(unit => unit != null && unit != player)
+                .OrderBy(unit => Vector2.Distance(unit.gameObject.transform.position, player.gameObject.transform.position))
+                .FirstOrDefault();
     }
 }
