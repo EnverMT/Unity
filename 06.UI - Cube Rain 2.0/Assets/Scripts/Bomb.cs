@@ -23,11 +23,9 @@ public class Bomb : BaseFieldObject
     {
         if (_dieTime > Time.realtimeSinceStartup && _delay >= _minTime)
         {
-            Color color = Color.black;
+            Color color = _renderer.material.color;
             color.a = (_dieTime - Time.realtimeSinceStartup) / _delay;
             _renderer.material.color = color;
-
-            Debug.Log($"color alpha = {color.a}");
         }
     }
 
@@ -51,6 +49,7 @@ public class Bomb : BaseFieldObject
                 rigidbody.AddExplosionForce(_explosionForce, transform.position, _explosionRadius);
         }
 
+        Died?.Invoke(this);
         Destroy(gameObject);
     }
 }

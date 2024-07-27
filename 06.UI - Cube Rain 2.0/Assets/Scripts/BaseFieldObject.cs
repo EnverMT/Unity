@@ -5,10 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(Renderer))]
 public abstract class BaseFieldObject : MonoBehaviour
 {
-    public Action<BaseFieldObject> Died;
-
     protected Rigidbody _rb;
     protected Renderer _renderer;
+
+    public Action<BaseFieldObject> Died;
 
     protected virtual void Awake()
     {
