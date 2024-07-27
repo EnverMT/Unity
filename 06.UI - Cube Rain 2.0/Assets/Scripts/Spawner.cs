@@ -15,20 +15,19 @@ public class Spawner : MonoBehaviour
     public event Action ValueChanged;
 
 
-    public BaseFieldObject Spawn<T>(Vector3? position) where T : BaseFieldObject
+    public T Spawn<T>(Vector3? position) where T : BaseFieldObject
     {
         T prefab = _spawnableObjects.OfType<T>().FirstOrDefault();
 
         if (prefab == null)
             throw new ArgumentException("Spawn object must be BaseFieldObject");
 
-        BaseFieldObject obj = Instantiate(prefab);
+        T obj = Instantiate(prefab);
 
         if (_totalSpawns.ContainsKey(typeof(T).Name))
             _totalSpawns[typeof(T).Name] += 1;
         else
             _totalSpawns.Add(typeof(T).Name, 1);
-
 
         _currentSpawns.Add(obj);
         obj.Died += OnDied;
