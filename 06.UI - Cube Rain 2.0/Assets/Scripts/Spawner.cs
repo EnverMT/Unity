@@ -9,7 +9,7 @@ public class Spawner : MonoBehaviour
     [SerializeField, Range(0f, 9f)] private float _spawnRadius = 9f;
 
     private readonly List<BaseFieldObject> _currentSpawns = new();
-    private readonly Dictionary<string, int> _totalSpawns = new();
+    private readonly Dictionary<string, int> _totalSpawns = new(); // Class name, count
 
     public event Action<BaseFieldObject> Spawned;
     public event Action ValueChanged;
@@ -33,13 +33,7 @@ public class Spawner : MonoBehaviour
         _currentSpawns.Add(obj);
         obj.Died += OnDied;
 
-        obj.transform.SetParent(gameObject.transform, false);
-        obj.transform.rotation = UnityEngine.Random.rotation;
-
-        if (position != null)
-            obj.transform.position = (Vector3)position;
-        else
-            obj.transform.position = GetStandardSpawnPosition();
+        obj.Init(gameObject.transform, UnityEngine.Random.rotation, position ?? GetStandardSpawnPosition());
 
         Spawned?.Invoke(obj);
         ValueChanged?.Invoke();
@@ -68,6 +62,7 @@ public class Spawner : MonoBehaviour
     private void OnDied(BaseFieldObject obj)
     {
         _currentSpawns.Remove(obj);
+        Destroy(obj.gameObject);
         ValueChanged?.Invoke();
     }
 }

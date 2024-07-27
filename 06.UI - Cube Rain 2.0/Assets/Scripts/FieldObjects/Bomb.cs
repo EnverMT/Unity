@@ -50,6 +50,5 @@ public class Bomb : BaseFieldObject
         }
 
         OnDied(this);
-        Destroy(gameObject);
     }
 }

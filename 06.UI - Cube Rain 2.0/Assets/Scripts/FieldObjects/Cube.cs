@@ -28,8 +28,6 @@ public class Cube : BaseFieldObject
         yield return new WaitForSeconds(delay);
 
         OnDied(this);
-
-        Destroy(gameObject);
     }
 
     private void SetColor(Color color)
