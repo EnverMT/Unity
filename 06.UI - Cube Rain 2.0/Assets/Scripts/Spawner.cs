@@ -1,84 +1,43 @@
-using System.Collections;
+using System;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.Pool;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private Cube _cube;
+    public Action<BaseFieldObject> Spawned;
+
+    [SerializeField] private BaseFieldObject[] _spawnableObjects;
+
+    [Header("Spawn coordinates")]
     [SerializeField] private Vector3 _spawnCenter;
     [SerializeField, Range(0f, 9f)] private float _spawnRadius = 9f;
 
-    private ObjectPool<BaseFieldObject> _cubePool;
 
-    private Coroutine _spawnCoroutine;
-
-    #region UnityMethods
-    private void Awake()
+    public BaseFieldObject Spawn<T>(Vector3? position) where T : BaseFieldObject
     {
-        _cubePool = new ObjectPool<BaseFieldObject>(Create, OnCubeGet, OnCubeRelease, OnCubeDestroy);
-    }
+        T prefab = _spawnableObjects.OfType<T>().FirstOrDefault();
 
-    private void OnEnable()
-    {
-        _spawnCoroutine = StartCoroutine(SpawnPeriodically());
-    }
+        if (prefab == null)
+            throw new ArgumentException("Spawn object must be BaseFieldObject");
 
-    private void OnDisable()
-    {
-        if (_spawnCoroutine != null)
-            StopCoroutine(_spawnCoroutine);
-
-        _spawnCoroutine = null;
-    }
-    #endregion
-
-    #region CubePoolMethods 
-    private BaseFieldObject Create()
-    {
-        return Instantiate(_cube);
-    }
-
-    private void OnCubeGet(BaseFieldObject obj)
-    {
-        obj.gameObject.SetActive(true);
-    }
-
-    private void OnCubeRelease(BaseFieldObject obj)
-    {
-        obj.gameObject.SetActive(false);
-    }
-
-    private void OnCubeDestroy(BaseFieldObject obj)
-    {
-        Destroy(obj.gameObject);
-    }
-    #endregion
-
-    private IEnumerator SpawnPeriodically(float delay = 0.5f)
-    {
-        WaitForSeconds wait = new WaitForSeconds(delay);
-
-        while (enabled)
-        {
-            Spawn<Cube>();
-            yield return wait;
-        }
-    }
-
-    private BaseFieldObject Spawn<T>() where T : BaseFieldObject
-    {
-        T obj = (T)_cubePool.Get();
+        BaseFieldObject obj = Instantiate(prefab);
 
         obj.transform.SetParent(gameObject.transform, false);
-        obj.transform.position = GetSpawnPosition();
-        obj.transform.rotation = Random.rotation;
+        obj.transform.rotation = UnityEngine.Random.rotation;
+
+        if (position != null)
+            obj.transform.position = (Vector3)position;
+        else
+            obj.transform.position = GetStandardSpawnPosition();
+
+        Spawned?.Invoke(obj);
 
         return obj;
     }
 
-    private Vector3 GetSpawnPosition()
+    protected virtual Vector3 GetStandardSpawnPosition()
     {
-        Vector2 random2 = Random.insideUnitCircle * _spawnRadius;
+        Vector2 random2 = UnityEngine.Random.insideUnitCircle * _spawnRadius;
         Vector3 random3 = new Vector3(random2.x, 0, random2.y);
 
         return random3 + _spawnCenter;

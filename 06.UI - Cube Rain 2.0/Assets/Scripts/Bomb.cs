@@ -1,16 +1,41 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Assertions;
 
-public class Bomb : MonoBehaviour
+public class Bomb : BaseFieldObject
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField, Range(0f, 10f)] private float _minTime = 2f;
+    [SerializeField, Range(0f, 10f)] private float _maxTime = 5f;
+
+    [SerializeField] private float _explosionRadius = 10f;
+    [SerializeField] private float _explosionForce = 10f;
+
+    private Coroutine _coroutine;
+
+    private void OnValidate()
     {
-        
+        Assert.IsTrue(_minTime <= _maxTime);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        
+        float delay = Random.Range(_minTime, _maxTime);
+
+        StartCoroutine(DelayedExplode(delay));
+    }
+
+    private IEnumerator DelayedExplode(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        Collider[] colliders = Physics.OverlapSphere(transform.position, _explosionRadius);
+
+        foreach (Collider collider in colliders)
+        {
+            if (collider.TryGetComponent(out Rigidbody rigidbody))
+                rigidbody.AddExplosionForce(_explosionForce, transform.position, _explosionRadius);
+        }
+
+        Destroy(gameObject);
     }
 }
