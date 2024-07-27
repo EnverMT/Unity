@@ -9,23 +9,31 @@ public class Cube : BaseFieldObject
 
     private bool _isCollided = false;
 
+    private void OnEnable()
+    {
+        StartCoroutine(Die(Random.Range(_minLifeTime, _maxLifeTime)));
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (_isCollided == false && collision.gameObject.TryGetComponent<Plane>(out _))
         {
             _isCollided = true;
-
-            StartCoroutine(Die(Random.Range(_minLifeTime, _maxLifeTime)));
-
-            Collided?.Invoke(this);
+            SetColor(Random.ColorHSV());
         }
     }
-
 
     private IEnumerator Die(float delay)
     {
         yield return new WaitForSeconds(delay);
 
         Died?.Invoke(this);
+
+        Destroy(gameObject);
+    }
+
+    private void SetColor(Color color)
+    {
+        _renderer.material.color = color;
     }
 }

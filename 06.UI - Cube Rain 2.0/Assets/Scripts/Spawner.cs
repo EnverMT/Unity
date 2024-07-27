@@ -9,7 +9,6 @@ public class Spawner : MonoBehaviour
     [SerializeField] private BaseFieldObject[] _spawnableObjects;
 
     [Header("Spawn coordinates")]
-    [SerializeField] private Vector3 _spawnCenter;
     [SerializeField, Range(0f, 9f)] private float _spawnRadius = 9f;
 
 
@@ -40,6 +39,6 @@ public class Spawner : MonoBehaviour
         Vector2 random2 = UnityEngine.Random.insideUnitCircle * _spawnRadius;
         Vector3 random3 = new Vector3(random2.x, 0, random2.y);
 
-        return random3 + _spawnCenter;
+        return random3 + gameObject.transform.position;
     }
 }

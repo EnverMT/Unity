@@ -4,6 +4,7 @@ using UnityEngine.Assertions;
 
 public class GameController : MonoBehaviour
 {
+    [SerializeField] private float _spawnDelay = 0.5f;
     [SerializeField] private Spawner _spawner;
 
     private Coroutine _spawnCoroutine;
@@ -15,7 +16,7 @@ public class GameController : MonoBehaviour
 
     private void OnEnable()
     {
-        _spawnCoroutine = StartCoroutine(SpawnPeriodically<Cube>());
+        _spawnCoroutine = StartCoroutine(SpawnPeriodically<Cube>(_spawnDelay));
     }
 
     private void OnDisable()
@@ -24,7 +25,7 @@ public class GameController : MonoBehaviour
             StopCoroutine(_spawnCoroutine);
     }
 
-    private IEnumerator SpawnPeriodically<T>(float delay = 0.5f) where T : BaseFieldObject
+    private IEnumerator SpawnPeriodically<T>(float delay) where T : BaseFieldObject
     {
         WaitForSeconds wait = new WaitForSeconds(delay);
 

@@ -7,21 +7,36 @@ public class Bomb : BaseFieldObject
     [SerializeField, Range(0f, 10f)] private float _minTime = 2f;
     [SerializeField, Range(0f, 10f)] private float _maxTime = 5f;
 
-    [SerializeField] private float _explosionRadius = 10f;
-    [SerializeField] private float _explosionForce = 10f;
+    [SerializeField] private float _explosionRadius;
+    [SerializeField] private float _explosionForce;
 
-    private Coroutine _coroutine;
+    private float _dieTime;
+    private float _delay;
+
 
     private void OnValidate()
     {
         Assert.IsTrue(_minTime <= _maxTime);
     }
 
+    private void Update()
+    {
+        if (_dieTime > Time.realtimeSinceStartup && _delay >= _minTime)
+        {
+            Color color = Color.black;
+            color.a = (_dieTime - Time.realtimeSinceStartup) / _delay;
+            _renderer.material.color = color;
+
+            Debug.Log($"color alpha = {color.a}");
+        }
+    }
+
     private void OnEnable()
     {
-        float delay = Random.Range(_minTime, _maxTime);
+        _delay = Random.Range(_minTime, _maxTime);
+        _dieTime = _delay + Time.realtimeSinceStartup;
 
-        StartCoroutine(DelayedExplode(delay));
+        StartCoroutine(DelayedExplode(_delay));
     }
 
     private IEnumerator DelayedExplode(float delay)
