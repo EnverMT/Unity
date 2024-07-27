@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace Platformer.Base
 {
-    [RequireComponent(typeof(BaseMovement))]
     public class BaseAttack : MonoBehaviour
     {
         public float AttackCooldown;
@@ -14,16 +13,11 @@ namespace Platformer.Base
         public float Range;
 
         protected float LastAttackedTime;
-        protected BaseMovement BaseMovement;
 
         public bool CanAttack => Time.realtimeSinceStartup - LastAttackedTime >= AttackCooldown;
 
-        public event Action<BaseAttack> Attacked;
+        public event Action Attacked;
 
-        private void Awake()
-        {
-            BaseMovement = GetComponent<BaseMovement>();
-        }
 
         public virtual void ApplyAttack(BaseUnit[] units)
         {
@@ -31,22 +25,22 @@ namespace Platformer.Base
                 return;
 
             LastAttackedTime = Time.realtimeSinceStartup;
-            Attacked?.Invoke(this);
+            Attacked?.Invoke();
 
             foreach (BaseUnit unit in units)
             {
-                DealDamage(unit);
+                unit.Health.Decrease(Damage);
             }
         }
 
-        public virtual void ApplyAttack(BaseUnit units)
+        public virtual void ApplyAttack(BaseUnit unit)
         {
             if (!CanAttack)
                 return;
 
             LastAttackedTime = Time.realtimeSinceStartup;
-            Attacked?.Invoke(this);
-            DealDamage(units);
+            Attacked?.Invoke();
+            unit.Health.Decrease(Damage);
         }
 
         public virtual bool IsInAttackRange(BaseUnit target)
@@ -59,10 +53,10 @@ namespace Platformer.Base
             return false;
         }
 
-        public virtual T[] GetUnitsInAttackRange<T>() where T : BaseUnit
+        public virtual T[] GetUnitsInAttackRange<T>(BaseUnit unit) where T : BaseUnit
         {
             List<BaseUnit> units = new();
-            RaycastHit2D[] hits = Physics2D.RaycastAll(gameObject.transform.position, BaseMovement.Direction.normalized * Range);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(gameObject.transform.position, unit.BaseMovement.Direction.normalized * Range);
 
             foreach (RaycastHit2D hit in hits)
             {
@@ -71,11 +65,6 @@ namespace Platformer.Base
             }
 
             return units.OfType<T>().ToArray();
-        }
-
-        private void DealDamage(BaseUnit target)
-        {
-            target.Health.Decrease(Damage);
         }
     }
 }

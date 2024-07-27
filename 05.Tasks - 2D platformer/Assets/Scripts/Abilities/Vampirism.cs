@@ -1,8 +1,10 @@
 using Platformer.Base;
 using Platformer.UI.Indicator;
+
 using System;
 using System.Collections;
 using System.Linq;
+
 using UnityEngine;
 
 namespace Platformer.Ability
@@ -125,7 +127,7 @@ namespace Platformer.Ability
         {
             return Physics2D.OverlapCircleAll(player.gameObject.transform.position, radius)
                     .Select(collider => { collider.TryGetComponent(out BaseUnit unit); return unit; })
-                    .Where(unit => unit != null && unit != player)
+                    .Where(unit => unit != null && unit != player && player.IsEnemy(unit))
                     .OrderBy(unit => Vector2.Distance(unit.gameObject.transform.position, player.gameObject.transform.position))
                     .FirstOrDefault();
         }

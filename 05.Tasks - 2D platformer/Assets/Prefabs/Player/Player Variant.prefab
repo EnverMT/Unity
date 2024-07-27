@@ -24,6 +24,18 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.39948756
       objectReference: {fileID: 0}
+    - target: {fileID: 1110635827970811722, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
+      propertyPath: Range
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110635827970811722, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
+      propertyPath: Damage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110635827970811722, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
+      propertyPath: AttackCooldown
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1352601017599684897, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -32,6 +44,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1804316712929925003, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
+      propertyPath: BaseUnit
+      value: 
+      objectReference: {fileID: 8601145406108300188}
     - target: {fileID: 1908850870069242641, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
       propertyPath: m_Name
       value: Player Variant
@@ -59,6 +75,14 @@ PrefabInstance:
     - target: {fileID: 3216571662609189729, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
       propertyPath: _cooldownDuration
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3297608378249531260, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
+      propertyPath: _speed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3297608378249531260, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
+      propertyPath: _jumpSpeed
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4383575345715161596, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
       propertyPath: Ability
@@ -90,6 +114,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8562965232819992840, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
       propertyPath: _vampirism
+      value: 
+      objectReference: {fileID: 3339226156454715403}
+    - target: {fileID: 8562965232819992840, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
+      propertyPath: _abilities.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8562965232819992840, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
+      propertyPath: '_abilities.Array.data[0]'
       value: 
       objectReference: {fileID: 3339226156454715403}
     - target: {fileID: 8680570790516514076, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
@@ -147,6 +179,8 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 4383575345715161596, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
     - {fileID: 6989184252134471288, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
+    - {fileID: 3889481788361230901, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
+    - {fileID: 6102067425527360394, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -219,3 +253,14 @@ MonoBehaviour:
   _barIndicatorObject: {fileID: 3339226156454715403}
   _isSmooth: 0
   _smootSpeed: 0.1
+--- !u!114 &8601145406108300188 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8478508644035778806, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
+  m_PrefabInstance: {fileID: 213039851510279018}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee96d18f7be285547ac1cafa5986fbd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

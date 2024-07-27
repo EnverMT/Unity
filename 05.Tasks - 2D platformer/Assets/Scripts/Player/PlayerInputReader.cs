@@ -1,18 +1,23 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Platformer.Player
 {
     public class PlayerInputReader : MonoBehaviour
     {
-        [SerializeField] private KeyCode _jumpKeyCode;
+        [SerializeField] private KeyCode _abilityKeyCode = KeyCode.E;
+        [SerializeField] private KeyCode _attackKeyCode = KeyCode.Mouse0;
+        [SerializeField] private KeyCode _jumpKeyCode = KeyCode.Space;
 
+        private bool _isAbility = false;
+        private bool _isAttack = false;
         private bool _isJump = false;
 
-        private Dictionary<KeyCode, bool> _abilities;
+        private float _axisInput;
 
         public float Direction { get; private set; }
+
+        public bool GetIsAbility() => GetBoolAsTrigger(ref _isAbility);
+        public bool GetIsAttack() => GetBoolAsTrigger(ref _isAttack);
         public bool GetIsJump() => GetBoolAsTrigger(ref _isJump);
 
 
@@ -23,18 +28,11 @@ namespace Platformer.Player
             if (Input.GetKeyDown(_jumpKeyCode))
                 _isJump = true;
 
-            _abilities.Where(item => Input.GetKeyDown(item.Key))
-                .Select(item => _abilities[item.Key] = true);
-        }
+            if (Input.GetKeyDown(_abilityKeyCode))
+                _isAbility = true;
 
-        public void InitAbilityKeys(KeyCode[] keys)
-        {
-            _abilities = keys.ToDictionary(key => key, key => false);
-        }
-
-        public bool IsGetAbilityKey(KeyCode key)
-        {
-            return _abilities.ContainsKey(key) && _abilities[key] && (_abilities[key] = false);
+            if (Input.GetKeyDown(_attackKeyCode))
+                _isAttack = true;
         }
 
         private bool GetBoolAsTrigger(ref bool value)

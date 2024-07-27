@@ -8,6 +8,8 @@ namespace Platformer.Enemy
     {
         [HideInInspector] public Patrol Patrol;
 
+        public override int TeamId { get; protected set; } = 1;
+
         protected override void Awake()
         {
             base.Awake();

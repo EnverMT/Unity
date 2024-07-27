@@ -9,6 +9,9 @@ namespace Platformer.Base
     {
         protected Rigidbody2D Rigidbody;
 
+        [Header("Jump")]
+        [SerializeField] private float _jumpSpeed;
+
         [Header("Movement")]
         [SerializeField, Range(0, 10f)] private float _speed;
         private Transform _pursueTarget;
@@ -18,6 +21,7 @@ namespace Platformer.Base
         public float Speed => _speed;
 
         public Vector2 Direction { get; private set; }
+
 
         protected virtual void Awake()
         {
@@ -29,6 +33,13 @@ namespace Platformer.Base
             if (collision.gameObject.TryGetComponent(out TilemapCollider2D _))
                 OnGround = true;
         }
+
+        private void OnCollisionExit2D(Collision2D collision)
+        {
+            if (collision.gameObject.TryGetComponent(out TilemapCollider2D _))
+                OnGround = false;
+        }
+
 
         protected virtual void SetDirection(Vector2 direction)
         {
@@ -44,6 +55,20 @@ namespace Platformer.Base
         {
             Vector2 direction = (position - (Vector2)Rigidbody.transform.position).normalized;
             Rigidbody.linearVelocity = new Vector2(Mathf.Sign(direction.x) * Speed, Rigidbody.linearVelocity.y);
+        }
+
+        public virtual void SetHorizontalVelocity(float axisInput)
+        {
+            SetDirection((new Vector2(Rigidbody.linearVelocity.x, 0)).normalized);
+            Rigidbody.linearVelocity = new Vector2(axisInput * Speed, Rigidbody.linearVelocity.y);
+        }
+
+        public void Jump()
+        {
+            if (OnGround == false)
+                return;
+
+            Rigidbody.linearVelocity = new Vector2(Rigidbody.linearVelocity.x, _jumpSpeed);
         }
     }
 }

@@ -16,11 +16,15 @@ namespace Platformer.Base
         [HideInInspector] public HealthAttribute Health;
         [HideInInspector] public Rigidbody2D Rigidbody2D;
 
+        public abstract int TeamId { get; protected set; }
+        public bool IsEnemy(BaseUnit unit) => TeamId != unit.TeamId;
+
+
         protected virtual void Awake()
         {
             Attack = GetComponent<BaseAttack>();
-            Health = GetComponent<HealthAttribute>();
             BaseMovement = GetComponent<BaseMovement>();
+            Health = GetComponent<HealthAttribute>();
             Rigidbody2D = GetComponent<Rigidbody2D>();
         }
 

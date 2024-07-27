@@ -1,5 +1,6 @@
 using Platformer.Ability;
 using Platformer.Base;
+using Platformer.Enemy;
 
 using UnityEngine;
 
@@ -12,6 +13,8 @@ namespace Platformer.Player
         [HideInInspector] public PlayerAbilities Abilities;
         [HideInInspector] public PlayerInputReader InputReader;
 
+        public override int TeamId { get; protected set; } = 0;
+
         protected override void Awake()
         {
             base.Awake();
@@ -20,20 +23,23 @@ namespace Platformer.Player
             InputReader = GetComponent<PlayerInputReader>();
         }
 
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-
-            InputReader.InitAbilityKeys(Abilities.GetKeys());
-        }
-
         private void FixedUpdate()
         {
-            foreach (KeyCode key in Abilities.GetKeys())
+            if (InputReader.GetIsAbility() == true && Abilities.TryGetAbility<Vampirism>(out BaseAbility ability))
+                ability.Execute(this);
+
+            if (Attack.CanAttack && InputReader.GetIsAttack() == true)
             {
-                if (InputReader.IsGetAbilityKey(key) && Abilities.TryGetAbility(key, out BaseAbility ability))
-                    ability.Execute(this);
+                BaseUnit[] enemies = Attack.GetUnitsInAttackRange<EnemyUnit>(this);
+
+                Attack.ApplyAttack(enemies);
             }
+
+            if (BaseMovement.OnGround && InputReader.GetIsJump())
+                BaseMovement.Jump();
+
+            if (InputReader.Direction != 0)
+                BaseMovement.SetHorizontalVelocity(InputReader.Direction);
         }
     }
 }

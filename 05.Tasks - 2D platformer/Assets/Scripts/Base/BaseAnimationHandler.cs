@@ -5,39 +5,36 @@ namespace Platformer.Base
 {
     [RequireComponent(typeof(BaseAttack))]
     [RequireComponent(typeof(BaseUnit))]
-    [RequireComponent(typeof(Rigidbody2D))]
     public class BaseAnimationHandler : MonoBehaviour
     {
         [SerializeField] protected bool IsFacingRight = true;
         [SerializeField] protected Animator Animator;
-        protected BaseAttack BaseAttack;
+
+        protected BaseAttack Attack;
         protected BaseUnit BaseUnit;
-        protected Rigidbody2D Rbody;
 
         [SerializeField] private GameObject _flipableObject;
 
-        protected virtual void Awake()
+        private void Awake()
         {
-            //_animator = GetComponent<Animator>();
-            BaseAttack = GetComponent<BaseAttack>();
+            Attack = GetComponent<BaseAttack>();
             BaseUnit = GetComponent<BaseUnit>();
-            Rbody = GetComponent<Rigidbody2D>();
         }
+
 
         private void OnEnable()
         {
-            BaseAttack.Attacked += AttackAnimation;
+            Attack.Attacked += AttackAnimation;
         }
 
         private void OnDisable()
         {
-            BaseAttack.Attacked -= AttackAnimation;
+            Attack.Attacked -= AttackAnimation;
         }
-
 
         protected virtual void Update()
         {
-            Animator.SetFloat(Params.Movement.HorizontalSpeed, Mathf.Abs(Rbody.linearVelocity.x));
+            Animator.SetFloat(Params.Movement.HorizontalSpeed, Mathf.Abs(BaseUnit.Rigidbody2D.linearVelocity.x));
         }
 
         protected virtual void FixedUpdate()
@@ -49,17 +46,16 @@ namespace Platformer.Base
                 else
                     FlipHorizontally(gameObject);
             }
-
         }
 
-        protected virtual void AttackAnimation(BaseAttack attack)
+        protected virtual void AttackAnimation()
         {
             Animator.SetTrigger(Params.Attack.Attacking);
         }
 
         protected virtual float GetAxis()
         {
-            return Rbody.linearVelocity.x;
+            return BaseUnit.Rigidbody2D.linearVelocity.x;
         }
 
         //protected virtual void FlipHorizontally(GameObject _object)
