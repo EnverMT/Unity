@@ -27,7 +27,7 @@ public class Cube : BaseFieldObject
     {
         yield return new WaitForSeconds(delay);
 
-        Died?.Invoke(this);
+        OnDied(this);
 
         Destroy(gameObject);
     }

@@ -8,11 +8,16 @@ public abstract class BaseFieldObject : MonoBehaviour
     protected Rigidbody _rb;
     protected Renderer _renderer;
 
-    public Action<BaseFieldObject> Died;
+    public event Action<BaseFieldObject> Died;
 
     protected virtual void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _renderer = GetComponent<Renderer>();
+    }
+
+    protected void OnDied<T>(T obj) where T : BaseFieldObject
+    {
+        Died?.Invoke(obj);
     }
 }

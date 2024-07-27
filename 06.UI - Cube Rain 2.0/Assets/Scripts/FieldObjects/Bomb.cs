@@ -49,7 +49,7 @@ public class Bomb : BaseFieldObject
                 rigidbody.AddExplosionForce(_explosionForce, transform.position, _explosionRadius);
         }
 
-        Died?.Invoke(this);
+        OnDied(this);
         Destroy(gameObject);
     }
 }
