@@ -12659,7 +12659,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1172383201
 Transform:
   m_ObjectHideFlags: 0
@@ -13251,22 +13251,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy-1
       objectReference: {fileID: 0}
-    - target: {fileID: 7757106660976481567, guid: 10b5bae094b25254daf2e9aee2913913, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7757106660976481567, guid: 10b5bae094b25254daf2e9aee2913913, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7757106660976481567, guid: 10b5bae094b25254daf2e9aee2913913, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7757106660976481567, guid: 10b5bae094b25254daf2e9aee2913913, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7855494297102762896, guid: 10b5bae094b25254daf2e9aee2913913, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.700328
@@ -13309,11 +13293,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7939945211270567243, guid: 10b5bae094b25254daf2e9aee2913913, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7939945211270567243, guid: 10b5bae094b25254daf2e9aee2913913, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

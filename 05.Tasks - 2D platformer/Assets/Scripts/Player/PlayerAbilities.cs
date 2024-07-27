@@ -10,7 +10,7 @@ namespace Platformer.Player
     {
         [SerializeField] private BaseAbility[] _abilities;
 
-        public bool TryGetAbility<T>(out BaseAbility ability) where T : BaseAbility
+        public bool TryGetAbility<T>(out T ability) where T : BaseAbility
         {
             if (_abilities == null && _abilities.Length == 0)
             {
@@ -22,7 +22,7 @@ namespace Platformer.Player
 
             if (result != null)
             {
-                ability = result;
+                ability = (T)result;
                 return true;
             }
 

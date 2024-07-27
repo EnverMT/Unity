@@ -25,7 +25,7 @@ namespace Platformer.Player
 
         private void FixedUpdate()
         {
-            if (InputReader.GetIsAbility() == true && Abilities.TryGetAbility<Vampirism>(out BaseAbility ability))
+            if (InputReader.GetIsAbility() == true && Abilities.TryGetAbility(out Vampirism ability))
                 ability.Execute(this);
 
             if (Attack.CanAttack && InputReader.GetIsAttack() == true)
