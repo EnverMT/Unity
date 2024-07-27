@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[RequireComponent(typeof(ObjectsPool))]
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private BaseFieldObject[] _spawnableObjects;
     [SerializeField, Range(0f, 9f)] private float _spawnRadius = 9f;
 
-    private readonly List<BaseFieldObject> _currentSpawns = new();
-    private readonly Dictionary<string, int> _totalSpawns = new(); // Class name, count
+    private readonly Dictionary<string, int> _totalSpawns = new(); // Class name, count    
+    [SerializeField] private ObjectsPool _pool;
 
     public event Action<BaseFieldObject> Spawned;
     public event Action ValueChanged;
@@ -22,14 +23,14 @@ public class Spawner : MonoBehaviour
         if (prefab == null)
             throw new ArgumentException("Spawn object must be BaseFieldObject");
 
-        T obj = Instantiate(prefab);
+        //T obj = Instantiate(prefab);
+        T obj = _pool.GetObject(prefab);
 
         if (_totalSpawns.ContainsKey(typeof(T).Name))
             _totalSpawns[typeof(T).Name] += 1;
         else
             _totalSpawns.Add(typeof(T).Name, 1);
 
-        _currentSpawns.Add(obj);
         obj.Died += OnDied;
 
         obj.Init(gameObject.transform, UnityEngine.Random.rotation, position ?? GetStandardSpawnPosition());
@@ -42,7 +43,7 @@ public class Spawner : MonoBehaviour
 
     public int GetCurrentSpawns<T>() where T : BaseFieldObject
     {
-        return _currentSpawns.OfType<T>().Count();
+        return _pool.GetCount<T>();
     }
 
     public int GetTotalSpawns<T>() where T : BaseFieldObject
@@ -58,10 +59,9 @@ public class Spawner : MonoBehaviour
         return random3 + gameObject.transform.position;
     }
 
-    private void OnDied(BaseFieldObject obj)
+    private void OnDied<T>(T obj) where T : BaseFieldObject
     {
-        _currentSpawns.Remove(obj);
-        Destroy(obj.gameObject);
+        _pool.ReturnObject<T>(obj);
         ValueChanged?.Invoke();
     }
 }

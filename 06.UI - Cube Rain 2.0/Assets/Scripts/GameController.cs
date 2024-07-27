@@ -31,7 +31,7 @@ public class GameController : MonoBehaviour
 
         while (enabled)
         {
-            BaseFieldObject obj = _spawner.Spawn<T>(null);
+            T obj = _spawner.Spawn<T>(null);
             obj.Died += OnDied;
 
             yield return wait;
