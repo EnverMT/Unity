@@ -5,8 +5,8 @@ using UnityEngine.Assertions;
 
 public class BaseCount : MonoBehaviour
 {
-    [SerializeField] protected CubeSpawner CubeSpawner;
-    [SerializeField] protected BombSpawner BombSpawner;
+    [SerializeField] private CubeSpawner _cubeSpawner;
+    [SerializeField] private BombSpawner _bombSpawner;
 
     [SerializeField] private TextMeshProUGUI _currentCount;
     [SerializeField] private TextMeshProUGUI _totalCount;
@@ -19,22 +19,22 @@ public class BaseCount : MonoBehaviour
 
     private void OnValidate()
     {
-        Assert.IsNotNull(CubeSpawner);
-        Assert.IsNotNull(BombSpawner);
+        Assert.IsNotNull(_cubeSpawner);
+        Assert.IsNotNull(_bombSpawner);
         Assert.IsNotNull(_currentCount);
         Assert.IsNotNull(_totalCount);
     }
 
     private void OnEnable()
     {
-        CubeSpawner.Spawned += OnCubeSpawned;
-        BombSpawner.Spawned += OnBombSpawned;
+        _cubeSpawner.Spawned += OnCubeSpawned;
+        _bombSpawner.Spawned += OnBombSpawned;
     }
 
     private void OnDisable()
     {
-        CubeSpawner.Spawned -= OnCubeSpawned;
-        BombSpawner.Spawned -= OnBombSpawned;
+        _cubeSpawner.Spawned -= OnCubeSpawned;
+        _bombSpawner.Spawned -= OnBombSpawned;
     }
 
     private void OnGUI()
