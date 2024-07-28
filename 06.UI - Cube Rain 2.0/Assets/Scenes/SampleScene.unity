@@ -601,53 +601,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!1 &345849955
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 345849956}
-  - component: {fileID: 345849957}
-  m_Layer: 0
-  m_Name: GameController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &345849956
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 345849955}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.9711986, y: 1.7233634, z: 0.1628834}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &345849957
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 345849955}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93f82e5849cb23f4aab365510c1be7e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spawnDelay: 0.5
-  _cubeSpawner: {fileID: 1552382562}
-  _bombSpawner: {fileID: 1552382563}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1279,6 +1232,7 @@ GameObject:
   - component: {fileID: 1552382561}
   - component: {fileID: 1552382563}
   - component: {fileID: 1552382562}
+  - component: {fileID: 1552382564}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -1328,6 +1282,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefab: {fileID: 5279695032785800262, guid: 920fd586bf40304418b255bd200752be, type: 3}
+--- !u!114 &1552382564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552382560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93f82e5849cb23f4aab365510c1be7e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spawnDelay: 0.5
+  _cubeSpawner: {fileID: 1552382562}
+  _bombSpawner: {fileID: 1552382563}
 --- !u!1 &2067846958
 GameObject:
   m_ObjectHideFlags: 0
@@ -1472,6 +1441,5 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 632214576}
   - {fileID: 1552382561}
-  - {fileID: 345849956}
   - {fileID: 142245319}
   - {fileID: 753315065}

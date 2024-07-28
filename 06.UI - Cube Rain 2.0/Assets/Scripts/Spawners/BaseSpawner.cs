@@ -24,6 +24,12 @@ public abstract class BaseSpawner<T> : MonoBehaviour where T : BaseFieldObject
         if (_prefab == null)
             throw new ArgumentException("Spawn object must be BaseFieldObject");
 
+        if (_pool == null)
+        {
+            Debug.Log("Pool is null");
+            return null;
+        }
+
         T obj = _pool.Get();
 
         obj.Died += OnDied;

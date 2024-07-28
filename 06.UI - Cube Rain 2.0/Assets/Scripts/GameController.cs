@@ -27,10 +27,12 @@ public class GameController : MonoBehaviour
 
         while (enabled)
         {
-            Cube cube = _cubeSpawner.Spawn(_cubeSpawner.gameObject.transform.position, Color.white);
-            cube.Died += OnDied;
-
             yield return wait;
+
+            Cube cube = _cubeSpawner.Spawn(_cubeSpawner.gameObject.transform.position, Color.white);
+
+            if (cube != null)
+                cube.Died += OnDied;
         }
     }
 
