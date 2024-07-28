@@ -3,10 +3,7 @@ using UnityEngine;
 
 public class CubeSpawner : BaseSpawner<Cube>
 {
-    [SerializeField] private Cube _prefab;
     [SerializeField, Range(0f, 9f)] private float _spawnRadius = 9f;
-
-    public override Cube Prefab => _prefab;
 
     public override Cube Spawn(Vector3 position, Color color)
     {

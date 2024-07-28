@@ -4,9 +4,7 @@ using UnityEngine.Pool;
 
 public abstract class BaseSpawner<T> : MonoBehaviour where T : BaseFieldObject
 {
-    public ObjectPool<T> Pool => _pool;
-    public abstract T Prefab { get; }
-
+    [SerializeField] private T _prefab;
     private ObjectPool<T> _pool;
 
     public event Action<T> Spawned;
@@ -14,7 +12,7 @@ public abstract class BaseSpawner<T> : MonoBehaviour where T : BaseFieldObject
     protected virtual void Awake()
     {
         _pool = new ObjectPool<T>(
-            createFunc: () => Instantiate(Prefab),
+            createFunc: () => Instantiate(_prefab),
             actionOnGet: (obj) => obj.gameObject.SetActive(true),
             actionOnRelease: (obj) => obj.gameObject.SetActive(false),
             actionOnDestroy: (obj) => Destroy(obj.gameObject)
@@ -23,10 +21,10 @@ public abstract class BaseSpawner<T> : MonoBehaviour where T : BaseFieldObject
 
     public virtual T Spawn(Vector3 position, Color color)
     {
-        if (Prefab == null)
+        if (_prefab == null)
             throw new ArgumentException("Spawn object must be BaseFieldObject");
 
-        T obj = Pool.Get();
+        T obj = _pool.Get();
 
         obj.Died += OnDied;
         obj.Init(gameObject.transform, UnityEngine.Random.rotation, position, color);
@@ -39,6 +37,6 @@ public abstract class BaseSpawner<T> : MonoBehaviour where T : BaseFieldObject
     protected virtual void OnDied(BaseFieldObject obj)
     {
         obj.Died -= OnDied;
-        Pool.Release((T)obj);
+        _pool.Release((T)obj);
     }
 }
