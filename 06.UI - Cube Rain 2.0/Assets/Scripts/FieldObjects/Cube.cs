@@ -19,7 +19,7 @@ public class Cube : BaseFieldObject
         if (_isCollided == false && collision.gameObject.TryGetComponent<Plane>(out _))
         {
             _isCollided = true;
-            SetColor(Random.ColorHSV());
+            _renderer.material.color = Random.ColorHSV();
         }
     }
 
@@ -27,11 +27,7 @@ public class Cube : BaseFieldObject
     {
         yield return new WaitForSeconds(delay);
 
+        _isCollided = false;
         OnDead(this);
-    }
-
-    private void SetColor(Color color)
-    {
-        _renderer.material.color = color;
     }
 }

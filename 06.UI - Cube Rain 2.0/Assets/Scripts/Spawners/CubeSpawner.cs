@@ -8,11 +8,11 @@ public class CubeSpawner : BaseSpawner<Cube>
 
     public override Cube Prefab => _prefab;
 
-    public override Cube Spawn(Vector3 position)
+    public override Cube Spawn(Vector3 position, Color color)
     {
         position = GetStandardSpawnPosition();
 
-        return base.Spawn(position);
+        return base.Spawn(position, color);
     }
 
     private Vector3 GetStandardSpawnPosition()

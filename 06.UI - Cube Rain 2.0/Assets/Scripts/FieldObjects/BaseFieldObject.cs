@@ -16,11 +16,12 @@ public abstract class BaseFieldObject : MonoBehaviour
         _renderer = GetComponent<Renderer>();
     }
 
-    public void Init(Transform parent, Quaternion rotation, Vector3 position)
+    public void Init(Transform parent, Quaternion rotation, Vector3 position, Color color)
     {
         gameObject.transform.SetParent(parent.gameObject.transform, false);
         gameObject.transform.rotation = UnityEngine.Random.rotation;
         gameObject.transform.position = (Vector3)position;
+        _renderer.material.color = color;
     }
 
     protected virtual void OnDead<T>(T obj) where T : BaseFieldObject

@@ -27,7 +27,7 @@ public class GameController : MonoBehaviour
 
         while (enabled)
         {
-            Cube cube = _cubeSpawner.Spawn(_cubeSpawner.gameObject.transform.position);
+            Cube cube = _cubeSpawner.Spawn(_cubeSpawner.gameObject.transform.position, Color.white);
             cube.Died += OnDied;
 
             yield return wait;
@@ -38,6 +38,6 @@ public class GameController : MonoBehaviour
     {
         cube.Died -= OnDied;
 
-        _bombSpawner.Spawn(cube.transform.position);
+        _bombSpawner.Spawn(cube.transform.position, Color.black);
     }
 }

@@ -21,7 +21,7 @@ public abstract class BaseSpawner<T> : MonoBehaviour where T : BaseFieldObject
         );
     }
 
-    public virtual T Spawn(Vector3 position)
+    public virtual T Spawn(Vector3 position, Color color)
     {
         if (Prefab == null)
             throw new ArgumentException("Spawn object must be BaseFieldObject");
@@ -29,7 +29,7 @@ public abstract class BaseSpawner<T> : MonoBehaviour where T : BaseFieldObject
         T obj = Pool.Get();
 
         obj.Died += OnDied;
-        obj.Init(gameObject.transform, UnityEngine.Random.rotation, position);
+        obj.Init(gameObject.transform, UnityEngine.Random.rotation, position, color);
 
         Spawned?.Invoke(obj);
 
