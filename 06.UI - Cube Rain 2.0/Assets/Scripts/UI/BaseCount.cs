@@ -1,18 +1,60 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
 
-public abstract class BaseCount : MonoBehaviour
+
+public class BaseCount : MonoBehaviour
 {
-    [SerializeField] protected Spawner Spawner;
+    [SerializeField] protected CubeSpawner CubeSpawner;
+    [SerializeField] protected BombSpawner BombSpawner;
 
-    protected virtual void OnEnable()
+    [SerializeField] private TextMeshProUGUI _currentCount;
+    [SerializeField] private TextMeshProUGUI _totalCount;
+
+    private int _activeCubeCount;
+    private int _activeBombCount;
+
+    private int _totalCreatedCubeCount;
+    private int _totalCreatedBombCount;
+
+    private void OnValidate()
     {
-        Spawner.ValueChanged += OnValueChanged;
+        Assert.IsNotNull(CubeSpawner);
+        Assert.IsNotNull(BombSpawner);
+        Assert.IsNotNull(_currentCount);
+        Assert.IsNotNull(_totalCount);
     }
 
-    protected virtual void OnDisable()
+    private void OnEnable()
     {
-        Spawner.ValueChanged -= OnValueChanged;
+        CubeSpawner.Spawned += OnCubeSpawned;
+        BombSpawner.Spawned += OnBombSpawned;
     }
 
-    protected abstract void OnValueChanged();
+    private void OnDisable()
+    {
+        CubeSpawner.Spawned -= OnCubeSpawned;
+        BombSpawner.Spawned -= OnBombSpawned;
+    }
+
+    private void OnCubeSpawned(Cube cube)
+    {
+        cube.Died += OnCubeDied;
+    }
+
+    private void OnCubeDied(BaseFieldObject cube)
+    {
+        cube.Died -= OnCubeDied;
+    }
+
+
+    private void OnBombSpawned(Bomb bomb)
+    {
+        bomb.Died += OnBombDied;
+    }
+
+    private void OnBombDied(BaseFieldObject bomb)
+    {
+        bomb.Died -= OnBombDied;
+    }
 }

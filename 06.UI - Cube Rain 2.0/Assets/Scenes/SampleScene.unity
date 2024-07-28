@@ -402,7 +402,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnDelay: 0.5
-  _spawner: {fileID: 1552382562}
+  _cubeSpawner: {fileID: 1552382562}
+  _bombSpawner: {fileID: 1552382563}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -641,7 +642,6 @@ GameObject:
   - component: {fileID: 721450603}
   - component: {fileID: 721450606}
   - component: {fileID: 721450605}
-  - component: {fileID: 721450604}
   m_Layer: 5
   m_Name: TotalCount
   m_TagString: Untagged
@@ -668,19 +668,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -125}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &721450604
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 721450602}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a58b2baa92e1f545851f65ea86e5d98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Spawner: {fileID: 1552382562}
 --- !u!114 &721450605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -867,6 +854,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1472103384}
+  - component: {fileID: 1472103385}
   m_Layer: 5
   m_Name: SpawnCounts
   m_TagString: Untagged
@@ -895,6 +883,22 @@ RectTransform:
   m_AnchoredPosition: {x: 100, y: -50}
   m_SizeDelta: {x: 800, y: 100}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &1472103385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1472103383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 477ab5e934bd53e42ae4f2c748fd4550, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CubeSpawner: {fileID: 1552382562}
+  BombSpawner: {fileID: 1552382563}
+  _currentCount: {fileID: 2067846960}
+  _totalCount: {fileID: 721450605}
 --- !u!1 &1552382560
 GameObject:
   m_ObjectHideFlags: 0
@@ -904,8 +908,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1552382561}
-  - component: {fileID: 1552382562}
   - component: {fileID: 1552382563}
+  - component: {fileID: 1552382562}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -937,14 +941,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1552382560}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c27eea2fcfefb2e4994cda333d54bab8, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f94078210c772c4ca64408a67edf672, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnableObjects:
-  - {fileID: -3617616288873127079, guid: bf4b74c1871be3748a7ce13c3b3b8ba6, type: 3}
-  - {fileID: 5279695032785800262, guid: 920fd586bf40304418b255bd200752be, type: 3}
-  _spawnRadius: 4.3
-  _pool: {fileID: 1552382563}
+  _prefab: {fileID: -3617616288873127079, guid: bf4b74c1871be3748a7ce13c3b3b8ba6, type: 3}
+  _spawnRadius: 9
 --- !u!114 &1552382563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -954,9 +955,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1552382560}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97643182ce6cabf4c90f3ab1ce48f581, type: 3}
+  m_Script: {fileID: 11500000, guid: 2958d606f69de6d40ad9441c25f685f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _prefab: {fileID: 5279695032785800262, guid: 920fd586bf40304418b255bd200752be, type: 3}
 --- !u!1 &2067846958
 GameObject:
   m_ObjectHideFlags: 0
@@ -968,7 +970,6 @@ GameObject:
   - component: {fileID: 2067846959}
   - component: {fileID: 2067846961}
   - component: {fileID: 2067846960}
-  - component: {fileID: 2067846962}
   m_Layer: 5
   m_Name: CurrentCount
   m_TagString: Untagged
@@ -1094,19 +1095,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2067846958}
   m_CullTransparentMesh: 1
---- !u!114 &2067846962
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2067846958}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a03829acdfb573438d28e3bb16efa0c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Spawner: {fileID: 1552382562}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

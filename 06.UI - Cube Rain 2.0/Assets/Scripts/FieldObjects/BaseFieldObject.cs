@@ -8,7 +8,7 @@ public abstract class BaseFieldObject : MonoBehaviour
     protected Rigidbody _rb;
     protected Renderer _renderer;
 
-    public event Action<BaseFieldObject> Died;
+    public virtual event Action<BaseFieldObject> Died;
 
     protected virtual void Awake()
     {
@@ -23,7 +23,7 @@ public abstract class BaseFieldObject : MonoBehaviour
         gameObject.transform.position = (Vector3)position;
     }
 
-    protected void OnDied<T>(T obj) where T : BaseFieldObject
+    protected virtual void OnDead<T>(T obj) where T : BaseFieldObject
     {
         Died?.Invoke(obj);
     }

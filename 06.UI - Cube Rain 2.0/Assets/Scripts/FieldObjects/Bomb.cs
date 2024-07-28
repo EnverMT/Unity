@@ -13,7 +13,6 @@ public class Bomb : BaseFieldObject
     private float _dieTime;
     private float _delay;
 
-
     private void OnValidate()
     {
         Assert.IsTrue(_minTime <= _maxTime);
@@ -49,6 +48,6 @@ public class Bomb : BaseFieldObject
                 rigidbody.AddExplosionForce(_explosionForce, transform.position, _explosionRadius);
         }
 
-        OnDied(this);
+        OnDead(this);
     }
 }

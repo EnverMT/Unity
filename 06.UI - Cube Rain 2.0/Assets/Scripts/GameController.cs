@@ -1,22 +1,18 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 public class GameController : MonoBehaviour
 {
     [SerializeField] private float _spawnDelay = 0.5f;
-    [SerializeField] private Spawner _spawner;
+    [SerializeField] private CubeSpawner _cubeSpawner;
+    [SerializeField] private BombSpawner _bombSpawner;
 
     private Coroutine _spawnCoroutine;
 
-    private void OnValidate()
-    {
-        Assert.IsNotNull(_spawner);
-    }
 
     private void OnEnable()
     {
-        _spawnCoroutine = StartCoroutine(SpawnPeriodically<Cube>(_spawnDelay));
+        _spawnCoroutine = StartCoroutine(SpawnPeriodically(_spawnDelay));
     }
 
     private void OnDisable()
@@ -25,23 +21,23 @@ public class GameController : MonoBehaviour
             StopCoroutine(_spawnCoroutine);
     }
 
-    private IEnumerator SpawnPeriodically<T>(float delay) where T : BaseFieldObject
+    private IEnumerator SpawnPeriodically(float delay)
     {
         WaitForSeconds wait = new WaitForSeconds(delay);
 
         while (enabled)
         {
-            T obj = _spawner.Spawn<T>(null);
-            obj.Died += OnDied;
+            Cube cube = _cubeSpawner.Spawn(_cubeSpawner.gameObject.transform.position);
+            cube.Died += OnDied;
 
             yield return wait;
         }
     }
 
-    private void OnDied(BaseFieldObject obj)
+    private void OnDied(BaseFieldObject cube)
     {
-        obj.Died -= OnDied;
+        cube.Died -= OnDied;
 
-        _spawner.Spawn<Bomb>(obj.transform.position);
+        _bombSpawner.Spawn(cube.transform.position);
     }
 }

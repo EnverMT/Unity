@@ -27,7 +27,7 @@ public class Cube : BaseFieldObject
     {
         yield return new WaitForSeconds(delay);
 
-        OnDied(this);
+        OnDead(this);
     }
 
     private void SetColor(Color color)
