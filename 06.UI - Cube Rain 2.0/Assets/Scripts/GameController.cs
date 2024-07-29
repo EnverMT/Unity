@@ -9,7 +9,6 @@ public class GameController : MonoBehaviour
 
     private Coroutine _spawnCoroutine;
 
-
     private void OnEnable()
     {
         _spawnCoroutine = StartCoroutine(SpawnPeriodically(_spawnDelay));

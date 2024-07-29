@@ -9,7 +9,7 @@ public abstract class BaseSpawner<T> : MonoBehaviour where T : BaseFieldObject
 
     public event Action<T> Spawned;
 
-    protected virtual void Awake()
+    private void Awake()
     {
         _pool = new ObjectPool<T>(
             createFunc: () => Instantiate(_prefab),
@@ -25,10 +25,7 @@ public abstract class BaseSpawner<T> : MonoBehaviour where T : BaseFieldObject
             throw new ArgumentException("Spawn object must be BaseFieldObject");
 
         if (_pool == null)
-        {
-            Debug.Log("Pool is null");
             return null;
-        }
 
         T obj = _pool.Get();
 
@@ -40,7 +37,7 @@ public abstract class BaseSpawner<T> : MonoBehaviour where T : BaseFieldObject
         return obj;
     }
 
-    protected virtual void OnDied(BaseFieldObject obj)
+    protected void OnDied(BaseFieldObject obj)
     {
         obj.Died -= OnDied;
         _pool.Release((T)obj);

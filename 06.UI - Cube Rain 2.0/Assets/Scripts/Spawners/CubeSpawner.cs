@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 public class CubeSpawner : BaseSpawner<Cube>
 {
     [SerializeField, Range(0f, 9f)] private float _spawnRadius = 9f;

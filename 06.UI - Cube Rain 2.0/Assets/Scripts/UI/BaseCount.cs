@@ -2,7 +2,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-
 public class BaseCount : MonoBehaviour
 {
     [SerializeField] private CubeSpawner _cubeSpawner;
@@ -60,7 +59,6 @@ public class BaseCount : MonoBehaviour
 
         _activeCubeCount--;
     }
-
 
     private void OnBombSpawned(Bomb bomb)
     {
