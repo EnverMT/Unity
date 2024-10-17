@@ -25,6 +25,8 @@ public class BirdMover : MonoBehaviour
 
         _maxRotation = Quaternion.Euler(0, 0, _maxRotationZ);
         _minRotation = Quaternion.Euler(0, 0, _minRotationZ);
+
+        Reset();
     }
 
     private void Update()
@@ -36,5 +38,12 @@ public class BirdMover : MonoBehaviour
         }
 
         transform.rotation = Quaternion.Lerp(transform.rotation, _minRotation, _rotationSpeed * Time.deltaTime);
+    }
+
+    public void Reset()
+    {
+        transform.position = _startPosition;
+        transform.rotation = Quaternion.identity;
+        _rigidbody2D.linearVelocity = Vector2.zero;
     }
 }
