@@ -16,6 +16,25 @@ public class Bird : MonoBehaviour
     {
         _mover = GetComponent<BirdMover>();
         _handler = GetComponent<BirdCollissionHandler>();
+        _scoreCounter = GetComponent<ScoreCounter>();
+    }
 
+    private void OnEnable()
+    {
+        _handler.CollisionDetected += CollissionHandler;
+    }
+
+    private void OnDisable()
+    {
+        _handler.CollisionDetected -= CollissionHandler;
+    }
+
+    private void CollissionHandler(IInteractable interactable)
+    {
+        if (interactable is Pipe)
+            GameOver?.Invoke();
+
+        if (interactable is Ground)
+            GameOver?.Invoke();
     }
 }

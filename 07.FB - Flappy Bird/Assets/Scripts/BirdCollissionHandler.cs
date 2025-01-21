@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-[RequireComponent(typeof(Bird))]
+
 [RequireComponent(typeof(Collider2D))]
 public class BirdCollissionHandler : MonoBehaviour
 {
