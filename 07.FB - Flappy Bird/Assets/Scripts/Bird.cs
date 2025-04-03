@@ -12,7 +12,7 @@ namespace FlappyBird
         private BirdCollissionHandler _handler;
         private ScoreCounter _scoreCounter;
 
-        public event Action GameOver;
+        public event Action Died;
 
         private void Awake()
         {
@@ -34,10 +34,10 @@ namespace FlappyBird
         private void CollissionHandler(IInteractable interactable)
         {
             if (interactable is Pipe)
-                GameOver?.Invoke();
+                Died?.Invoke();
 
             if (interactable is Ground)
-                GameOver?.Invoke();
+                Died?.Invoke();
         }
     }
 }
