@@ -1,5 +1,8 @@
 using UnityEngine;
 
-public class ScoreZone : MonoBehaviour, IInteractable
+namespace FlappyBird
 {
+    public class ScoreZone : MonoBehaviour, IInteractable
+    {
+    }
 }

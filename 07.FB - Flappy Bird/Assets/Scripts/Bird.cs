@@ -1,40 +1,43 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(BirdMover))]
-[RequireComponent(typeof(BirdCollissionHandler))]
-[RequireComponent(typeof(ScoreCounter))]
-public class Bird : MonoBehaviour
+namespace FlappyBird
 {
-    private BirdMover _mover;
-    private BirdCollissionHandler _handler;
-    private ScoreCounter _scoreCounter;
-
-    public event Action GameOver;
-
-    private void Awake()
+    [RequireComponent(typeof(BirdMover))]
+    [RequireComponent(typeof(BirdCollissionHandler))]
+    [RequireComponent(typeof(ScoreCounter))]
+    public class Bird : MonoBehaviour
     {
-        _mover = GetComponent<BirdMover>();
-        _handler = GetComponent<BirdCollissionHandler>();
-        _scoreCounter = GetComponent<ScoreCounter>();
-    }
+        private BirdMover _mover;
+        private BirdCollissionHandler _handler;
+        private ScoreCounter _scoreCounter;
 
-    private void OnEnable()
-    {
-        _handler.CollisionDetected += CollissionHandler;
-    }
+        public event Action GameOver;
 
-    private void OnDisable()
-    {
-        _handler.CollisionDetected -= CollissionHandler;
-    }
+        private void Awake()
+        {
+            _mover = GetComponent<BirdMover>();
+            _handler = GetComponent<BirdCollissionHandler>();
+            _scoreCounter = GetComponent<ScoreCounter>();
+        }
 
-    private void CollissionHandler(IInteractable interactable)
-    {
-        if (interactable is Pipe)
-            GameOver?.Invoke();
+        private void OnEnable()
+        {
+            _handler.CollisionDetected += CollissionHandler;
+        }
 
-        if (interactable is Ground)
-            GameOver?.Invoke();
+        private void OnDisable()
+        {
+            _handler.CollisionDetected -= CollissionHandler;
+        }
+
+        private void CollissionHandler(IInteractable interactable)
+        {
+            if (interactable is Pipe)
+                GameOver?.Invoke();
+
+            if (interactable is Ground)
+                GameOver?.Invoke();
+        }
     }
 }

@@ -1,3 +1,6 @@
-﻿public interface IInteractable
+﻿namespace FlappyBird
 {
+    public interface IInteractable
+    {
+    }
 }

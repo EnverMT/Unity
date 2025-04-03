@@ -2,20 +2,23 @@ using System;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-
-[RequireComponent(typeof(Collider2D))]
-public class BirdCollissionHandler : MonoBehaviour
+namespace FlappyBird
 {
-    public event Action<IInteractable> CollisionDetected;
 
-    private void OnValidate()
+    [RequireComponent(typeof(Collider2D))]
+    public class BirdCollissionHandler : MonoBehaviour
     {
-        Assert.IsTrue(GetComponent<Collider2D>().isTrigger);
-    }
+        public event Action<IInteractable> CollisionDetected;
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.TryGetComponent(out IInteractable interactable))
-            CollisionDetected?.Invoke(interactable);
+        private void OnValidate()
+        {
+            Assert.IsTrue(GetComponent<Collider2D>().isTrigger);
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.TryGetComponent(out IInteractable interactable))
+                CollisionDetected?.Invoke(interactable);
+        }
     }
 }

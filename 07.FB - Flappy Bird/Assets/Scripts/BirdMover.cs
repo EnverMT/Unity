@@ -1,49 +1,53 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
-public class BirdMover : MonoBehaviour
+namespace FlappyBird
 {
-    [SerializeField] private float _tapForce;
-    [SerializeField] private float _speed;
-    [SerializeField] private float _rotationSpeed;
-    [SerializeField] private float _maxRotationZ;
-    [SerializeField] private float _minRotationZ;
-
-    private Vector3 _startPosition;
-    private Rigidbody2D _rigidbody2D;
-    private Quaternion _maxRotation;
-    private Quaternion _minRotation;
-
-    private void Awake()
+    [RequireComponent(typeof(Rigidbody2D))]
+    public class BirdMover : MonoBehaviour
     {
-        _rigidbody2D = GetComponent<Rigidbody2D>();
-    }
+        [SerializeField] private float _tapForce;
+        [SerializeField] private float _speed;
+        [SerializeField] private float _rotationSpeed;
+        [SerializeField] private float _maxRotationZ;
+        [SerializeField] private float _minRotationZ;
 
-    private void Start()
-    {
-        _startPosition = transform.position;
+        private Vector3 _startPosition;
+        private Rigidbody2D _rigidbody2D;
+        private Quaternion _maxRotation;
+        private Quaternion _minRotation;
 
-        _maxRotation = Quaternion.Euler(0, 0, _maxRotationZ);
-        _minRotation = Quaternion.Euler(0, 0, _minRotationZ);
-
-        Reset();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
+        private void Awake()
         {
-            _rigidbody2D.linearVelocity = new Vector2(_speed, _tapForce);
-            transform.rotation = _maxRotation;
+            _rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, _minRotation, _rotationSpeed * Time.deltaTime);
+        private void Start()
+        {
+            _startPosition = transform.position;
+
+            _maxRotation = Quaternion.Euler(0, 0, _maxRotationZ);
+            _minRotation = Quaternion.Euler(0, 0, _minRotationZ);
+
+            Reset();
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                _rigidbody2D.linearVelocity = new Vector2(_speed, _tapForce);
+                transform.rotation = _maxRotation;
+            }
+
+            transform.rotation = Quaternion.Lerp(transform.rotation, _minRotation, _rotationSpeed * Time.deltaTime);
+        }
+
+        public void Reset()
+        {
+            transform.position = _startPosition;
+            transform.rotation = Quaternion.identity;
+            _rigidbody2D.linearVelocity = Vector2.zero;
+        }
     }
 
-    public void Reset()
-    {
-        transform.position = _startPosition;
-        transform.rotation = Quaternion.identity;
-        _rigidbody2D.linearVelocity = Vector2.zero;
-    }
 }

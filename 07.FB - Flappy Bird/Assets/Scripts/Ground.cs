@@ -1,5 +1,9 @@
 using UnityEngine;
 
-public class Ground : MonoBehaviour, IInteractable
+namespace FlappyBird
 {
+    public class Ground : MonoBehaviour, IInteractable
+    {
+    }
+
 }

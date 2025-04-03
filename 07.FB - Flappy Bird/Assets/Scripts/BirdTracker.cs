@@ -1,14 +1,18 @@
 using UnityEngine;
 
-public class BirdTracker : MonoBehaviour
+namespace FlappyBird
 {
-    [SerializeField] private Bird _bird;
-    [SerializeField] private float _xOffset;
-
-    private void Update()
+    public class BirdTracker : MonoBehaviour
     {
-        Vector3 position = transform.position;
-        position.x = _bird.transform.position.x + _xOffset;
-        transform.position = position;
+        [SerializeField] private Bird _bird;
+        [SerializeField] private float _xOffset;
+
+        private void Update()
+        {
+            Vector3 position = transform.position;
+            position.x = _bird.transform.position.x + _xOffset;
+            transform.position = position;
+        }
     }
+
 }

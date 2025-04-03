@@ -1,5 +1,8 @@
 using UnityEngine;
 
-public class ScoreCounter : MonoBehaviour
+namespace FlappyBird
 {
+    public class ScoreCounter : MonoBehaviour
+    {
+    }
 }

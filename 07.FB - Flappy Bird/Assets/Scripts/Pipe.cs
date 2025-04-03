@@ -1,5 +1,8 @@
 using UnityEngine;
 
-public class Pipe : MonoBehaviour, IInteractable
+namespace FlappyBird
 {
+    public class Pipe : MonoBehaviour, IInteractable
+    {
+    }
 }
