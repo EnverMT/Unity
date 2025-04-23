@@ -14,14 +14,14 @@ namespace FlappyBird
         }
 
         public void LoadScene(Strings.Scene scene, float delay = 0)
-        {            
+        {
             StartCoroutine(LoadSceneAsync(scene, delay));
         }
 
         private IEnumerator LoadSceneAsync(Strings.Scene scene, float delay = 0)
         {
             yield return new WaitForSecondsRealtime(delay);
-            
+
             SceneManager.LoadScene(scene.ToString());
         }
 
